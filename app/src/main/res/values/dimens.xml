@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="score">80</dimen>
+    <dimen name="scores">80dp</dimen>
+    <dimen name="Taille_Police_Champs">36sp</dimen>
+</resources>

@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Gainz Note</string>
+    <string name="menu_title">TEST</string>
+    <string name="titre"> GaINz NoTe</string>
+    <string name="version">Version 0.1</string>
+    <string name="nb_gainz">21</string>
+    <string name="nb_faible">3</string>
+    <string name="btn_newSeance">Nouvelle Seance</string>
+    <string name="teamFaible">Team Salope</string>
+    <string name="Historique">Mes seances</string>
+    <string name="titreNewSeance">Nouvelle Seance</string>
+    <string name="date">Date Seance</string>
+    <string name="txtBtnCommencer">Commencer</string>
+    <string name="ficListeSeance">ListeSeance</string>
+
+    <string-array name="seances">
+        <item>Autre</item>
+        <item>Dos</item>
+        <item>Jambes</item>
+        <item>Pecs</item>
+        <item>Bras</item>
+    </string-array>
+
+</resources>

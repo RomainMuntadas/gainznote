@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="type1">bras</string>
+    <string name="type2">dos</string>
+    <string name="type3">jambes</string>
+    <string name="type4">pectoraux</string>
+    <string name="typeDefaut">type Seance</string>
+
+
+</resources>
