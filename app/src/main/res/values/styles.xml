@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -6,12 +6,18 @@
         <!-- Customize your theme here. -->
     <style name = "CustomToolBarStyle" parent = "Theme.AppCompat.Light.NoActionBar">
         <item name ="android:background">@color/colorBackGround</item>
+        <item name ="android:titleTextColor" tools:ignore="NewApi">@color/colorText</item>
+
     </style>
 
     <style name = "CustomPopupStyle" parent = "Theme.AppCompat.Light.NoActionBar">
         <item name ="android:background">@color/colorBackGround</item>
         <item name="overlapAnchor">false</item>
         <item name = "android:dropDownVerticalOffset">-4dp</item>
+    </style>
+
+    <style name="overFlowButtonStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/colorText</item>
     </style>
 
 </resources>

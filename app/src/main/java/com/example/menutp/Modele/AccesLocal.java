@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.menutp.Outils.FileOperation;
 import com.example.menutp.Outils.MySQLiteOpenHelper;
 
 import java.util.ArrayList;
@@ -15,6 +16,13 @@ public class AccesLocal {
     private Integer versionBase = 1;
     private MySQLiteOpenHelper accesBd;
     private SQLiteDatabase bd;
+    private static Utilisateur utilisateur;
+    private String type_Exercice =
+            "CREATE TABLE TYPE_EXERICE("
+                    + " ID_TYPE INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + " NOM TEXT NOT NULL,"
+                    + " GROUPE_MUSCULAIRE TEXT NOT NULL,"
+                    + "EST_POLY INTEGER NOT NULL);";
 
 
     /**
@@ -24,13 +32,23 @@ public class AccesLocal {
      */
     public AccesLocal(Context contexte) {
         accesBd = new MySQLiteOpenHelper(contexte, nomBase, null, versionBase);
-    }
 
+
+    }
+    //region methodes de Seance
+
+    /**
+     * Ajout d'une nouvelle seance à la BDD
+     *
+     * @param seance
+     */
     public void addSeance(Seance seance) {
         bd = accesBd.getWritableDatabase();
         String req = "Insert into Seance (nomSeance,dateSeance,typeSeance,dureeSeance,notes) values";
         req += "(\"" + seance.getNomSeance() + "\",\"" + seance.getDateSeance() + "\",\"" + seance.getTypeSeance() + "\",\"" + seance.getDureeSeance() + "\",\"" + seance.getNotes() + "\");";
         bd.execSQL(req);
+
+
     }
 
     /**
@@ -49,6 +67,13 @@ public class AccesLocal {
         }
         curseur.close();
         return seance;
+    }
+
+    /**
+     * A IMPLEMENTER, OU MODIFIER addSeance EN CONSEQUENCE
+     */
+    public void udateSeance(Seance seance) {
+
     }
 
     /**
@@ -86,28 +111,261 @@ public class AccesLocal {
         String typeSeance = curseur.getString(3);
         int dureeSeance = curseur.getInt(4);
         String notes = curseur.getString(5);
-        return new Seance(nomSeance, dateSeance, typeSeance, dureeSeance, notes);
+        Seance seance = new Seance(nomSeance, typeSeance, FileOperation.stringToDate(dateSeance), dureeSeance, notes);
+        seance.setIdSeance(idSeance);
+        return seance;
     }
+    //endregion
 
+    //region Methodes d'utilisateur
 
-    public void addExercice(Exercice exercice) {
+    /**
+     * Sauvegarde les données de l'utilisateur dans la BD
+     * A faire à chaque fois que l'on modifie les données de l'utilisateur
+     */
+    public void sauvegarderUtilisateur() {
+        this.utilisateur = Utilisateur.getInstance();
         bd = accesBd.getWritableDatabase();
-        String req = "insert into Excercice values(" + exercice.getIdSeance() + "," + exercice.getIdType() + "\",\"" + exercice.getNotes() + "\");";
+        String req = "UPDATE UTILISATEUR"
+                + "SET NOM = " + utilisateur.getNom()
+                + "SET PRENOM = " + utilisateur.getPrenom()
+                + "SET POID = " + Double.toString(utilisateur.getPoid())
+                + "SET DATE_NAISSANCE = " + FileOperation.dateToString(utilisateur.getDateNaissance())
+                + "SET TAILLE = " + utilisateur.getTaille()
+                + "SET NB_SEANCE = " + Integer.toString(utilisateur.getNb_Seance()) + ";";
         bd.execSQL(req);
+
+
     }
 
-    public List<Exercice> getExerciceSeance(Seance seance) {
+    /**
+     * Initialise les données de l'utilisateur au lancement de l'appli
+     * en fonction de la BD
+     */
+    public void initialiserUtilisateur(Context context) {
+        this.utilisateur = Utilisateur.getInstance();
         bd = accesBd.getReadableDatabase();
-        String req = "Select * from Exercice WHERE Exercice.idSeance = " + seance.getIdSeance() + ";";
+
+        String req = "Select * from Utilisateur";
+//NE SE FAIT QUE SI LA BD EST VIDE (1ER LANCEMENT DE L'APPLI )
+// NB: ACTUELLEMENT ELLE SE VIDE AUTOMATIQUEMENT
+        Cursor curseur = bd.rawQuery(req, null);
+        this.utilisateur = Utilisateur.getInstance();
+        if (curseur != null && curseur.moveToFirst()) {
+            utilisateur.setNom(curseur.getString(0));
+            utilisateur.setPrenom(curseur.getString(2));
+            utilisateur.setPoid(Double.parseDouble(curseur.getString(3)));
+            utilisateur.setDateNaissance(FileOperation.stringToDate(curseur.getString(4)));
+            utilisateur.setTaille(Double.parseDouble(curseur.getString(5)));
+            utilisateur.setNb_Seance(curseur.getInt(6));
+
+        } else {
+            this.utilisateur = Utilisateur.getInstance(context);
+            utilisateur.setPrenom("test");
+            req = "INSERT INTO UTILISATEUR (NOM, PRENOM, POID, DATE_NAISSANCE, TAILLE, NB_SEANCE) VALUES("
+                    + "\"" + utilisateur.getNom() + "\","
+                    + "\"" + utilisateur.getPrenom() + "\","
+                    + Double.toString(utilisateur.getPoid()) + ","
+                    + "\"" + utilisateur.getDateNaissance() + "\","
+                    + Double.toString(utilisateur.getTaille()) + ","
+                    + utilisateur.getNb_Seance() + ")";
+            bd = accesBd.getWritableDatabase();
+            bd.execSQL(req);
+        }
+
+    }
+
+
+    //endregion
+
+    //region Méthodes de typeExercice
+
+    public void creerTypeExercice(TypeExercice typeExercice) {
+        bd = accesBd.getWritableDatabase();
+        int estPoly;
+        if (typeExercice.estPolyarticulaire()) {
+            estPoly = 1;
+        } else {
+            estPoly = 0;
+        }
+
+        String req = "INSERT INTO EXERCICE VALUES("
+                + "\"" + typeExercice.getNom() + "\""
+                + "\"" + typeExercice.getGroupeMusculaire() + "\""
+                + "\"" + estPoly + "\");";
         bd.execSQL(req);
+
+    }
+
+    public TypeExercice getTypeExercice(Exercice exercice) {
+        bd = accesBd.getReadableDatabase();
+        String req = "SELECT * FROM TYPE_EXERCICE"
+                + " WHERE TYPE_EXERCICE.ID_TYPE = " + exercice.getIdType() + ";";
+        Cursor curseur = bd.rawQuery(req, null);
+        curseur.moveToFirst();
+        return curseurToTypeExercice(curseur);
+    }
+
+    public String getNomExercice(int  idType) {
+        bd = accesBd.getReadableDatabase();
+        String req = "SELECT NOM FROM TYPE_EXERCICE"
+                + " WHERE TYPE_EXERCICE.ID_TYPE = " +idType + ";";
+        Cursor curseur = bd.rawQuery(req, null);
+        curseur.moveToFirst();
+        if(!curseur.isAfterLast()){
+           return curseur.getString(0);
+        }
+        return null;
+    }
+
+    public List<TypeExercice> getToutLesTypesExercices() {
+        bd = accesBd.getReadableDatabase();
+        List<TypeExercice> types_exercices = new ArrayList<TypeExercice>();
+        String req = "SELECT * FROM TYPE_EXERCICE";
+        Cursor curseur = bd.rawQuery(req, null);
+        curseur.moveToFirst();
+        if (!curseur.isAfterLast()) {
+            types_exercices.add(curseurToTypeExercice(curseur));
+            while (!curseur.isLast()) {
+                curseur.moveToNext();
+                types_exercices.add(curseurToTypeExercice(curseur));
+
+            }
+        }
+        return types_exercices;
+    }
+
+    public List<CharSequence> groupesMusculaire() {
+        bd = accesBd.getReadableDatabase();
+        String req = "SELECT DISTINCT GROUPE_MUSCULAIRE FROM TYPE_EXERCICE;";
+        List<CharSequence> groupes = new ArrayList<>();
+
+        Cursor curseur = bd.rawQuery(req, null);
+        curseur.moveToFirst();
+        if (!curseur.isAfterLast()) {
+            groupes.add(curseur.getString(0));
+            while (!curseur.isLast()) {
+                curseur.moveToNext();
+                groupes.add(curseur.getString(0));
+
+            }
+        }
+        return groupes;
+    }
+
+    public List<TypeExercice> getTypeFromGroupe(String groupeMusculaire) {
+        bd = accesBd.getReadableDatabase();
+        List<TypeExercice> types_exercices = new ArrayList<TypeExercice>();
+        String req = "SELECT * FROM TYPE_EXERCICE WHERE GROUPE_MUSCULAIRE =\"" + groupeMusculaire + "\";";
+        Cursor curseur = bd.rawQuery(req, null);
+        curseur.moveToFirst();
+        if (!curseur.isAfterLast()) {
+            types_exercices.add(curseurToTypeExercice(curseur));
+            while (!curseur.isLast()) {
+                curseur.moveToNext();
+                types_exercices.add(curseurToTypeExercice(curseur));
+            }
+        }
+        return types_exercices;
+    }
+
+    public TypeExercice getTypeFromString(String nomType) {
+        bd = accesBd.getReadableDatabase();
+        String req = "SELECT * FROM TYPE_EXERCICE WHERE NOM = " + nomType + ';';
+        Cursor curseur = bd.rawQuery(req, null);
+        if (!curseur.isAfterLast()) {
+            return curseurToTypeExercice(curseur);
+        }
         return null;
 
     }
+
+    public int getIdTypeFromString(String nomType) {
+        bd = accesBd.getReadableDatabase();
+        String req = "SELECT * FROM TYPE_EXERCICE WHERE NOM = \"" + nomType + "\";";
+        Cursor curseur = bd.rawQuery(req, null);
+        if (!curseur.isAfterLast() && curseur.moveToFirst()) {
+            return curseur.getInt(0);
+        }
+        return -1;
+
+    }
+
+    public TypeExercice curseurToTypeExercice(Cursor curseur) {
+        if(!curseur.isAfterLast()) {
+            if (curseur.getInt(3) == 0) {
+                return new TypeExercice(curseur.getString(1), curseur.getString(2), false);
+
+            } else {
+
+                return new TypeExercice(curseur.getString(1), curseur.getString(2), true);
+            }
+        }
+        return null;
+    }
+
+
+//endregion
+
+    //region Methodes d'exercice
+
+    /**
+     * La l'exercice sera ajouté à la séance grâce à Id séance contenu dans l'objet exercice
+     *
+     * @param exercice Exercice à ajouter
+     */
+    public void addExerciceToSeance(Exercice exercice) {
+        bd = accesBd.getWritableDatabase();
+        String req = "insert into Exercice(TPS_REPOS, NOTES, ID_SEANCE , ID_TYPE) values(";
+        req += exercice.getTempsRepos() + ",\""
+                + exercice.getNotes() + "\","
+                + exercice.getIdSeance() + ","
+                + exercice.getIdType()
+                + ");";
+        bd.execSQL(req);
+    }
+
+    /**
+     * Retourne la liste des exercices d'une séance donnée
+     *
+     * @param idSeance id de la séance dont on veut récupérer les exercices
+     * @return
+     */
+    public List<Exercice> getExerciceSeance(int idSeance) {
+        bd = accesBd.getReadableDatabase();
+
+        String req = "Select * from Exercice WHERE ID_SEANCE = " + idSeance + ";";
+        Cursor curseur = bd.rawQuery(req, null);
+        List<Exercice> exercices = new ArrayList<Exercice>();
+        curseur.moveToFirst();
+        if (!curseur.isAfterLast()) {
+            exercices.add(cursorToExercice(curseur));
+            while (!curseur.isLast()) {
+                curseur.moveToNext();
+                exercices.add(cursorToExercice(curseur));
+            }
+        }
+        return exercices;
+
+    }
+
 
     public Exercice cursorToExercice(Cursor curseur) {
-        String nomExercice;
-        return null;
+        Double tempsRepos = 0D;
+        if (!(curseur.getString(1) == "")) {
+            tempsRepos = Double.parseDouble(curseur.getString(1));
+        }
+        String notes = "";
+        if (!curseur.isNull(2)) {
+            notes = curseur.getString(2);
+        }
+        Integer idSeance = curseur.getInt(3);
+        Integer idType = curseur.getInt(4);
+        return new Exercice(tempsRepos, notes, idSeance, idType);
     }
+
+    //endregion
+
 
     /**
      * Clean la bd

@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.menutp.Controles.Controle;
+import com.example.menutp.Modele.AccesLocal;
 import com.example.menutp.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,21 +24,39 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout);
-        controle = Controle.getInstance(this);
-        controle.viderBdd(this);
 
+        controle = Controle.getInstance(this);
+
+        AccesLocal accesLocal = new AccesLocal(this);
+
+
+        //Mise en place de la toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+
+        accesLocal.viderBdd();
+
+
+        //VIDAGE DE LA BDD POUR TESTS
+
+
+        //region Récupération des textviews
         TextView version = (TextView) findViewById(R.id.version);
         TextView edition = (TextView) findViewById(R.id.edition);
         TextView gainz = (TextView) findViewById(R.id.gainz);
         TextView score_gainz = (TextView) findViewById(R.id.nb_gainz);
         TextView score_faible = (TextView) findViewById(R.id.nb_faible);
         TextView faible = (TextView) findViewById(R.id.faible);
+        //endregion
 
+        //region Récupération des boutons
         Button btn_nouveau = (Button) findViewById(R.id.nouvelleSeance);
         Button btn_historique = (Button) findViewById(R.id.historique);
+        //endregion
 
+        //region SetFonts
         setFont(version, "CloisterBlack copy.ttf");
-
         setFont(score_faible, "death_font_ver1_0.ttf");
         setFont(score_gainz, "death_font_ver1_0.ttf");
         setFont(edition, "RyukExtra copy.ttf");
@@ -45,11 +64,11 @@ public class MainActivity extends AppCompatActivity {
         setFont(btn_historique, "RyuksHandwriting copy.ttf");
         setFont(gainz, "RyuksHandwriting copy.ttf");
         setFont(faible, "RyuksHandwriting copy.ttf");
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(toolbar);
+        //endregion
 
 
+
+        //Passage à la création d'une nouvelle seance
         btn_nouveau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Passage à la view de l'historique des séances
         btn_historique.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

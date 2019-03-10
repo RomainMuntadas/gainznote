@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:theme="@style/CustomToolBarStyle"
-    app:popupTheme="@style/CustomPopupStyle">
+    app:popupTheme="@style/CustomPopupStyle"
+    app:titleTextColor="@color/colorText"
+    style="@style/overFlowButtonStyle">
 
 
 </android.support.v7.widget.Toolbar>

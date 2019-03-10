@@ -2,7 +2,7 @@
 <resources>
 
     <style name="CustomPopupStyle" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:background">@color/colorAccent</item>
+        <item name="android:background">@color/colorText</item>
         <item name="android:overlapAnchor">false</item>
         <item name="android:dropDownVerticalOffset">-4dp</item>
     </style>

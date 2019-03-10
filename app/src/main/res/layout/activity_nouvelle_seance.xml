@@ -6,10 +6,12 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackGround"
     tools:context=".Views.NouvelleSeance">
-
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/action_bar" />
 
     <Button
-        android:id="@+id/valider"
+        android:id="@+id/validerSeance"
         android:layout_width="309dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -27,9 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <include
-        android:id="@+id/app_bar"
-        layout="@layout/action_bar" />
+
 
     <EditText
         android:id="@+id/Edit_NomSeance"
@@ -96,7 +96,7 @@
     <EditText
         android:id="@+id/dureeSeance"
         android:layout_width="92dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="48dp"
@@ -147,7 +147,7 @@
         android:inputType="textMultiLine"
         android:textColor="@color/colorBackGround"
         android:textColorHint="@color/colorBackGround"
-        app:layout_constraintBottom_toTopOf="@+id/valider"
+        app:layout_constraintBottom_toTopOf="@+id/validerSeance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"

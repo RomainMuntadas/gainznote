@@ -4,13 +4,15 @@
     <item
         android:id="@+id/param"
         android:icon="@mipmap/ic_param"
-        android:title="@string/menu_title"
-        app:showAsAction="ifRoom"
+        android:title="@string/Param"
+        app:showAsAction="never"
+
         />
     <item
         android:id="@+id/stat"
         android:icon="@mipmap/ic_stat"
         android:title="@string/menu_title"
         app:showAsAction="ifRoom"
+
     />
 </menu>

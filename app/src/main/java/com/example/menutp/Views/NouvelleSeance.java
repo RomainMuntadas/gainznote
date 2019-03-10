@@ -2,6 +2,7 @@ package com.example.menutp.Views;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -18,9 +19,11 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.menutp.Controles.Controle;
 import com.example.menutp.Modele.AccesLocal;
+import com.example.menutp.Outils.FileOperation;
 import com.example.menutp.R;
 import com.example.menutp.Modele.Seance;
 
@@ -40,7 +43,6 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
     File f;
 
 
-
     @SuppressLint({"ResourceAsColor", "CutPasteId", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getString(R.string.titreNewSeance));
 
 
         btnDate = findViewById(R.id.datePicker);
@@ -69,7 +72,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
         TextView libelleSeance = (TextView) findViewById(R.id.Edit_NomSeance);
         TextView Txt_Duree = (TextView) findViewById(R.id.Txt_Duree);
         TextView Txt_Notes = (TextView) findViewById(R.id.Txt_Notes);
-        Button btn_valider = (Button) findViewById(R.id.valider);
+        Button btn_valider = (Button) findViewById(R.id.validerSeance);
 
         setFont(libelleSeance, "RyukExtra copy.ttf");
         setFont(btnDate, "death_font_ver1_0.ttf");
@@ -132,7 +135,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
                     TextView Txt_Notes = (TextView) findViewById(R.id.Txt_Notes);
 
 
-                    String dateSeance = btnDate.getText().toString();
+                    Date dateSeance = FileOperation.stringToDate(btnDate.getText().toString());
 
                     String nomSeance = libelleSeance.getText().toString();
                     String TypeSeance = spinner_Type.getSelectedItem().toString();
@@ -151,15 +154,22 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
                     }
 
 
-
-                    Seance seance = controle.getLastSeance(NouvelleSeance.this);
-
+                    Button boutonValider = (Button) findViewById(R.id.validerSeance);
 
 
-                    NouvelleSeance.controle.creerSeance(nomSeance, TypeSeance, dateSeance, dureeSeance, notes, NouvelleSeance.this);
-                    seance = new Seance(nomSeance, TypeSeance, dateSeance, dureeSeance, notes);
+
+                    Seance seance = new Seance(nomSeance, TypeSeance, dateSeance, dureeSeance, notes);
+
 
                     accesLocal.addSeance(seance);
+
+                    Intent intent = new Intent(NouvelleSeance.this, ajout_exercice.class);
+
+
+                    //ATTENTION Le getLastSeance ne marchera que dans le cadre de la création d'une séance
+                    intent.putExtra("ID_SEANCE",accesLocal.getLastSeance().getIdSeance());
+                    startActivity(intent);
+
                 } else {
                     c = Calendar.getInstance();
 

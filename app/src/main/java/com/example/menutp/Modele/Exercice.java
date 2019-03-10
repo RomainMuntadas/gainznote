@@ -1,22 +1,24 @@
 package com.example.menutp.Modele;
 
 public class Exercice {
-    private String nom;
+    public Double tempsRepos;
+
     private Integer idSeance;
     private String notes;
     private int idType;
 
-    public Exercice(String nom, Integer idSeance, Integer idType, String notes) {
-        this.nom = nom;
+    public Exercice(Double tempsRepos, String notes,Integer idSeance, Integer idType) {
         this.idSeance = idSeance;
         this.idType = idType;
         this.notes = notes;
+        this.tempsRepos = tempsRepos;
+    }
+
+    public Double getTempsRepos() {
+        return tempsRepos;
     }
 
 
-    public String getNom() {
-        return nom;
-    }
 
     public Integer getIdSeance() {
         return idSeance;
@@ -28,5 +30,13 @@ public class Exercice {
 
     public String getNotes() {
         return notes;
+    }
+
+    @Override
+    public String toString() {
+        return "Exercice{" +
+                "tempsRepos=" + tempsRepos +
+                ", notes='" + notes + '\'' +
+                '}';
     }
 }

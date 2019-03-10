@@ -12,6 +12,12 @@
     <string name="date">Date Seance</string>
     <string name="txtBtnCommencer">Commencer</string>
     <string name="ficListeSeance">ListeSeance</string>
+    <string name="newExercice">Ajouter un exercice</string>
+    <string name="finAjout">Terminer</string>
+    <string name ="SpinnerGroupeDefault">Selectionne un groupe musculaire</string>
+    <string name="Param">PARAMETRES</string>
+
+    <string name="TextTypeDefaut">Selectionne un exercice</string>
 
     <string-array name="seances">
         <item>Autre</item>

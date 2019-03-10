@@ -8,19 +8,21 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
 
     private String type_Exercice =
-            "CREATE TABLE TYPE_EXERICE("
-                    + " ID_TYPE PRIMARY KEY AUTOINCREMENT,"
+            "CREATE TABLE IF NOT EXISTS TYPE_EXERCICE("
+                    + " ID_TYPE INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + " NOM TEXT NOT NULL,"
-                    + " MUSCLE TEXT NOT NULL);";
+                    + " GROUPE_MUSCULAIRE TEXT NOT NULL,"
+                    + " EST_POLY INTEGER NOT NULL);";
+
 
     private String utilisateur =
-            "CREATE TABLE UTILISATEUR("
-                    + "ID_UTILISATEUR PRIMARY KEY AUTOINCREMENT,"
+            "CREATE TABLE IF NOT EXISTS UTILISATEUR("
+                    + "ID_UTILISATEUR INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "NOM TEXT NOT NULL,"
                     + "PRENOM TEXT NOT NULL,"
                     + "POID TEXT NOT NULL,"
                     + "DATE_NAISSANCE TEXT NOT NULL,"
-                    + "TAILLE INTEGER NOT NULL,"
+                    + "TAILLE TEXT NOT NULL,"
                     + "NB_SEANCE INTEGER NOT NULL);";
 
 
@@ -31,23 +33,25 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
                     + "dateSeance TEXT NOT NULL,"
                     + "typeSeance TEXT NOT NULL,"
                     + "dureeSeance INTEGER,"
-                    + "notes TEXT,"
-                    + "ID_UTILISATEUR INT REFERENCES UTILISATEUR(ID_UTILISATEUR) NOT NULL) ;";
+                    + "notes TEXT);";
 
     private String exercice =
             "CREATE TABLE Exercice("
                     + "idExcercice INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "TPS_REPOS INTEGER NOT NULL,"
+                    + "TPS_REPOS INT NOT NULL,"
+                    + "NOTES TEXT,"
                     + " ID_SEANCE INT REFERENCES SEANCE(ID_SEANCE) NOT NULL,"
                     + " ID_TYPE INT REFERENCES TYPE_EXERCICE(ID_TYPE) NOT NULL);";
 
     private String serie =
             "CREATE TABLE SERIE(" +
-                    "   ID_SERIE COUNTER PRIMARY KEY AUTOINCREMENT," +
+                    "   ID_SERIE INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "   REPETITIONS INT," +
                     "   POIDS INT," +
                     "   ID_EXERCICE INT REFERENCES EXERCICE(ID_EXERCICE) NOT NULL" +
                     ");";
+
+
 
     /**
      * Constructeur
@@ -59,6 +63,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
      */
     public MySQLiteOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
+
     }
 
     /**
@@ -73,6 +78,16 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         db.execSQL(seance);
         db.execSQL(exercice);
         db.execSQL(serie);
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY) VALUES(\"Développé couché barre\",\"Pectoraux\",1);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Développé couché haltères\",\"Pectoraux\",1);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Squat\",\"Jambes\",1);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Développé militaire\",\"Deltoïdes\",1);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Curl haltères\",\"Bras\",0);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Leg extension\",\"Jambes\",0);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES (\"Leg curl\",\"Jambes\",0);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Butterfly\",\"Pectoraux\",0);");
+
+
 
 
     }

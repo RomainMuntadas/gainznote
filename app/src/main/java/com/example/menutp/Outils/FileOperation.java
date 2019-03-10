@@ -12,6 +12,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.io.OutputStreamWriter;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public abstract class FileOperation {
@@ -71,5 +75,20 @@ public abstract class FileOperation {
         return lineNumberReader.getLineNumber() + 1;
     }
 
+    public static String dateToString(Date date){
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String strDate = dateFormat.format(date);
+        return strDate;
+    }
 
+    public static Date stringToDate(String date){
+
+        Date dateFormat = null;
+        try {
+            dateFormat=new SimpleDateFormat("dd/MM/yyyy").parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dateFormat;
+    }
 }

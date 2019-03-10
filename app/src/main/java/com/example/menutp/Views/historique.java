@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class historique extends AppCompatActivity {
-    private AccesLocal accesLocal;
+
     @SuppressLint("SetTextI18n")
     private static Controle controle;
-
+    private AccesLocal accesLocal;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -37,36 +37,23 @@ public class historique extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        ListView listView = findViewById(R.id.lv_Seance);
-        final List<Seance> seanceList = controle.getToutesSeances(this);
-        ArrayAdapter<Seance> adapter= new ArrayAdapter<Seance>(this,android.R.layout.simple_list_item_1,
-                seanceList);
+        getSupportActionBar().setTitle("Historique des séances");
 
+        //On recupere la liste de toutes les seances
+        final List<Seance> seanceList = controle.getToutesSeances(this);
         List<String> seancesStr = new ArrayList<String>();
 
-        for(int i=0; i<adapter.getCount()-1;i++){
-            seancesStr.add(seanceList.get(i).toString());
-
+        //On convertit le tout en chaîne de caractère pour pouvoir l'afficher
+        for (Seance s : seanceList) {
+            seancesStr.add(s.toString());
         }
-        ArrayAdapter<String> adapterString= new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,
-                seancesStr);
-
+        //On place les chaines de chaque séance dans le listview.
+        ListView listView = findViewById(R.id.lv_Seance);
+        ArrayAdapter<String> adapterString = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, seancesStr);
         listView.setAdapter(adapterString);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(historique.this, seanceList.get(position).getNomSeance(),Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
-    }
-
-
-    public static int countLines(String str) {
-        String[] lines = str.split("\r\n|\r|\n");
-        return lines.length;
     }
 
 
