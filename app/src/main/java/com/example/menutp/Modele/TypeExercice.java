@@ -25,10 +25,11 @@ public class TypeExercice {
 
     @Override
     public String toString() {
-        return "TypeExercice{" +
-                "nom='" + nom + '\'' +
-                ", groupeMusculaire='" + groupeMusculaire + '\'' +
-                ", est_polyarticulaire=" + est_polyarticulaire +
-                '}';
+        String res = nom  + ", " + groupeMusculaire;
+        if(est_polyarticulaire){
+            res+=", Poly-articulaire";
+        }
+        return res;
+
     }
 }

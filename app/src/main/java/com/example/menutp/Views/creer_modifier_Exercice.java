@@ -59,7 +59,7 @@ public class creer_modifier_Exercice extends AppCompatActivity implements Adapte
         spinnerGroupeMusculaire.setOnItemSelectedListener(this);
 
 
-        Button valider = (Button) findViewById(R.id.Btn_CreerExo);
+        Button valider = (Button) findViewById(R.id.Btn_Valider);
         valider.setOnClickListener(new Controleur());
 
 
@@ -142,8 +142,11 @@ public class creer_modifier_Exercice extends AppCompatActivity implements Adapte
                 Intent intent = new Intent(creer_modifier_Exercice.this, ajout_exercice.class);
 
 
+
                 intent.putExtra("ID_SEANCE",idSeance);
                 startActivity(intent);
+
+
             }
         }
     }

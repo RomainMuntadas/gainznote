@@ -1,5 +1,7 @@
 package com.example.menutp.Modele;
 
+import com.example.menutp.Outils.FileOperation;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -55,11 +57,6 @@ public class Seance implements Serializable {
 
     @Override
     public String toString() {
-        return "Seance{" +
-                "'" + nomSeance + '\'' +
-                ", Type: '" + typeSeance + '\'' +
-                ", Date: '" + dateSeance + '\''+
-                ", dureeSeance: " + dureeSeance +" minutes" +
-                '}';
+        return  nomSeance +", Durée: " + dureeSeance +" minutes";
     }
 }

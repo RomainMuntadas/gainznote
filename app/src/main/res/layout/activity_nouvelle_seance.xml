@@ -30,7 +30,6 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
-
     <EditText
         android:id="@+id/Edit_NomSeance"
         android:layout_width="0dp"
@@ -41,18 +40,19 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:autoText="false"
-        android:background="@drawable/border"
+        android:background="@color/colorBackGround"
         android:ems="10"
         android:hint="@string/titreNewSeance"
         android:inputType="textPersonName"
         android:textAlignment="center"
         android:textColor="@color/colorText"
         android:textColorHint="@color/colorText"
-        android:textSize="@dimen/Taille_Police_Champs"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar" />
+        app:layout_constraintTop_toBottomOf="@+id/app_bar"
+        android:cursorVisible="true"/>
 
     <Button
         android:id="@+id/datePicker"

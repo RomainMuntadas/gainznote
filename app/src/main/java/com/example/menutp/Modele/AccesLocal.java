@@ -45,7 +45,7 @@ public class AccesLocal {
     public void addSeance(Seance seance) {
         bd = accesBd.getWritableDatabase();
         String req = "Insert into Seance (nomSeance,dateSeance,typeSeance,dureeSeance,notes) values";
-        req += "(\"" + seance.getNomSeance() + "\",\"" + seance.getDateSeance() + "\",\"" + seance.getTypeSeance() + "\",\"" + seance.getDureeSeance() + "\",\"" + seance.getNotes() + "\");";
+        req += "(\"" + seance.getNomSeance() + "\",\"" + FileOperation.dateToString(seance.getDateSeance()) + "\",\"" + seance.getTypeSeance() + "\",\"" + seance.getDureeSeance() + "\",\"" + seance.getNotes() + "\");";
         bd.execSQL(req);
 
 
@@ -171,7 +171,9 @@ public class AccesLocal {
                     + utilisateur.getNb_Seance() + ")";
             bd = accesBd.getWritableDatabase();
             bd.execSQL(req);
+
         }
+        curseur.close();
 
     }
 
@@ -203,6 +205,7 @@ public class AccesLocal {
                 + " WHERE TYPE_EXERCICE.ID_TYPE = " + exercice.getIdType() + ";";
         Cursor curseur = bd.rawQuery(req, null);
         curseur.moveToFirst();
+
         return curseurToTypeExercice(curseur);
     }
 
@@ -325,6 +328,18 @@ public class AccesLocal {
         bd.execSQL(req);
     }
 
+    public Exercice getLastExo() {
+        bd = accesBd.getReadableDatabase();
+        Exercice exercice = null;
+        String req = "Select * from Exercice";
+        Cursor curseur = bd.rawQuery(req, null);
+        curseur.moveToLast();
+        if (!curseur.isAfterLast()) {
+            exercice = cursorToExercice(curseur);
+        }
+        curseur.close();
+        return exercice;
+    }
     /**
      * Retourne la liste des exercices d'une séance donnée
      *
@@ -345,6 +360,7 @@ public class AccesLocal {
                 exercices.add(cursorToExercice(curseur));
             }
         }
+        curseur.close();
         return exercices;
 
     }

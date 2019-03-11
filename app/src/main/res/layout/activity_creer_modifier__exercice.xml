@@ -8,6 +8,66 @@
     tools:context=".Views.creer_modifier_Exercice">
 
 
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="203dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="68dp"
+        android:text="Nombre de Séries"
+        android:textColor="@color/colorText"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="51dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="208dp"
+        android:layout_marginLeft="208dp"
+        android:layout_marginTop="18dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:text="4 "
+        android:textColor="@color/colorText"
+        android:textColorHint="@color/colorText"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/ET_Poid"
+        tools:hint="0" />
+
+    <TextView
+        android:id="@+id/unit2"
+        android:layout_width="76dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="kg"
+        android:textColor="@color/colorText"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.324"
+        app:layout_constraintStart_toEndOf="@+id/ET_Poid"
+        app:layout_constraintTop_toBottomOf="@+id/unit" />
+
+    <TextView
+        android:id="@+id/Poid"
+        android:layout_width="76dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Poids"
+        android:textColor="@color/colorText"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
     <include
         android:id="@+id/app_bar"
         layout="@layout/action_bar" />
@@ -26,7 +86,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
@@ -35,7 +95,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Spinner_TypeExo" />
+        app:layout_constraintTop_toBottomOf="@+id/Spinner_TypeExo"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/TypeChoisi"
@@ -43,63 +104,87 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="212dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="16dp"
         android:text="@string/TextTypeDefaut"
         android:textAlignment="center"
         android:textColor="@color/colorText"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/ET_TempsRepos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Spinner_TypeExo" />
 
     <EditText
         android:id="@+id/ET_TempsRepos"
         android:layout_width="52dp"
         android:layout_height="44dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginRight="56dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginEnd="144dp"
+        android:layout_marginRight="144dp"
         android:ems="10"
         android:hint="00:00"
         android:inputType="time"
         android:textColor="@color/colorText"
         android:textColorHint="@color/colorText"
-        app:layout_constraintBottom_toTopOf="@+id/Btn_CreerExo"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TypeChoisi" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="182dp"
-        android:layout_height="45dp"
+        android:layout_height="44dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginTop="2dp"
         android:text="Temps de repos"
         android:textColor="@color/colorText"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/Btn_CreerExo"
-        app:layout_constraintEnd_toStartOf="@+id/ET_TempsRepos"
-        app:layout_constraintHorizontal_bias="0.457"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TypeChoisi" />
 
     <Button
-        android:id="@+id/Btn_CreerExo"
+        android:id="@+id/Btn_Valider"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="44dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="160dp"
         android:text="Valider"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+
+    <EditText
+        android:id="@+id/ET_Poid"
+        android:layout_width="51dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="132dp"
+        android:layout_marginLeft="132dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:text="0"
+        android:textColor="@color/colorText"
+        android:textColorHint="@color/colorText"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/Poid"
+        app:layout_constraintTop_toBottomOf="@+id/ET_TempsRepos"
+        tools:hint="0" />
+
+    <TextView
+        android:id="@+id/unit"
+        android:layout_width="77dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:text="min "
+        android:textColor="@color/colorText"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TypeChoisi" />
 
 </android.support.constraint.ConstraintLayout>
