@@ -38,7 +38,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
     private String exercice =
             "CREATE TABLE Exercice("
                     + "idExcercice INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "TPS_REPOS INT NOT NULL,"
+                    + "TPS_REPOS TEXT NOT NULL,"
                     + "NOTES TEXT,"
                     + "ID_SEANCE INT REFERENCES SEANCE(ID_SEANCE) NOT NULL,"
                     + "ID_TYPE INT REFERENCES TYPE_EXERCICE(ID_TYPE) NOT NULL);";
@@ -47,7 +47,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             "CREATE TABLE SERIE(" +
                     "   ID_SERIE INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "   REPETITIONS INT," +
-                    "   POIDS INT," +
+                    "   POIDS TEXT," +
                     "   ID_EXERCICE INT REFERENCES EXERCICE(ID_EXERCICE) NOT NULL" +
                     ");";
 

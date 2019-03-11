@@ -28,13 +28,11 @@ public class MainActivity extends AppCompatActivity {
 
         AccesLocal accesLocal = new AccesLocal(this);
 
-
         //Mise en place de la toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
 
-        accesLocal.viderBdd();
 
 
         //VIDAGE DE LA BDD POUR TESTS

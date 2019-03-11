@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.menutp.Modele.AccesLocal;
 import com.example.menutp.Modele.Exercice;
+import com.example.menutp.Modele.Serie;
 import com.example.menutp.Modele.TypeExercice;
 import com.example.menutp.R;
 
@@ -59,7 +60,7 @@ public class creer_modifier_Exercice extends AppCompatActivity implements Adapte
         spinnerGroupeMusculaire.setOnItemSelectedListener(this);
 
 
-        Button valider = (Button) findViewById(R.id.Btn_CreerExo);
+        Button valider = (Button) findViewById(R.id.Btn_Valider);
         valider.setOnClickListener(new Controleur());
 
     }
@@ -114,32 +115,48 @@ public class creer_modifier_Exercice extends AppCompatActivity implements Adapte
                 //
                 TextView exerciceSelected = findViewById(R.id.TypeChoisi);
                 TextView tempsRepos = (TextView) findViewById(R.id.ET_TempsRepos);
+                TextView notes = findViewById(R.id.ET_Notes);
                 String nomType = exerciceSelected.getText().toString();
                 int idType = accesLocal.getIdTypeFromString(nomType);
                 idSeance = getIntent().getIntExtra("ID_SEANCE", -1);
                 Exercice exercice = null;
 
+
+                //creation des exercices
                 Double tempsReposDbl = 0D;
                 String tempsReposStr = tempsRepos.getText().toString();
 
                     //Pour ne pas insert un null  => Double.parseDouble("") ne peut pas marcher
                     if(tempsReposStr.equals("")){
 
-                        exercice = new Exercice(0.0," ", idSeance,idType);
+                        exercice = new Exercice(0.0,notes.getText().toString(), idSeance,idType);
                     }
                     else{
 
                         tempsReposDbl = Double.parseDouble(tempsReposStr);
-                        exercice = new Exercice(tempsReposDbl," ", idSeance,idType);
+                        exercice = new Exercice(tempsReposDbl,notes.getText().toString(), idSeance,idType);
                     }
 
+                //Creation des séances
+
+                TextView Et_NbSeries = findViewById(R.id.ET_NbSeries);
+                TextView poid = findViewById(R.id.ET_Poid);
+                Integer nbSeries = Integer.parseInt(Et_NbSeries.getText().toString());
+                for(int i = 0; i<nbSeries;i++ ){
+                    Serie s = new Serie(nbSeries,Double.parseDouble(poid.getText().toString()), exercice.getIdExercice() );
+                    accesLocal.addSerie(s);
+
+                }
                 //on sauvegarde l'exercice
                 accesLocal.addExerciceToSeance(exercice);
                 Intent intent = new Intent(creer_modifier_Exercice.this, ajout_exercice.class);
 
 
+
                 intent.putExtra("ID_SEANCE",idSeance);
                 startActivity(intent);
+
+
             }
         }
     }

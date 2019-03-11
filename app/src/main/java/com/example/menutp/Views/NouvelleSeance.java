@@ -9,6 +9,8 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +29,8 @@ import com.example.menutp.Modele.AccesLocal;
 import com.example.menutp.Outils.FileOperation;
 import com.example.menutp.R;
 import com.example.menutp.Modele.Seance;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.Calendar;
@@ -61,20 +66,21 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
 
 
         btnDate = findViewById(R.id.datePicker);
-        Spinner spinner_Type = (Spinner) findViewById(R.id.spinner_Seance);
+
+        final Spinner spinner_Type = (Spinner) findViewById(R.id.spinner_Seance);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.seances, R.layout.my_spinner);
         adapter.setDropDownViewResource(R.layout.my_spinner_drop_down);
         spinner_Type.setAdapter(adapter);
         spinner_Type.setOnItemSelectedListener(this);
 
 
-        btnDate.setText(new Date().toString());
-        TextView libelleSeance = (TextView) findViewById(R.id.Edit_NomSeance);
+        btnDate.setText(FileOperation.dateToString(new Date()));
+        EditText libelleSeance = findViewById(R.id.Edit_NomSeance);
         TextView Txt_Duree = (TextView) findViewById(R.id.Txt_Duree);
         TextView Txt_Notes = (TextView) findViewById(R.id.Txt_Notes);
         Button btn_valider = (Button) findViewById(R.id.validerSeance);
 
-        setFont(libelleSeance, "RyukExtra copy.ttf");
+       // setFont(libelleSeance, "RyukExtra copy.ttf");
         setFont(btnDate, "death_font_ver1_0.ttf");
         setFont(Txt_Duree, "death_font_ver1_0.ttf");
         setFont(btn_valider, "death_font_ver1_0.ttf");
@@ -85,12 +91,53 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
         //  btnType.setOnClickListener(controleurTypeSeance);
         btnDate.setOnClickListener(controleur);
         btn_valider.setOnClickListener(controleur);
+
+        final TextView textDate = (TextView) findViewById(R.id.datePicker);
+        textDate.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                EditText NomSeance = findViewById(R.id.Edit_NomSeance);
+                if(!spinner_Type.getSelectedItem().toString().equals("Autre"))
+                {
+                    NomSeance.setText("Seance "+spinner_Type.getSelectedItem().toString()+" du " +textDate.getText() );
+                }
+                else
+                {
+                    NomSeance.setText("Seance du " +textDate.getText() );
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
+        EditText NomSeance = findViewById(R.id.Edit_NomSeance);
+        Spinner spinner_Type = (Spinner) findViewById(R.id.spinner_Seance);
+        TextView textDate = (TextView) findViewById(R.id.datePicker);
+        if(!spinner_Type.getSelectedItem().toString().equals("Autre"))
+        {
+            NomSeance.setText("Seance "+spinner_Type.getSelectedItem().toString()+" du " +textDate.getText() );
+        }
+        else
+        {
+            NomSeance.setText("Seance du " +textDate.getText() );
+
+        }
+
 
     }
 
@@ -106,10 +153,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
         return super.onCreateOptionsMenu(menu);
     }
 
-    public static int countLines(String str) {
-        String[] lines = str.split("\r\n|\r|\n");
-        return lines.length;
-    }
+
 
 
     class controleur implements View.OnClickListener {
@@ -119,6 +163,11 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onClick(View v) {
+            if (v instanceof EditText){
+                EditText nomSeance = (EditText) v;
+                nomSeance.setCursorVisible(true);
+                Toast.makeText(NouvelleSeance.this, "clic", Toast.LENGTH_LONG).show();
+            }
 
 
             if (v instanceof Button) {
@@ -154,7 +203,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
                     }
 
 
-                    Button boutonValider = (Button) findViewById(R.id.validerSeance);
+
 
 
 
@@ -164,8 +213,6 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
                     accesLocal.addSeance(seance);
 
                     Intent intent = new Intent(NouvelleSeance.this, ajout_exercice.class);
-
-
                     //ATTENTION Le getLastSeance ne marchera que dans le cadre de la création d'une séance
                     intent.putExtra("ID_SEANCE",accesLocal.getLastSeance().getIdSeance());
                     startActivity(intent);

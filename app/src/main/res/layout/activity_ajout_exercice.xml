@@ -7,6 +7,21 @@
     tools:context=".Views.ajout_exercice"
     android:background="@color/colorBackGround">
 
+    <Button
+        android:id="@+id/btn_Terminer"
+        android:layout_width="117dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/terminer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.971"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <include
         android:id="@+id/app_bar"
         layout="@layout/action_bar" />
@@ -22,6 +37,7 @@
         android:text="@string/newExercice"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.028"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ListView

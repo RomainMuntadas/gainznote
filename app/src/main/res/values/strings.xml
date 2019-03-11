@@ -18,6 +18,7 @@
     <string name="Param">PARAMETRES</string>
 
     <string name="TextTypeDefaut">Selectionne un exercice</string>
+    <string name="terminer">Terminer</string>
 
     <string-array name="seances">
         <item>Autre</item>

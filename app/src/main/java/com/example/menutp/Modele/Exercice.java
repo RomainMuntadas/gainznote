@@ -2,7 +2,7 @@ package com.example.menutp.Modele;
 
 public class Exercice {
     public Double tempsRepos;
-
+    private int idExercice;
     private Integer idSeance;
     private String notes;
     private int idType;
@@ -19,6 +19,9 @@ public class Exercice {
     }
 
 
+    public int getIdExercice() {
+        return idExercice;
+    }
 
     public Integer getIdSeance() {
         return idSeance;
@@ -32,11 +35,12 @@ public class Exercice {
         return notes;
     }
 
+    public void setIdExercice(int idExercice) {
+        this.idExercice = idExercice;
+    }
+
     @Override
     public String toString() {
-        return "Exercice{" +
-                "tempsRepos=" + tempsRepos +
-                ", notes='" + notes + '\'' +
-                '}';
+        return "Temps de repos: " + tempsRepos + " minute";
     }
 }

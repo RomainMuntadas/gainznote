@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.menutp.Outils.FileOperation;
 import com.example.menutp.Outils.MySQLiteOpenHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class AccesLocal {
     public void addSeance(Seance seance) {
         bd = accesBd.getWritableDatabase();
         String req = "Insert into Seance (nomSeance,dateSeance,typeSeance,dureeSeance,notes) values";
-        req += "(\"" + seance.getNomSeance() + "\",\"" + seance.getDateSeance() + "\",\"" + seance.getTypeSeance() + "\",\"" + seance.getDureeSeance() + "\",\"" + seance.getNotes() + "\");";
+        req += "(\"" + seance.getNomSeance() + "\",\"" + FileOperation.dateToString(seance.getDateSeance()) + "\",\"" + seance.getTypeSeance() + "\",\"" + seance.getDureeSeance() + "\",\"" + seance.getNotes() + "\");";
         bd.execSQL(req);
 
 
@@ -95,6 +96,7 @@ public class AccesLocal {
 
             }
         }
+        curseur.close();
         return seances;
     }
 
@@ -171,7 +173,9 @@ public class AccesLocal {
                     + utilisateur.getNb_Seance() + ")";
             bd = accesBd.getWritableDatabase();
             bd.execSQL(req);
+
         }
+        curseur.close();
 
     }
 
@@ -203,17 +207,18 @@ public class AccesLocal {
                 + " WHERE TYPE_EXERCICE.ID_TYPE = " + exercice.getIdType() + ";";
         Cursor curseur = bd.rawQuery(req, null);
         curseur.moveToFirst();
+
         return curseurToTypeExercice(curseur);
     }
 
-    public String getNomExercice(int  idType) {
+    public String getNomExercice(int idType) {
         bd = accesBd.getReadableDatabase();
         String req = "SELECT NOM FROM TYPE_EXERCICE"
-                + " WHERE TYPE_EXERCICE.ID_TYPE = " +idType + ";";
+                + " WHERE TYPE_EXERCICE.ID_TYPE = " + idType + ";";
         Cursor curseur = bd.rawQuery(req, null);
         curseur.moveToFirst();
-        if(!curseur.isAfterLast()){
-           return curseur.getString(0);
+        if (!curseur.isAfterLast()) {
+            return curseur.getString(0);
         }
         return null;
     }
@@ -292,7 +297,7 @@ public class AccesLocal {
     }
 
     public TypeExercice curseurToTypeExercice(Cursor curseur) {
-        if(!curseur.isAfterLast()) {
+        if (!curseur.isAfterLast()) {
             if (curseur.getInt(3) == 0) {
                 return new TypeExercice(curseur.getString(1), curseur.getString(2), false);
 
@@ -317,12 +322,26 @@ public class AccesLocal {
     public void addExerciceToSeance(Exercice exercice) {
         bd = accesBd.getWritableDatabase();
         String req = "insert into Exercice(TPS_REPOS, NOTES, ID_SEANCE , ID_TYPE) values(";
-        req += exercice.getTempsRepos() + ",\""
-                + exercice.getNotes() + "\","
+        req += "\"" + Double.toString(exercice.getTempsRepos()) + "\""
+                + ",\"" + exercice.getNotes() + "\","
                 + exercice.getIdSeance() + ","
                 + exercice.getIdType()
                 + ");";
         bd.execSQL(req);
+    }
+
+    public Exercice getLastExo() {
+        bd = accesBd.getReadableDatabase();
+        Exercice exercice = null;
+        String req = "Select * from Exercice";
+        Cursor curseur = bd.rawQuery(req, null);
+        curseur.moveToLast();
+        if (!curseur.isAfterLast()) {
+            exercice = cursorToExercice(curseur);
+            exercice.setIdExercice(curseur.getInt(0));
+        }
+        curseur.close();
+        return exercice;
     }
 
     /**
@@ -345,6 +364,7 @@ public class AccesLocal {
                 exercices.add(cursorToExercice(curseur));
             }
         }
+        curseur.close();
         return exercices;
 
     }
@@ -361,11 +381,27 @@ public class AccesLocal {
         }
         Integer idSeance = curseur.getInt(3);
         Integer idType = curseur.getInt(4);
+        curseur.close();
         return new Exercice(tempsRepos, notes, idSeance, idType);
     }
 
     //endregion
 
+
+    //Region Methode de séries
+
+
+    public void addSerie(Serie serie) {
+
+        bd = accesBd.getWritableDatabase();
+        String req = "INSERT INTO SERIE(REPETITIONS, POIDS, ID_EXERCICE) VALUES("
+                + serie.getNbRepetitions() + ","
+                + "\"" + Double.toString(serie.getPoid()) + "\","
+                + serie.getIdExercice()+");";
+        bd.execSQL(req);
+
+    }
+    //endregion
 
     /**
      * Clean la bd
