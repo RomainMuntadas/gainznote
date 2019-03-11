@@ -15,26 +15,32 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="68dp"
+        android:layout_marginBottom="71dp"
         android:text="Nombre de Séries"
         android:textColor="@color/colorText"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ET_Notes"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/ET_NbSeries"
         android:layout_width="51dp"
         android:layout_height="42dp"
-        android:layout_marginStart="208dp"
-        android:layout_marginLeft="208dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:ems="10"
         android:inputType="numberDecimal"
-        android:text="4 "
+        android:text="4"
         android:textColor="@color/colorText"
         android:textColorHint="@color/colorText"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/ET_Poid"
         tools:hint="0" />
 
@@ -47,9 +53,11 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="23dp"
         android:text="kg"
         android:textColor="@color/colorText"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/ET_NbSeries"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.324"
         app:layout_constraintStart_toEndOf="@+id/ET_Poid"
@@ -76,8 +84,13 @@
         android:id="@+id/Spinner_TypeExo"
         android:layout_width="395dp"
         android:layout_height="61dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/app_bar" />
 
     <ListView
@@ -149,14 +162,17 @@
         android:layout_height="44dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/colorText"
         android:text="Valider"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/ET_Notes" />
 
     <EditText
         android:id="@+id/ET_Poid"
@@ -186,5 +202,25 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TypeChoisi" />
+
+    <EditText
+        android:id="@+id/ET_Notes"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/colorText"
+        android:ems="10"
+        android:hint="Notes"
+        android:inputType="textMultiLine"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ET_NbSeries"
+        app:layout_constraintVertical_bias="0.144" />
 
 </android.support.constraint.ConstraintLayout>

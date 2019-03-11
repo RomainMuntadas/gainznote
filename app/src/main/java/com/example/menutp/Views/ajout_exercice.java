@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -55,6 +56,7 @@ public class ajout_exercice extends AppCompatActivity {
         //Pour mettre a jour les exercices.
         AccesLocal accesLocal = new AccesLocal(this);
         idSeance = getIntent().getIntExtra("ID_SEANCE", -1);
+
         List<Exercice> exerciceList = accesLocal.getExerciceSeance(idSeance);
         List<String> exerciceStrings = new ArrayList<>();
         for (Exercice ex : exerciceList) {
@@ -64,6 +66,12 @@ public class ajout_exercice extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, exerciceStrings);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                
+            }
+        });
 
 
     }

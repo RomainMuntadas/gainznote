@@ -19,6 +19,9 @@ public class Exercice {
     }
 
 
+    public int getIdExercice() {
+        return idExercice;
+    }
 
     public Integer getIdSeance() {
         return idSeance;
