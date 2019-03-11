@@ -62,10 +62,6 @@ public class creer_modifier_Exercice extends AppCompatActivity implements Adapte
         Button valider = (Button) findViewById(R.id.Btn_CreerExo);
         valider.setOnClickListener(new Controleur());
 
-
-
-
-
     }
 
     @Override

@@ -34,16 +34,15 @@ public class ajout_exercice extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Création de la séance");
+
         //On récupère l'id de la séance passée en parametre
         this.idSeance = getIntent().getIntExtra("ID_SEANCE", -1);
         if (this.idSeance == -1) {
             Toast.makeText(this, "Erreur de récupération de l'id", Toast.LENGTH_LONG).show();
         }
 
-
         Button creerExo = findViewById(R.id.Btn_Nouveau);
         creerExo.setOnClickListener(controleur);
-
 
     }
 

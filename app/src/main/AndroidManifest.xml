@@ -11,8 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Views.creer_modifier_Exercice"></activity>
-        <activity android:name=".Views.ajout_exercice" />
+        <activity android:name=".Views.creer_modifier_Exercice"
+                  android:windowSoftInputMode="adjustPan"/>
+
+        <activity android:name=".Views.ajout_exercice"/>
         <activity android:name=".Views.historique" />
         <activity android:name=".Views.NouvelleSeance" />
         <activity android:name=".Views.MainActivity">

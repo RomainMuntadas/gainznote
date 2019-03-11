@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout);
-
         controle = Controle.getInstance(this);
 
         AccesLocal accesLocal = new AccesLocal(this);

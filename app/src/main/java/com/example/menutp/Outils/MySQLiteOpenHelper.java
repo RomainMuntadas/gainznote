@@ -40,8 +40,8 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
                     + "idExcercice INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "TPS_REPOS INT NOT NULL,"
                     + "NOTES TEXT,"
-                    + " ID_SEANCE INT REFERENCES SEANCE(ID_SEANCE) NOT NULL,"
-                    + " ID_TYPE INT REFERENCES TYPE_EXERCICE(ID_TYPE) NOT NULL);";
+                    + "ID_SEANCE INT REFERENCES SEANCE(ID_SEANCE) NOT NULL,"
+                    + "ID_TYPE INT REFERENCES TYPE_EXERCICE(ID_TYPE) NOT NULL);";
 
     private String serie =
             "CREATE TABLE SERIE(" +
