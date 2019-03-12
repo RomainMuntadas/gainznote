@@ -27,6 +27,22 @@ public class Exercice {
         return idSeance;
     }
 
+    public void setTempsRepos(Double tempsRepos) {
+        this.tempsRepos = tempsRepos;
+    }
+
+    public void setIdSeance(Integer idSeance) {
+        this.idSeance = idSeance;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public void setIdType(int idType) {
+        this.idType = idType;
+    }
+
     public int getIdType() {
         return idType;
     }

@@ -37,7 +37,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
     private String exercice =
             "CREATE TABLE Exercice("
-                    + "idExcercice INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "ID_EXERCICE INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "TPS_REPOS TEXT NOT NULL,"
                     + "NOTES TEXT,"
                     + "ID_SEANCE INT REFERENCES SEANCE(ID_SEANCE) NOT NULL,"

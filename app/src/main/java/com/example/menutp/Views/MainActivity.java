@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         controle = Controle.getInstance(this);
 
         AccesLocal accesLocal = new AccesLocal(this);
-
+        //deleteDatabase("bdGainzNote.sqlite");
         //Mise en place de la toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);

@@ -72,7 +72,12 @@ public class ajout_exercice extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                AccesLocal accesLocal = new AccesLocal(ajout_exercice.this);
+                List<Exercice> exerciceList = accesLocal.getExerciceSeance(idSeance);
+                Intent intent = new Intent(ajout_exercice.this, creer_modifier_Exercice.class);
+                intent.putExtra("ID_SEANCE", ajout_exercice.idSeance);
+                intent.putExtra("ID_EXERCICE", exerciceList.get(position).getIdExercice());
+                startActivity(intent);
             }
         });
 

@@ -8,6 +8,7 @@ import com.example.menutp.Outils.FileOperation;
 import com.example.menutp.Outils.MySQLiteOpenHelper;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -207,8 +208,9 @@ public class AccesLocal {
                 + " WHERE TYPE_EXERCICE.ID_TYPE = " + exercice.getIdType() + ";";
         Cursor curseur = bd.rawQuery(req, null);
         curseur.moveToFirst();
-
-        return curseurToTypeExercice(curseur);
+        TypeExercice typeExercice = curseurToTypeExercice(curseur);
+        curseur.close();
+        return typeExercice;
     }
 
     public String getNomExercice(int idType) {
@@ -278,9 +280,11 @@ public class AccesLocal {
         bd = accesBd.getReadableDatabase();
         String req = "SELECT * FROM TYPE_EXERCICE WHERE NOM = " + nomType + ';';
         Cursor curseur = bd.rawQuery(req, null);
+        TypeExercice type = curseurToTypeExercice(curseur);
         if (!curseur.isAfterLast()) {
-            return curseurToTypeExercice(curseur);
+            return type;
         }
+        curseur.close();
         return null;
 
     }
@@ -315,11 +319,12 @@ public class AccesLocal {
     //region Methodes d'exercice
 
     /**
-     * La l'exercice sera ajouté à la séance grâce à Id séance contenu dans l'objet exercice
+     * l'exercice sera ajouté à la séance grâce à Id séance contenu dans l'objet exercice
      *
-     * @param exercice Exercice à ajouter
+     * @param exercice
+     * @return l'id de l'exercice crée.
      */
-    public void addExerciceToSeance(Exercice exercice) {
+    public int addExerciceToSeance(Exercice exercice) {
         bd = accesBd.getWritableDatabase();
         String req = "insert into Exercice(TPS_REPOS, NOTES, ID_SEANCE , ID_TYPE) values(";
         req += "\"" + Double.toString(exercice.getTempsRepos()) + "\""
@@ -328,6 +333,7 @@ public class AccesLocal {
                 + exercice.getIdType()
                 + ");";
         bd.execSQL(req);
+        return getLastExo().getIdExercice();
     }
 
     public Exercice getLastExo() {
@@ -343,6 +349,7 @@ public class AccesLocal {
         curseur.close();
         return exercice;
     }
+
 
     /**
      * Retourne la liste des exercices d'une séance donnée
@@ -369,10 +376,31 @@ public class AccesLocal {
 
     }
 
+    public Exercice getExercice(int idExercice) {
+        bd = accesBd.getReadableDatabase();
+        String req = "Select * from Exercice where ID_EXERCICE = " + idExercice + ";";
+        Cursor curseur = bd.rawQuery(req, null);
+        curseur.moveToFirst();
+        Exercice exercice = cursorToExercice(curseur);
+        curseur.close();
+        return exercice;
+    }
+
+    public void miseAJourExercice(Exercice exercice, int idExercice) {
+        bd = accesBd.getWritableDatabase();
+        String req = "UPDATE Exercice "
+                + "SET TPS_REPOS = \"" + Double.toString(exercice.getTempsRepos()) + "\","
+                + "NOTES  = \"" + exercice.getNotes() + "\","
+                + "ID_SEANCE = " + exercice.getIdSeance() + ","
+                + "ID_TYPE = " + exercice.getIdType() + " "
+                + "WHERE ID_EXERCICE =" + idExercice + ";";
+        bd.execSQL(req);
+    }
 
     public Exercice cursorToExercice(Cursor curseur) {
         Double tempsRepos = 0D;
-        if (!(curseur.getString(1) == "")) {
+        Integer idExercice = curseur.getInt(0);
+        if (!(curseur.getString(1).equals(""))) {
             tempsRepos = Double.parseDouble(curseur.getString(1));
         }
         String notes = "";
@@ -381,8 +409,10 @@ public class AccesLocal {
         }
         Integer idSeance = curseur.getInt(3);
         Integer idType = curseur.getInt(4);
-        curseur.close();
-        return new Exercice(tempsRepos, notes, idSeance, idType);
+
+        Exercice exercice = new Exercice(tempsRepos, notes, idSeance, idType);
+        exercice.setIdExercice(idExercice);
+        return exercice;
     }
 
     //endregion
@@ -397,8 +427,46 @@ public class AccesLocal {
         String req = "INSERT INTO SERIE(REPETITIONS, POIDS, ID_EXERCICE) VALUES("
                 + serie.getNbRepetitions() + ","
                 + "\"" + Double.toString(serie.getPoid()) + "\","
-                + serie.getIdExercice()+");";
+                + serie.getIdExercice() + ");";
         bd.execSQL(req);
+
+    }
+
+    public int countSerieExercice(Exercice exercice) {
+        int nbSerie = -1;
+        bd = accesBd.getReadableDatabase();
+        String req = "SELECT * FROM SERIE WHERE ID_EXERCICE =" + exercice.getIdExercice();
+        Cursor curseur = bd.rawQuery(req, null);
+        curseur.moveToFirst();
+        nbSerie = curseur.getCount();
+        curseur.close();
+        return nbSerie;
+    }
+
+    public Serie getUneSerie(Exercice exercice) {
+
+        bd = accesBd.getReadableDatabase();
+        String req = "SELECT * FROM SERIE WHERE ID_EXERCICE =" + exercice.getIdExercice() + ";";
+        Cursor curseur = bd.rawQuery(req, null);
+        curseur.moveToFirst();
+        Serie serie = curseurToSerie(curseur);
+
+        curseur.close();
+        return serie;
+    }
+
+    public void miseAJourSeries(Serie serie, int idExercice) {
+        bd = accesBd.getWritableDatabase();
+        String req = "UPDATE SERIE "
+                + "SET REPETITIONS = " + serie.getNbRepetitions() + ","
+                + "POIDS = \"" + serie.getPoid() + "\" "
+                + "WHERE ID_EXERCICE =" + idExercice + ";";
+        bd.execSQL(req);
+    }
+
+    public Serie curseurToSerie(Cursor curseur) {
+
+        return new Serie(curseur.getInt(1), Double.parseDouble(curseur.getString(2)), curseur.getInt(3));
 
     }
     //endregion
