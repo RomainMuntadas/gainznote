@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -120,6 +121,15 @@ public class creer_modifier_Exercice extends AppCompatActivity implements Adapte
         listViewType.setAdapter(adapteurType);
         listViewType.setOnItemClickListener(creer_modifier_Exercice.this);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.toString() == getResources().getString(R.string.Param)) {
+            Intent i = new Intent(creer_modifier_Exercice.this, Parametres.class);
+            startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

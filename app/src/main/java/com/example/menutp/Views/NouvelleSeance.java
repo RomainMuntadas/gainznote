@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -154,7 +155,14 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
     }
 
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.toString() == getResources().getString(R.string.Param)) {
+            Intent i = new Intent(NouvelleSeance.this, Parametres.class);
+            startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     class controleur implements View.OnClickListener {
         private AccesLocal accesLocal;

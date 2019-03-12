@@ -1,5 +1,6 @@
 package com.example.menutp.Views;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
@@ -31,14 +32,14 @@ public class MainActivity extends AppCompatActivity {
         controle = Controle.getInstance(this);
 
         AccesLocal accesLocal = new AccesLocal(this);
-        //deleteDatabase("bdGainzNote.sqlite");
+
         //Mise en place de la toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //VIDAGE DE LA BDD POUR TESTS
-
+        //this.deleteDatabase("bdGainzNote.sqlite");
 
         //region Récupération des textviews
         TextView version = (TextView) findViewById(R.id.version);
@@ -102,19 +103,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent i = new Intent(MainActivity.this, NouvelleSeance.class);
-        startActivity(i);
+        if(item.toString() == getResources().getString(R.string.Param)) {
+            Intent i = new Intent(MainActivity.this, Parametres.class);
+            startActivity(i);
+        }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onMenuOpened(int featureId, Menu menu) {
-        return super.onMenuOpened(featureId, menu);
-    }
-
-    @Override
-    public void onPanelClosed(int featureId, Menu menu) {
-        super.onPanelClosed(featureId, menu);
     }
 
     @Override

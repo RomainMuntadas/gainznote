@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.example.menutp.Controles.Controle;
 import com.example.menutp.Outils.FileOperation;
+import com.example.menutp.R;
+import com.example.menutp.Views.MainActivity;
 
 import java.util.Date;
 
@@ -15,8 +17,11 @@ public final class Utilisateur {
     private double taille=50.0;
     private Integer nb_Seance =3 ;
     private static Utilisateur instance = null;
+    private String langue = "Français";
 
-    private Utilisateur(){super();}
+    public Utilisateur(){
+
+    }
 
     public static final Utilisateur getInstance(Context contexte) {
         if (Utilisateur.instance == null) {
@@ -25,6 +30,8 @@ public final class Utilisateur {
         }
         return Utilisateur.instance;
     }
+
+    public void setLangue(String langue) {this.langue = langue;}
 
 
     public void setNom(String nom) {
@@ -55,29 +62,31 @@ public final class Utilisateur {
         Utilisateur.instance = instance;
     }
 
-    String getNom() {
+    public String getNom() {
         return this.nom;
     }
 
-    String getPrenom() {
+    public String getPrenom() {
         return prenom;
     }
 
-    Double getPoid() {
+    public Double getPoid() {
         return poid;
     }
 
-    Date getDateNaissance() {
+    public Date getDateNaissance() {
         return dateNaissance;
     }
 
-    double getTaille() {
+    public double getTaille() {
         return taille;
     }
 
-    Integer getNb_Seance() {
+    public Integer getNb_Seance() {
         return nb_Seance;
     }
+
+    public String getLangue() {return this.langue;}
 
     public static Utilisateur getInstance() {
         return instance;

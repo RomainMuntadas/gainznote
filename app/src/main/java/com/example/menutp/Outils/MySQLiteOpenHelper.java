@@ -23,7 +23,8 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
                     + "POID TEXT NOT NULL,"
                     + "DATE_NAISSANCE TEXT NOT NULL,"
                     + "TAILLE TEXT NOT NULL,"
-                    + "NB_SEANCE INTEGER NOT NULL);";
+                    + "NB_SEANCE INTEGER NOT NULL,"
+                    + "LANGUE TEXT NOT NULL);";
 
 
     private String seance =

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -88,6 +89,15 @@ public class ajout_exercice extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.toString() == getResources().getString(R.string.Param)) {
+            Intent i = new Intent(ajout_exercice.this, Parametres.class);
+            startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     class Controleur implements View.OnClickListener {

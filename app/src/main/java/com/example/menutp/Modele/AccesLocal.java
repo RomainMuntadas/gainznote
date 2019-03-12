@@ -18,7 +18,7 @@ public class AccesLocal {
     private Integer versionBase = 1;
     private MySQLiteOpenHelper accesBd;
     private SQLiteDatabase bd;
-    private static Utilisateur utilisateur;
+    private static Utilisateur utilisateur = new Utilisateur();
     private String type_Exercice =
             "CREATE TABLE TYPE_EXERICE("
                     + " ID_TYPE INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -34,8 +34,6 @@ public class AccesLocal {
      */
     public AccesLocal(Context contexte) {
         accesBd = new MySQLiteOpenHelper(contexte, nomBase, null, versionBase);
-
-
     }
     //region methodes de Seance
 
@@ -122,6 +120,11 @@ public class AccesLocal {
 
     //region Methodes d'utilisateur
 
+    public Utilisateur getUtilisateur()
+    {
+        return this.utilisateur;
+    }
+
     /**
      * Sauvegarde les données de l'utilisateur dans la BD
      * A faire à chaque fois que l'on modifie les données de l'utilisateur
@@ -135,10 +138,9 @@ public class AccesLocal {
                 + "SET POID = " + Double.toString(utilisateur.getPoid())
                 + "SET DATE_NAISSANCE = " + FileOperation.dateToString(utilisateur.getDateNaissance())
                 + "SET TAILLE = " + utilisateur.getTaille()
-                + "SET NB_SEANCE = " + Integer.toString(utilisateur.getNb_Seance()) + ";";
+                + "SET NB_SEANCE = " + Integer.toString(utilisateur.getNb_Seance())
+                + "SET LANGUE = " +utilisateur.getLangue() + ";";
         bd.execSQL(req);
-
-
     }
 
     /**
@@ -161,17 +163,19 @@ public class AccesLocal {
             utilisateur.setDateNaissance(FileOperation.stringToDate(curseur.getString(4)));
             utilisateur.setTaille(Double.parseDouble(curseur.getString(5)));
             utilisateur.setNb_Seance(curseur.getInt(6));
+            utilisateur.setLangue(curseur.getString(7));
 
         } else {
             this.utilisateur = Utilisateur.getInstance(context);
             utilisateur.setPrenom("test");
-            req = "INSERT INTO UTILISATEUR (NOM, PRENOM, POID, DATE_NAISSANCE, TAILLE, NB_SEANCE) VALUES("
+            req = "INSERT INTO UTILISATEUR (NOM, PRENOM, POID, DATE_NAISSANCE, TAILLE, NB_SEANCE, LANGUE) VALUES("
                     + "\"" + utilisateur.getNom() + "\","
                     + "\"" + utilisateur.getPrenom() + "\","
                     + Double.toString(utilisateur.getPoid()) + ","
                     + "\"" + utilisateur.getDateNaissance() + "\","
                     + Double.toString(utilisateur.getTaille()) + ","
-                    + utilisateur.getNb_Seance() + ")";
+                    + utilisateur.getNb_Seance() + ","
+                    + "\"" + utilisateur.getLangue()+ "\"" +")";
             bd = accesBd.getWritableDatabase();
             bd.execSQL(req);
 

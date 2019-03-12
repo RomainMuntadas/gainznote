@@ -14,8 +14,11 @@
     <string name="ficListeSeance">ListeSeance</string>
     <string name="newExercice">Ajouter un exercice</string>
     <string name="finAjout">Terminer</string>
-    <string name ="SpinnerGroupeDefault">Selectionne un groupe musculaire</string>
+    <string name="SpinnerGroupeDefault">Selectionne un groupe musculaire</string>
     <string name="Param">PARAMETRES</string>
+    <string name="Langue">Langue</string>
+    <string name="LangueFR">Français</string>
+    <string name="LangueAR">Arabe</string>
 
     <string name="TextTypeDefaut">Selectionne un exercice</string>
     <string name="terminer">Terminer</string>
