@@ -336,6 +336,10 @@ public class AccesLocal {
         return getLastExo().getIdExercice();
     }
 
+    /**
+     * Récupère le dernier exercice crée
+     * @return
+     */
     public Exercice getLastExo() {
         bd = accesBd.getReadableDatabase();
         Exercice exercice = null;
@@ -349,7 +353,6 @@ public class AccesLocal {
         curseur.close();
         return exercice;
     }
-
 
     /**
      * Retourne la liste des exercices d'une séance donnée
@@ -376,6 +379,11 @@ public class AccesLocal {
 
     }
 
+    /**
+     * Récupere un objet exercice a partir de son id
+     * @param idExercice id de l'exercice
+     * @return
+     */
     public Exercice getExercice(int idExercice) {
         bd = accesBd.getReadableDatabase();
         String req = "Select * from Exercice where ID_EXERCICE = " + idExercice + ";";
@@ -386,6 +394,11 @@ public class AccesLocal {
         return exercice;
     }
 
+    /**
+     * Met a jour dans la base de donnée
+     * @param exercice objet contenant les données a changer
+     * @param idExercice id de l'exercice a modifier
+     */
     public void miseAJourExercice(Exercice exercice, int idExercice) {
         bd = accesBd.getWritableDatabase();
         String req = "UPDATE Exercice "
@@ -397,6 +410,23 @@ public class AccesLocal {
         bd.execSQL(req);
     }
 
+    /**
+     * Supprime l'exercice de la séance passée en parametre
+     * @param idExercice id de l'exercice
+     * @param idSeance id de la séance
+     */
+    public void supprimerExercice(int idExercice, int idSeance){
+        bd = accesBd.getWritableDatabase();
+        String req = "DELETE FROM EXERCICE" +
+                " WHERE ID_EXERCICE = "+idExercice+"" +
+                " AND ID_SEANCE = "+idSeance+";";
+        bd.execSQL(req);
+    }
+    /**
+     * Récupère un objet a partir d'un curseur
+     * @param curseur curseur résultant d'une requete rawQuery
+     * @return Un objet exercice
+     */
     public Exercice cursorToExercice(Cursor curseur) {
         Double tempsRepos = 0D;
         Integer idExercice = curseur.getInt(0);

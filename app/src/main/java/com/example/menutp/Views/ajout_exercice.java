@@ -24,6 +24,8 @@ import java.util.List;
 
 public class ajout_exercice extends AppCompatActivity {
     private static int idSeance;
+    private static int idExAsuppr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +50,6 @@ public class ajout_exercice extends AppCompatActivity {
         terminer.setOnClickListener(controleur);
 
 
-
-
     }
 
     @Override
@@ -59,16 +59,21 @@ public class ajout_exercice extends AppCompatActivity {
         AccesLocal accesLocal = new AccesLocal(this);
         idSeance = getIntent().getIntExtra("ID_SEANCE", -1);
 
+        rafraichirListeExercice(this);
+
+
+
+    }
+    public void rafraichirListeExercice(Context context){
+        AccesLocal accesLocal = new AccesLocal(ajout_exercice.this);
         List<Exercice> exerciceList = accesLocal.getExerciceSeance(idSeance);
         List<String> exerciceStrings = new ArrayList<>();
         for (Exercice ex : exerciceList) {
-            exerciceStrings.add(ex.toString() + " " +accesLocal.getNomExercice(ex.getIdType()));
+            exerciceStrings.add(ex.toString() + " " + accesLocal.getNomExercice(ex.getIdType()));
         }
         final ListView listView = findViewById(R.id.Lv_ExerciceSeance);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, exerciceStrings);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(ajout_exercice.this, android.R.layout.simple_list_item_1, exerciceStrings);
         listView.setAdapter(adapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -82,7 +87,22 @@ public class ajout_exercice extends AppCompatActivity {
         });
 
 
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                AccesLocal accesLocal = new AccesLocal(ajout_exercice.this);
+                List<Exercice> exerciceList = accesLocal.getExerciceSeance(idSeance);
+                Button btn_Suppr = findViewById(R.id.btn_Supprimer);
+                btn_Suppr.setVisibility(View.VISIBLE);
+                idExAsuppr = exerciceList.get(position).getIdExercice();
+
+                btn_Suppr.setOnClickListener(new Controleur());
+
+                return true;
+            }
+        });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -94,21 +114,36 @@ public class ajout_exercice extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            if(v instanceof Button){
-                Button Bouton = (Button) v;
-                if(Bouton.getText().toString().equals(getString(R.string.newExercice))){
-                    Intent intent = new Intent(ajout_exercice.this, creer_modifier_Exercice.class);
-                    intent.putExtra("ID_SEANCE", ajout_exercice.idSeance);
+            if (v instanceof Button) {
 
-                    startActivity(intent);
+                Button Bouton = (Button) v;
+                if (Bouton.getText().toString().equals("Supprimer")) {
+                    AccesLocal accesLocal = new AccesLocal(ajout_exercice.this);
+                    accesLocal.supprimerExercice(idExAsuppr,idSeance);
+                    rafraichirListeExercice(ajout_exercice.this);
+                    Button btnSuppr = findViewById(R.id.btn_Supprimer);
+                    btnSuppr.setVisibility(View.INVISIBLE);
+                    Toast.makeText(ajout_exercice.this,"Suppression" ,Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Intent intent = new Intent(ajout_exercice.this, MainActivity.class);
-                    startActivity(intent);
+
+                    if (Bouton.getText().toString().equals(getString(R.string.newExercice))) {
+                        Intent intent = new Intent(ajout_exercice.this, creer_modifier_Exercice.class);
+                        intent.putExtra("ID_SEANCE", ajout_exercice.idSeance);
+
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(ajout_exercice.this,"Retour menu" ,Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(ajout_exercice.this, MainActivity.class);
+                        startActivity(intent);
+
+                    }
+
                 }
 
             }
-
         }
+
+
     }
 }
