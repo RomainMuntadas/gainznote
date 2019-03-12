@@ -39,15 +39,17 @@ public class ajout_exercice extends AppCompatActivity {
         getSupportActionBar().setTitle("Création de la séance");
 
         //On récupère l'id de la séance passée en parametre
-        this.idSeance = getIntent().getIntExtra("ID_SEANCE", -1);
-        if (this.idSeance == -1) {
+        idSeance = getIntent().getIntExtra("ID_SEANCE", -1);
+        if (idSeance == -1) {
             Toast.makeText(this, "Erreur de récupération de l'id", Toast.LENGTH_LONG).show();
         }
 
         Button terminer = findViewById(R.id.btn_Terminer);
         Button creerExo = findViewById(R.id.Btn_Nouveau);
+
         creerExo.setOnClickListener(controleur);
         terminer.setOnClickListener(controleur);
+
 
 
     }
@@ -64,8 +66,14 @@ public class ajout_exercice extends AppCompatActivity {
 
 
     }
+
+    /**
+     * Met a jour le listView en fonction de la BD. Ajoute les onItemClick
+     * @param context Activitée courante.
+     */
     public void rafraichirListeExercice(Context context){
-        AccesLocal accesLocal = new AccesLocal(ajout_exercice.this);
+
+       AccesLocal accesLocal = new AccesLocal(ajout_exercice.this);
         List<Exercice> exerciceList = accesLocal.getExerciceSeance(idSeance);
         List<String> exerciceStrings = new ArrayList<>();
         for (Exercice ex : exerciceList) {
@@ -77,12 +85,21 @@ public class ajout_exercice extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AccesLocal accesLocal = new AccesLocal(ajout_exercice.this);
-                List<Exercice> exerciceList = accesLocal.getExerciceSeance(idSeance);
-                Intent intent = new Intent(ajout_exercice.this, creer_modifier_Exercice.class);
-                intent.putExtra("ID_SEANCE", ajout_exercice.idSeance);
-                intent.putExtra("ID_EXERCICE", exerciceList.get(position).getIdExercice());
-                startActivity(intent);
+
+                Button btnSuppr = findViewById(R.id.btn_Supprimer);
+                //si le bouton supprimer est visible, on le désactive
+                if(btnSuppr.getVisibility() == View.VISIBLE){
+                    btnSuppr.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    AccesLocal accesLocal = new AccesLocal(ajout_exercice.this);
+                    List<Exercice> exerciceList = accesLocal.getExerciceSeance(idSeance);
+                    Intent intent = new Intent(ajout_exercice.this, creer_modifier_Exercice.class);
+                    intent.putExtra("ID_SEANCE", ajout_exercice.idSeance);
+                    intent.putExtra("ID_EXERCICE", exerciceList.get(position).getIdExercice());
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -114,6 +131,7 @@ public class ajout_exercice extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
+
             if (v instanceof Button) {
 
                 Button Bouton = (Button) v;
@@ -123,7 +141,7 @@ public class ajout_exercice extends AppCompatActivity {
                     rafraichirListeExercice(ajout_exercice.this);
                     Button btnSuppr = findViewById(R.id.btn_Supprimer);
                     btnSuppr.setVisibility(View.INVISIBLE);
-                    Toast.makeText(ajout_exercice.this,"Suppression" ,Toast.LENGTH_LONG).show();
+                    Toast.makeText(ajout_exercice.this,"" ,Toast.LENGTH_LONG).show();
                 }
                 else{
 
@@ -133,7 +151,7 @@ public class ajout_exercice extends AppCompatActivity {
 
                         startActivity(intent);
                     } else {
-                        Toast.makeText(ajout_exercice.this,"Retour menu" ,Toast.LENGTH_LONG).show();
+
                         Intent intent = new Intent(ajout_exercice.this, MainActivity.class);
                         startActivity(intent);
 
@@ -142,6 +160,7 @@ public class ajout_exercice extends AppCompatActivity {
                 }
 
             }
+
         }
 
 
