@@ -48,6 +48,8 @@ public class ajout_exercice extends AppCompatActivity {
         terminer.setOnClickListener(controleur);
 
 
+
+
     }
 
     @Override
@@ -62,10 +64,11 @@ public class ajout_exercice extends AppCompatActivity {
         for (Exercice ex : exerciceList) {
             exerciceStrings.add(ex.toString() + " " +accesLocal.getNomExercice(ex.getIdType()));
         }
-        ListView listView = findViewById(R.id.Lv_ExerciceSeance);
+        final ListView listView = findViewById(R.id.Lv_ExerciceSeance);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, exerciceStrings);
         listView.setAdapter(adapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
