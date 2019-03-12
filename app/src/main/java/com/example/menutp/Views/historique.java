@@ -1,6 +1,7 @@
 package com.example.menutp.Views;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -52,6 +53,17 @@ public class historique extends AppCompatActivity {
         ArrayAdapter<String> adapterString = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, seancesStr);
         listView.setAdapter(adapterString);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AccesLocal accesLocal = new AccesLocal(historique.this);
+                List<Seance> seanceList = controle.getToutesSeances(historique.this);
+                int idSeance =seanceList.get(position).getIdSeance();
+                Intent intent = new Intent(historique.this, ajout_exercice.class);
+                intent.putExtra("ID_SEANCE", idSeance);
+                startActivity(intent);
+            }
+        });
 
 
     }
