@@ -2,6 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColorSecondary">@color/colorText</item>
     </style>
         <!-- Customize your theme here. -->
     <style name = "CustomToolBarStyle" parent = "Theme.AppCompat.Light.NoActionBar">
@@ -16,7 +17,13 @@
         <item name = "android:dropDownVerticalOffset">-4dp</item>
     </style>
 
-    <style name="overFlowButtonStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+    <style name="AppTheme.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <!-- THIS is where you can color the arrow and the overflow button! -->
+        <item name="actionOverflowButtonStyle">@style/actionOverflowButtonStyle</item> <!-- sets the style for the overflow button -->
+    </style>
+
+    <!-- This style is where you define the tint color of your overflow menu button -->
+    <style name="actionOverflowButtonStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/colorText</item>
     </style>
 

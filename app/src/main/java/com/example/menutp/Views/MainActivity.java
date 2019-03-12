@@ -10,12 +10,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.menutp.Controles.Controle;
 import com.example.menutp.Modele.AccesLocal;
 import com.example.menutp.R;
+
+import java.lang.reflect.Field;
 
 public class MainActivity extends AppCompatActivity {
     Controle controle;
@@ -31,9 +35,7 @@ public class MainActivity extends AppCompatActivity {
         //Mise en place de la toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
-
-
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //VIDAGE DE LA BDD POUR TESTS
 
@@ -64,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         //endregion
 
 
-
         //Passage à la création d'une nouvelle seance
         btn_nouveau.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     public void setFont(TextView textView, String fontName) {
@@ -102,8 +102,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        Intent i = new Intent(MainActivity.this, NouvelleSeance.class);
+        startActivity(i);
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        return super.onMenuOpened(featureId, menu);
+    }
+
+    @Override
+    public void onPanelClosed(int featureId, Menu menu) {
+        super.onPanelClosed(featureId, menu);
     }
 
     @Override
