@@ -18,7 +18,7 @@ public class AccesLocal {
     private Integer versionBase = 1;
     private MySQLiteOpenHelper accesBd;
     private SQLiteDatabase bd;
-    private static Utilisateur utilisateur = new Utilisateur();
+    private static Utilisateur utilisateur;
     private String type_Exercice =
             "CREATE TABLE TYPE_EXERICE("
                     + " ID_TYPE INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -34,6 +34,7 @@ public class AccesLocal {
      */
     public AccesLocal(Context contexte) {
         accesBd = new MySQLiteOpenHelper(contexte, nomBase, null, versionBase);
+        utilisateur = Utilisateur.getInstance(contexte);
     }
     //region methodes de Seance
 
@@ -130,16 +131,14 @@ public class AccesLocal {
      * A faire à chaque fois que l'on modifie les données de l'utilisateur
      */
     public void sauvegarderUtilisateur() {
-        this.utilisateur = Utilisateur.getInstance();
         bd = accesBd.getWritableDatabase();
-        String req = "UPDATE UTILISATEUR"
-                + "SET NOM = " + utilisateur.getNom()
-                + "SET PRENOM = " + utilisateur.getPrenom()
-                + "SET POID = " + Double.toString(utilisateur.getPoid())
-                + "SET DATE_NAISSANCE = " + FileOperation.dateToString(utilisateur.getDateNaissance())
-                + "SET TAILLE = " + utilisateur.getTaille()
-                + "SET NB_SEANCE = " + Integer.toString(utilisateur.getNb_Seance())
-                + "SET LANGUE = " +utilisateur.getLangue() + ";";
+        String req = "UPDATE UTILISATEUR "
+                + "SET NOM = \'" + utilisateur.getNom() + "\', "
+                + "PRENOM = \'" + utilisateur.getPrenom() + "\', "
+                + "POID = " + Double.toString(utilisateur.getPoid()) + ", "
+                + "DATE_NAISSANCE = \'" + FileOperation.dateToString(utilisateur.getDateNaissance()) + "\', "
+                + "TAILLE = " + utilisateur.getTaille() + ", "
+                + "NB_SEANCE = " + Integer.toString(utilisateur.getNb_Seance()) + ";";
         bd.execSQL(req);
     }
 
@@ -148,14 +147,12 @@ public class AccesLocal {
      * en fonction de la BD
      */
     public void initialiserUtilisateur(Context context) {
-        this.utilisateur = Utilisateur.getInstance();
         bd = accesBd.getReadableDatabase();
 
         String req = "Select * from Utilisateur";
 //NE SE FAIT QUE SI LA BD EST VIDE (1ER LANCEMENT DE L'APPLI )
 // NB: ACTUELLEMENT ELLE SE VIDE AUTOMATIQUEMENT
         Cursor curseur = bd.rawQuery(req, null);
-        this.utilisateur = Utilisateur.getInstance();
         if (curseur != null && curseur.moveToFirst()) {
             utilisateur.setNom(curseur.getString(0));
             utilisateur.setPrenom(curseur.getString(2));
@@ -163,7 +160,6 @@ public class AccesLocal {
             utilisateur.setDateNaissance(FileOperation.stringToDate(curseur.getString(4)));
             utilisateur.setTaille(Double.parseDouble(curseur.getString(5)));
             utilisateur.setNb_Seance(curseur.getInt(6));
-            utilisateur.setLangue(curseur.getString(7));
 
         } else {
             this.utilisateur = Utilisateur.getInstance(context);
@@ -174,8 +170,7 @@ public class AccesLocal {
                     + Double.toString(utilisateur.getPoid()) + ","
                     + "\"" + utilisateur.getDateNaissance() + "\","
                     + Double.toString(utilisateur.getTaille()) + ","
-                    + utilisateur.getNb_Seance() + ","
-                    + "\"" + utilisateur.getLangue()+ "\"" +")";
+                    + utilisateur.getNb_Seance()+")";
             bd = accesBd.getWritableDatabase();
             bd.execSQL(req);
 

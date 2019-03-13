@@ -15,10 +15,11 @@
     <string name="newExercice">Ajouter un exercice</string>
     <string name="finAjout">Terminer</string>
     <string name="SpinnerGroupeDefault">Selectionne un groupe musculaire</string>
-    <string name="Param">PARAMETRES</string>
+    <string name="Param">Paramètres</string>
     <string name="Langue">Langue</string>
     <string name="LangueFR">Français</string>
     <string name="LangueAR">Arabe</string>
+    <string name="infoUser">Utilisateur</string>
 
     <string name="TextTypeDefaut">Selectionne un exercice</string>
     <string name="terminer">Terminer</string>
@@ -29,6 +30,12 @@
         <item>Jambes</item>
         <item>Pecs</item>
         <item>Bras</item>
+    </string-array>
+
+    <string-array name="parametres">
+        <item>Utilisateur</item>
+        <item>Exercices</item>
+        <item>Aide</item>
     </string-array>
 
 </resources>

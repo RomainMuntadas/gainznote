@@ -17,22 +17,23 @@ public final class Utilisateur {
     private double taille=50.0;
     private Integer nb_Seance =3 ;
     private static Utilisateur instance = null;
-    private String langue = "Français";
 
-    public Utilisateur(){
-
+    private Utilisateur(String nom, String prenom, Double poid, Date dateNaissance, double taille, Integer nb_Seance) {
+        super();
+        this.nom = nom;
+        this.prenom = prenom;
+        this.poid = poid;
+        this.dateNaissance = dateNaissance;
+        this.taille = taille;
+        this.nb_Seance = nb_Seance;
     }
 
-    public static final Utilisateur getInstance(Context contexte) {
+    public static synchronized Utilisateur getInstance(Context contexte) {
         if (Utilisateur.instance == null) {
-            Utilisateur.instance = new Utilisateur();
-
+            Utilisateur.instance = new Utilisateur("Muntadas", "Romain", 70.0, FileOperation.stringToDate("25/03/1999"), 176, 3);
         }
         return Utilisateur.instance;
     }
-
-    public void setLangue(String langue) {this.langue = langue;}
-
 
     public void setNom(String nom) {
         this.nom = nom;
@@ -75,7 +76,7 @@ public final class Utilisateur {
     }
 
     public Date getDateNaissance() {
-        return dateNaissance;
+        return new Date();
     }
 
     public double getTaille() {
@@ -85,8 +86,6 @@ public final class Utilisateur {
     public Integer getNb_Seance() {
         return nb_Seance;
     }
-
-    public String getLangue() {return this.langue;}
 
     public static Utilisateur getInstance() {
         return instance;
