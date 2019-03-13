@@ -12,7 +12,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".Views.Stats"></activity>
-        <activity android:name=".Views.ParamUser" />
+
         <activity android:name=".Views.Parametres" />
         <activity
             android:name=".Views.creer_modifier_Exercice"
