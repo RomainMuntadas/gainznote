@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Gainz Note</string>
-    <string name="menu_title">TEST</string>
     <string name="titre"> GaINz NoTe</string>
     <string name="version">Version 0.1</string>
     <string name="nb_gainz">21</string>
@@ -20,9 +19,10 @@
     <string name="LangueFR">Français</string>
     <string name="LangueAR">Arabe</string>
     <string name="infoUser">Utilisateur</string>
-
     <string name="TextTypeDefaut">Selectionne un exercice</string>
     <string name="terminer">Terminer</string>
+    <string name="stats">Stats</string>
+    <string name="title_stat">Statistiques</string>
 
     <string-array name="seances">
         <item>Autre</item>

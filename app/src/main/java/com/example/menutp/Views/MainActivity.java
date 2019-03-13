@@ -107,6 +107,11 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(MainActivity.this, Parametres.class);
             startActivity(i);
         }
+        else if (item.getTitle() == getResources().getString(R.string.stats))
+        {
+            Intent i = new Intent(MainActivity.this, Stats.class);
+            startActivity(i);
+        }
         return super.onOptionsItemSelected(item);
     }
 
