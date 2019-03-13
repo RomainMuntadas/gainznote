@@ -113,7 +113,8 @@ public class ajout_exercice extends AppCompatActivity {
                 Button btn_Suppr = findViewById(R.id.btn_Supprimer);
                 btn_Suppr.setVisibility(View.VISIBLE);
                 idExAsuppr = exerciceList.get(position).getIdExercice();
-
+                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                v.vibrate(500);
                 btn_Suppr.setOnClickListener(new Controleur());
 
                 return true;
