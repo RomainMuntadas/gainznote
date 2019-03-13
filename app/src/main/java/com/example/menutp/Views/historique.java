@@ -65,6 +65,29 @@ public class historique extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        
+              listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                AccesLocal accesLocal = new AccesLocal(historique.this);
+                List<Seance> SeanceList = accesLocal.getAllSeance();
+                Button btn_Suppr = findViewById(R.id.btn_SupprimerSeance);
+                btn_Suppr.setVisibility(View.VISIBLE);
+                idExAsuppr = seanceList.get(position).getIdSeance();
+                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                v.vibrate(500);
+                btn_Suppr.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(historique.this,"Suppression", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                return true;
+            }
+        });
+
+
 
 
     }
