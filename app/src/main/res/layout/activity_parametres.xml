@@ -13,6 +13,16 @@
     app:layout_constraintEnd_toEndOf="parent"
     tools:layout_editor_absoluteY="0dp" />
 
+    <Button
+        android:id="@+id/btn_viderBDD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Vider BDD"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar" />
 
 
 </android.support.constraint.ConstraintLayout>
