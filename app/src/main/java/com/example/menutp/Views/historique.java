@@ -1,7 +1,9 @@
 package com.example.menutp.Views;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,8 +30,10 @@ public class historique extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private static Controle controle;
+
     private AccesLocal accesLocal;
 
+    private int idSeanceASuppr;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +45,16 @@ public class historique extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Historique des séances");
+        rafraichirSeries(this);
 
+
+
+
+
+    }
+
+
+    public void rafraichirSeries(Context context){
         //On recupere la liste de toutes les seances
         final List<Seance> seanceList = controle.getToutesSeances(this);
         List<String> seancesStr = new ArrayList<String>();
@@ -60,39 +74,29 @@ public class historique extends AppCompatActivity {
                 AccesLocal accesLocal = new AccesLocal(historique.this);
                 List<Seance> seanceList = controle.getToutesSeances(historique.this);
                 int idSeance =seanceList.get(position).getIdSeance();
-                Intent intent = new Intent(historique.this, ajout_exercice.class);
+                Intent intent = new Intent(historique.this, NouvelleSeance.class);
                 intent.putExtra("ID_SEANCE", idSeance);
                 startActivity(intent);
             }
         });
-        
-              listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 AccesLocal accesLocal = new AccesLocal(historique.this);
                 List<Seance> SeanceList = accesLocal.getAllSeance();
                 Button btn_Suppr = findViewById(R.id.btn_SupprimerSeance);
                 btn_Suppr.setVisibility(View.VISIBLE);
-                idExAsuppr = seanceList.get(position).getIdSeance();
+                idSeanceASuppr = seanceList.get(position).getIdSeance();
                 Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 v.vibrate(500);
-                btn_Suppr.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(historique.this,"Suppression", Toast.LENGTH_LONG).show();
-                    }
-                });
+                btn_Suppr.setOnClickListener(new Controleur());
 
                 return true;
             }
         });
 
-
-
-
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -108,5 +112,17 @@ public class historique extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    class Controleur implements View.OnClickListener{
 
+        @Override
+        public void onClick(View v) {
+            if(v instanceof Button){
+                Button button = (Button) v;
+                AccesLocal accesLocal = new AccesLocal(historique.this);
+                accesLocal.supprimerSeance(idSeanceASuppr);
+                rafraichirSeries(historique.this);
+                button.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
 }

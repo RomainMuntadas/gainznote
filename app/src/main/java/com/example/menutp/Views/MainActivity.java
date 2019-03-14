@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //VIDAGE DE LA BDD POUR TESTS
-        this.deleteDatabase("bdGainzNote.sqlite");
+        //this.deleteDatabase("bdGainzNote.sqlite");
 
         //region Récupération des textviews
         TextView version = (TextView) findViewById(R.id.version);
