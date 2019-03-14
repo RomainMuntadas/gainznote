@@ -25,7 +25,7 @@
     <string name="title_stat">Statistiques</string>
     <string name="titleModifSeance">Modification de séance</string>
 
-    <string-array name="seances">
+    <string-array id= "test" name="seances">
         <item>Autre</item>
         <item>Dos</item>
         <item>Jambes</item>
