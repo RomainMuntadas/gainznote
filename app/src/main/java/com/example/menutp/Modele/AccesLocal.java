@@ -101,10 +101,60 @@ public class AccesLocal {
     }
 
     /**
+     * Supprime toute la séance ainsi que ses dépendances (exercices, series)
+     *
+     * @param idSeance id de la seance a supprimer
+     */
+    public void supprimerSeance(int idSeance) {
+        bd = accesBd.getWritableDatabase();
+        List<Exercice> listExercices = getExerciceSeance(idSeance);
+        for (Exercice e : listExercices) {
+            supprimerSerieExercice(e.getIdExercice());
+            supprimerExercice(e.getIdExercice(), idSeance);
+        }
+        String req = "DELETE FROM SEANCE WHERE idSeance =" + idSeance + ";";
+        bd.execSQL(req);
+    }
+
+    /**
+     * Retourne un objet seance de l'id donné
+     * @param idSeance id de la séance
+     * @return l'objet seance
+     */
+    public Seance getSeanceFromId(int idSeance) {
+        bd = accesBd.getReadableDatabase();
+        Seance seance = null;
+        String req = "SELECT * FROM SEANCE WHERE idSeance = " + idSeance + ";";
+        Cursor curseur = bd.rawQuery(req, null);
+        curseur.moveToFirst();
+        if(!curseur.isAfterLast()){
+            seance = cursorToSeance(curseur);
+        }
+        curseur.close();
+        return seance;
+    }
+
+    /**
+     * Met a jour la séance donnée dans la bd
+     * @param seance objet contenant les données a mettre a jour
+     */
+    public void mettreAjourSeance(Seance seance) {
+        bd = accesBd.getWritableDatabase();
+        String req = "UPDATE SEANCE " +
+                "SET nomSeance = \""+seance.getNomSeance()+"\"," +
+                "dateSeance = \""+FileOperation.dateToString(seance.getDateSeance())+"\"," +
+                "typeSeance = \""+seance.getTypeSeance()+"\"," +
+                "dureeSeance = "+seance.getDureeSeance()+"," +
+                "notes = \""+seance.getNotes()+"\"" +
+                "WHERE idSeance ="+seance.getIdSeance()+";";
+        bd.execSQL(req);
+
+    }
+    /**
      * Permet de créer une seance directement avec un curseur
      *
-     * @param curseur
-     * @return
+     * @param curseur curseur résultant d'une requête rawQuery
+     * @return une séance contenant son ID d'apres la bd
      */
     public Seance cursorToSeance(Cursor curseur) {
         int idSeance = curseur.getInt(0);
@@ -117,12 +167,13 @@ public class AccesLocal {
         seance.setIdSeance(idSeance);
         return seance;
     }
+
+
     //endregion
 
     //region Methodes d'utilisateur
 
-    public Utilisateur getUtilisateur()
-    {
+    public Utilisateur getUtilisateur() {
         return this.utilisateur;
     }
 
@@ -170,7 +221,7 @@ public class AccesLocal {
                     + Double.toString(utilisateur.getPoid()) + ","
                     + "\"" + utilisateur.getDateNaissance() + "\","
                     + Double.toString(utilisateur.getTaille()) + ","
-                    + utilisateur.getNb_Seance()+")";
+                    + utilisateur.getNb_Seance() + ")";
             bd = accesBd.getWritableDatabase();
             bd.execSQL(req);
 
@@ -337,6 +388,7 @@ public class AccesLocal {
 
     /**
      * Récupère le dernier exercice crée
+     *
      * @return
      */
     public Exercice getLastExo() {
@@ -380,8 +432,9 @@ public class AccesLocal {
 
     /**
      * Récupere un objet exercice a partir de son id
+     *
      * @param idExercice id de l'exercice
-     * @return
+     * @return L'exercice correspondant a l'id
      */
     public Exercice getExercice(int idExercice) {
         bd = accesBd.getReadableDatabase();
@@ -395,7 +448,8 @@ public class AccesLocal {
 
     /**
      * Met a jour dans la base de donnée
-     * @param exercice objet contenant les données a changer
+     *
+     * @param exercice   objet contenant les données a changer
      * @param idExercice id de l'exercice a modifier
      */
     public void miseAJourExercice(Exercice exercice, int idExercice) {
@@ -411,18 +465,23 @@ public class AccesLocal {
 
     /**
      * Supprime l'exercice de la séance passée en parametre
+     *
      * @param idExercice id de l'exercice
-     * @param idSeance id de la séance
+     * @param idSeance   id de la séance
      */
-    public void supprimerExercice(int idExercice, int idSeance){
+    public void supprimerExercice(int idExercice, int idSeance) {
         bd = accesBd.getWritableDatabase();
+        supprimerSerieExercice(idExercice);
         String req = "DELETE FROM EXERCICE" +
-                " WHERE ID_EXERCICE = "+idExercice+"" +
-                " AND ID_SEANCE = "+idSeance+";";
+                " WHERE ID_EXERCICE = " + idExercice + "" +
+                " AND ID_SEANCE = " + idSeance + ";";
+
         bd.execSQL(req);
     }
+
     /**
-     * Récupère un objet a partir d'un curseur
+     * Récupère un objet a partir d'un curseur. Set l'id de l'exercice de la bd dans l'objet exercice
+     *
      * @param curseur curseur résultant d'une requete rawQuery
      * @return Un objet exercice
      */
@@ -446,10 +505,13 @@ public class AccesLocal {
 
     //endregion
 
+    //region Methode de séries
 
-    //Region Methode de séries
-
-
+    /**
+     * Ajoute une série a un exercice.
+     *
+     * @param serie Contient l'id de l'exercice
+     */
     public void addSerie(Serie serie) {
 
         bd = accesBd.getWritableDatabase();
@@ -461,6 +523,12 @@ public class AccesLocal {
 
     }
 
+    /**
+     * Compte le nombre de séries d'un exercice donné.
+     *
+     * @param exercice
+     * @return
+     */
     public int countSerieExercice(Exercice exercice) {
         int nbSerie = -1;
         bd = accesBd.getReadableDatabase();
@@ -472,6 +540,12 @@ public class AccesLocal {
         return nbSerie;
     }
 
+    /**
+     * Retourne 1 serie d'un exercice. Utilisé car les séries sont toutes identiques pour un exercice donné pour l'instant
+     *
+     * @param exercice
+     * @return
+     */
     public Serie getUneSerie(Exercice exercice) {
 
         bd = accesBd.getReadableDatabase();
@@ -484,12 +558,29 @@ public class AccesLocal {
         return serie;
     }
 
+    /**
+     * Modifie les séries dans la bd d'apres les données entrées dans creer_modifier_exercice
+     *
+     * @param serie
+     * @param idExercice
+     */
     public void miseAJourSeries(Serie serie, int idExercice) {
         bd = accesBd.getWritableDatabase();
         String req = "UPDATE SERIE "
                 + "SET REPETITIONS = " + serie.getNbRepetitions() + ","
                 + "POIDS = \"" + serie.getPoid() + "\" "
                 + "WHERE ID_EXERCICE =" + idExercice + ";";
+        bd.execSQL(req);
+    }
+
+    /**
+     * Supprime les séries d'un exercice / Utilisé pour supprimer toutes traces d'un exercice
+     *
+     * @param idExercice
+     */
+    public void supprimerSerieExercice(int idExercice) {
+        bd = accesBd.getWritableDatabase();
+        String req = "DELETE FROM SERIE WHERE ID_EXERCICE = " + idExercice + ";";
         bd.execSQL(req);
     }
 
@@ -508,6 +599,7 @@ public class AccesLocal {
         String req = "delete from Seance";
         bd.execSQL(req);
     }
+
 
 
 }

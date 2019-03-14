@@ -151,9 +151,8 @@ public class ajout_exercice extends AppCompatActivity {
                     AccesLocal accesLocal = new AccesLocal(ajout_exercice.this);
                     accesLocal.supprimerExercice(idExAsuppr,idSeance);
                     rafraichirListeExercice(ajout_exercice.this);
-                    Button btnSuppr = findViewById(R.id.btn_Supprimer);
-                    btnSuppr.setVisibility(View.INVISIBLE);
-                    Toast.makeText(ajout_exercice.this,"" ,Toast.LENGTH_LONG).show();
+                    v.setVisibility(View.INVISIBLE);
+                    Toast.makeText(ajout_exercice.this,"Suppression" ,Toast.LENGTH_LONG).show();
                 }
                 else{
 

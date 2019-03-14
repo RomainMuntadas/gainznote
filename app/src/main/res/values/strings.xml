@@ -12,7 +12,7 @@
     <string name="txtBtnCommencer">Commencer</string>
     <string name="ficListeSeance">ListeSeance</string>
     <string name="newExercice">Ajouter un exercice</string>
-    <string name="finAjout">Terminer</string>
+    <string name="finAjoutModif">Terminer</string>
     <string name="SpinnerGroupeDefault">Selectionne un groupe musculaire</string>
     <string name="Param">Paramètres</string>
     <string name="Langue">Langue</string>
@@ -20,15 +20,16 @@
     <string name="LangueAR">Arabe</string>
     <string name="infoUser">Utilisateur</string>
     <string name="TextTypeDefaut">Selectionne un exercice</string>
-    <string name="terminer">Terminer</string>
+    <string name="terminer">terminer</string>
     <string name="stats">Stats</string>
     <string name="title_stat">Statistiques</string>
+    <string name="titleModifSeance">Modification de séance</string>
 
     <string-array name="seances">
         <item>Autre</item>
         <item>Dos</item>
         <item>Jambes</item>
-        <item>Pecs</item>
+        <item>Pectoraux</item>
         <item>Bras</item>
     </string-array>
 
