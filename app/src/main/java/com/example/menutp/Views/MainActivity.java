@@ -18,12 +18,15 @@ import android.widget.Toast;
 
 import com.example.menutp.Controles.Controle;
 import com.example.menutp.Modele.AccesLocal;
+import com.example.menutp.Modele.Utilisateur;
 import com.example.menutp.R;
 
 import java.lang.reflect.Field;
 
 public class MainActivity extends AppCompatActivity {
     Controle controle;
+    Utilisateur user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +34,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.layout);
         controle = Controle.getInstance(this);
 
+        //VIDAGE DE LA BDD POUR TESTS
+        //this.deleteDatabase("bdGainzNote.sqlite");
+
         AccesLocal accesLocal = new AccesLocal(this);
+        user = Utilisateur.getInstance(getApplicationContext());
+        accesLocal.initialiserUtilisateur(getApplicationContext());
+        if(user.getNb_Seance() == -1)
+        {
+            Intent i = new Intent(MainActivity.this, Parametres.class);
+            i.putExtra("firstUse", true);
+            startActivity(i);
+        }
+
 
         //Mise en place de la toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        //VIDAGE DE LA BDD POUR TESTS
-        //this.deleteDatabase("bdGainzNote.sqlite");
 
         //region Récupération des textviews
         TextView version = (TextView) findViewById(R.id.version);

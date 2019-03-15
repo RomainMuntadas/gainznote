@@ -1,9 +1,12 @@
 package com.example.menutp.Views;
 
 import android.arch.lifecycle.AndroidViewModel;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -38,6 +41,7 @@ public class Parametres extends AppCompatActivity {
     AccesLocal accesLocal = new AccesLocal(this);
     Utilisateur user;
     String sexe;
+    Boolean firstUse = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,11 @@ public class Parametres extends AppCompatActivity {
         setContentView(R.layout.activity_parametres);
 
         user = Utilisateur.getInstance(this);
+
+        if(getIntent().getBooleanExtra("firstUse", false))
+        {
+            this.firstUse = true;
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -62,7 +71,10 @@ public class Parametres extends AppCompatActivity {
         accesLocal.initialiserUtilisateur(getApplicationContext());
 
         final TextInputEditText nbSeances = findViewById(R.id.NB_SEANCES);
-        nbSeances.setText(user.getNb_Seance().toString());
+        if(!this.firstUse)
+            nbSeances.setText(user.getNb_Seance().toString());
+        else
+            nbSeances.setText(new Integer(3).toString());
 
         final TextInputEditText username = findViewById(R.id.username);
         username.setText(user.getUsername());
@@ -79,17 +91,12 @@ public class Parametres extends AppCompatActivity {
         valider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("username apres init", user.getUsername());
-                Log.i("username normalement", username.getText().toString());
                 int nbSeancesInt = Integer.parseInt(nbSeances.getText().toString().replaceAll("[^0-9]", ""));
                 user.setNb_Seance(nbSeancesInt);
                 user.setUsername(username.getText().toString());
                 user.setSexe(sexe);
-                Log.i("username apres set", user.getUsername());
                 accesLocal.sauvegarderUtilisateur();
-                Log.i("username apres save", user.getUsername());
                 accesLocal.initialiserUtilisateur(getApplicationContext());
-                Log.i("username apres init", user.getUsername());
                 Intent i = new Intent(Parametres.this, MainActivity.class);
                 startActivity(i);
             }
@@ -120,6 +127,12 @@ public class Parametres extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!this.firstUse)
+            super.onBackPressed();
     }
 
     @Override

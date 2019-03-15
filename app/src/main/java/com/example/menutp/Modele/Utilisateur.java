@@ -25,7 +25,7 @@ public final class Utilisateur {
 
     public static synchronized Utilisateur getInstance(Context contexte) {
         if (Utilisateur.instance == null) {
-            Utilisateur.instance = new Utilisateur("Utilisateur", "M",3);
+            Utilisateur.instance = new Utilisateur("Utilisateur", "M",-1);
         }
         return Utilisateur.instance;
     }
