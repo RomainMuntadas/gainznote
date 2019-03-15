@@ -184,11 +184,8 @@ public class AccesLocal {
     public void sauvegarderUtilisateur() {
         bd = accesBd.getWritableDatabase();
         String req = "UPDATE UTILISATEUR "
-                + "SET NOM = \'" + utilisateur.getNom() + "\', "
-                + "PRENOM = \'" + utilisateur.getPrenom() + "\', "
-                + "POID = " + Double.toString(utilisateur.getPoid()) + ", "
-                + "DATE_NAISSANCE = \'" + FileOperation.dateToString(utilisateur.getDateNaissance()) + "\', "
-                + "TAILLE = " + utilisateur.getTaille() + ", "
+                + "SET USERNAME = \'" + utilisateur.getUsername() + "\', "
+                + "SEXE = \'" + utilisateur.getSexe() + "\',"
                 + "NB_SEANCE = " + Integer.toString(utilisateur.getNb_Seance()) + ";";
         bd.execSQL(req);
     }
@@ -205,26 +202,18 @@ public class AccesLocal {
 // NB: ACTUELLEMENT ELLE SE VIDE AUTOMATIQUEMENT
         Cursor curseur = bd.rawQuery(req, null);
         if (curseur != null && curseur.moveToFirst()) {
-            utilisateur.setNom(curseur.getString(0));
-            utilisateur.setPrenom(curseur.getString(2));
-            utilisateur.setPoid(Double.parseDouble(curseur.getString(3)));
-            utilisateur.setDateNaissance(FileOperation.stringToDate(curseur.getString(4)));
-            utilisateur.setTaille(Double.parseDouble(curseur.getString(5)));
-            utilisateur.setNb_Seance(curseur.getInt(6));
+            utilisateur.setUsername(curseur.getString(1));
+            utilisateur.setNb_Seance(curseur.getInt(3));
+            utilisateur.setSexe(curseur.getString(2));
 
         } else {
             this.utilisateur = Utilisateur.getInstance(context);
-            utilisateur.setPrenom("test");
-            req = "INSERT INTO UTILISATEUR (NOM, PRENOM, POID, DATE_NAISSANCE, TAILLE, NB_SEANCE, LANGUE) VALUES("
-                    + "\"" + utilisateur.getNom() + "\","
-                    + "\"" + utilisateur.getPrenom() + "\","
-                    + Double.toString(utilisateur.getPoid()) + ","
-                    + "\"" + utilisateur.getDateNaissance() + "\","
-                    + Double.toString(utilisateur.getTaille()) + ","
+            req = "INSERT INTO UTILISATEUR (USERNAME, SEXE, NB_SEANCE) VALUES("
+                    + "\"" + utilisateur.getUsername() + "\","
+                    + "\"" + utilisateur.getSexe() + "\","
                     + utilisateur.getNb_Seance() + ")";
             bd = accesBd.getWritableDatabase();
             bd.execSQL(req);
-
         }
         curseur.close();
 

@@ -18,11 +18,8 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
     private String utilisateur =
             "CREATE TABLE IF NOT EXISTS UTILISATEUR("
                     + "ID_UTILISATEUR INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "NOM TEXT NOT NULL,"
-                    + "PRENOM TEXT NOT NULL,"
-                    + "POID TEXT NOT NULL,"
-                    + "DATE_NAISSANCE TEXT NOT NULL,"
-                    + "TAILLE TEXT NOT NULL,"
+                    + "USERNAME TEXT NOT NULL,"
+                    + "SEXE TEXT NOT NULL,"
                     + "NB_SEANCE INTEGER NOT NULL);";
 
 
