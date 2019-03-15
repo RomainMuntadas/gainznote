@@ -118,6 +118,7 @@ public class AccesLocal {
 
     /**
      * Retourne un objet seance de l'id donné
+     *
      * @param idSeance id de la séance
      * @return l'objet seance
      */
@@ -127,7 +128,7 @@ public class AccesLocal {
         String req = "SELECT * FROM SEANCE WHERE idSeance = " + idSeance + ";";
         Cursor curseur = bd.rawQuery(req, null);
         curseur.moveToFirst();
-        if(!curseur.isAfterLast()){
+        if (!curseur.isAfterLast()) {
             seance = cursorToSeance(curseur);
         }
         curseur.close();
@@ -136,20 +137,35 @@ public class AccesLocal {
 
     /**
      * Met a jour la séance donnée dans la bd
+     *
      * @param seance objet contenant les données a mettre a jour
      */
     public void mettreAjourSeance(Seance seance) {
         bd = accesBd.getWritableDatabase();
         String req = "UPDATE SEANCE " +
-                "SET nomSeance = \""+seance.getNomSeance()+"\"," +
-                "dateSeance = \""+FileOperation.dateToString(seance.getDateSeance())+"\"," +
-                "typeSeance = \""+seance.getTypeSeance()+"\"," +
-                "dureeSeance = "+seance.getDureeSeance()+"," +
-                "notes = \""+seance.getNotes()+"\"" +
-                "WHERE idSeance ="+seance.getIdSeance()+";";
+                "SET nomSeance = \"" + seance.getNomSeance() + "\"," +
+                "dateSeance = \"" + FileOperation.dateToString(seance.getDateSeance()) + "\"," +
+                "typeSeance = \"" + seance.getTypeSeance() + "\"," +
+                "dureeSeance = " + seance.getDureeSeance() + "," +
+                "notes = \"" + seance.getNotes() + "\"" +
+                "WHERE idSeance =" + seance.getIdSeance() + ";";
         bd.execSQL(req);
 
     }
+
+    public int countNbSeanceType(String type) {
+        bd = accesBd.getReadableDatabase();
+        int nbSeance = 0;
+        String req = "SELECT COUNT(*) FROM SEANCE WHERE typeSeance = \"" + type + "\";";
+        Cursor curseur = bd.rawQuery(req, null);
+        curseur.moveToFirst();
+        if (!curseur.isAfterLast()) {
+            nbSeance = curseur.getInt(0);
+        }
+        return nbSeance;
+
+    }
+
     /**
      * Permet de créer une seance directement avec un curseur
      *
@@ -317,14 +333,18 @@ public class AccesLocal {
 
     public TypeExercice getTypeFromString(String nomType) {
         bd = accesBd.getReadableDatabase();
-        String req = "SELECT * FROM TYPE_EXERCICE WHERE NOM = " + nomType + ';';
+        String req = "SELECT * FROM TYPE_EXERCICE WHERE NOM = \"" + nomType + "\";";
         Cursor curseur = bd.rawQuery(req, null);
-        TypeExercice type = curseurToTypeExercice(curseur);
+        curseur.moveToFirst();
+        TypeExercice type = null;
         if (!curseur.isAfterLast()) {
-            return type;
+            type = curseurToTypeExercice(curseur);
         }
+
         curseur.close();
-        return null;
+        return type;
+
+
 
     }
 
@@ -340,16 +360,19 @@ public class AccesLocal {
     }
 
     public TypeExercice curseurToTypeExercice(Cursor curseur) {
+        TypeExercice type = null;
         if (!curseur.isAfterLast()) {
-            if (curseur.getInt(3) == 0) {
-                return new TypeExercice(curseur.getString(1), curseur.getString(2), false);
 
+            if (curseur.getInt(3) == 0) {
+                type = new TypeExercice(curseur.getString(1), curseur.getString(2), false);
+                type.setIdType(curseur.getInt(0));
             } else {
 
-                return new TypeExercice(curseur.getString(1), curseur.getString(2), true);
+                type = new TypeExercice(curseur.getString(1), curseur.getString(2), true);
+                type.setIdType(curseur.getInt(0));
             }
         }
-        return null;
+        return type;
     }
 
 
@@ -419,6 +442,7 @@ public class AccesLocal {
 
     }
 
+
     /**
      * Récupere un objet exercice a partir de son id
      *
@@ -468,6 +492,51 @@ public class AccesLocal {
         bd.execSQL(req);
     }
 
+    public List<Exercice> getToutLesExerciceDeType(TypeExercice typeExercice) {
+        bd = accesBd.getReadableDatabase();
+        String req = "SELECT * FROM EXERCICE WHERE ID_TYPE = " + typeExercice.getIdType() + ";";
+        Cursor curseur = bd.rawQuery(req, null);
+        curseur.moveToFirst();
+        List<Exercice> listExercice = new ArrayList<>();
+        if (!curseur.isAfterLast()) {
+            while (!curseur.isLast()) {
+                listExercice.add(cursorToExercice(curseur));
+                curseur.moveToNext();
+            }
+        }
+        curseur.close();
+        return listExercice;
+    }
+
+    /**
+     * Retourne la moyenne de poid utilisé pour un exercice donné
+     *
+     * @param exercice exercice dont on cherche a trouverl le poid
+     * @return le poids moyen de l'exercice
+     */
+    public Double getPoidMoyenExercice(Exercice exercice) {
+        bd = accesBd.getReadableDatabase();
+        String req = "SELECT POIDS FROM SERIE WHERE ID_EXERCICE = " + exercice.getIdExercice() + ";";
+        Cursor curseur = bd.rawQuery(req, null);
+        List<Double> poids = new ArrayList<>();
+        curseur.moveToFirst();
+        double poidmoyen = 0;
+        if (!curseur.isAfterLast()) {
+            while (!curseur.isLast()) {
+                poids.add(Double.parseDouble(curseur.getString(0)));
+                poidmoyen += Double.parseDouble(curseur.getString(0));
+                curseur.moveToNext();
+            }
+        }
+        poidmoyen = poidmoyen / poids.size();
+        curseur.close();
+
+        return poidmoyen;
+    }
+
+    /**
+     * Clean la bd
+     */
     /**
      * Récupère un objet a partir d'un curseur. Set l'id de l'exercice de la bd dans l'objet exercice
      *
@@ -491,6 +560,7 @@ public class AccesLocal {
         exercice.setIdExercice(idExercice);
         return exercice;
     }
+
 
     //endregion
 
@@ -580,15 +650,12 @@ public class AccesLocal {
     }
     //endregion
 
-    /**
-     * Clean la bd
-     */
+
     public void viderBdd() {
         bd = accesBd.getWritableDatabase();
         String req = "delete from Seance";
         bd.execSQL(req);
     }
-
 
 
 }

@@ -4,6 +4,7 @@ public class TypeExercice {
     private String nom;
     private String groupeMusculaire;
     private boolean est_polyarticulaire;
+    private int idType;
 
     public TypeExercice(String nom, String musclePrimaire, boolean est_polyarticulaire) {
         this.nom = nom;
@@ -31,5 +32,12 @@ public class TypeExercice {
         }
         return res;
 
+    }
+
+    public void setIdType(int id_type){
+        this.idType = id_type;
+    }
+    public int getIdType() {
+        return this.idType;
     }
 }

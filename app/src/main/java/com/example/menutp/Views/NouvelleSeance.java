@@ -116,7 +116,25 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
             btn_editerExo.setOnClickListener(controleur);
         }
         //  btnType.setOnClickListener(controleurTypeSeance);
-        btnDate.setOnClickListener(controleur);
+        btnDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                c = Calendar.getInstance();
+
+                int day = c.get(Calendar.DAY_OF_MONTH);
+                int month = c.get(Calendar.MONTH);
+                int year = c.get(Calendar.YEAR);
+
+                dpd = new DatePickerDialog(NouvelleSeance.this, new DatePickerDialog.OnDateSetListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        btnDate.setText(dayOfMonth + "/" + month + "/" + year);
+                    }
+                }, day, month, year);
+                dpd.show();
+            }
+        });
         btn_valider.setOnClickListener(controleur);
 
         final TextView textDate = (TextView) findViewById(R.id.datePicker);
@@ -288,20 +306,8 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
                         startActivity(intent);
 
                     default:
-                        c = Calendar.getInstance();
 
-                        int day = c.get(Calendar.DAY_OF_MONTH);
-                        int month = c.get(Calendar.MONTH);
-                        int year = c.get(Calendar.YEAR);
-
-                        dpd = new DatePickerDialog(NouvelleSeance.this, new DatePickerDialog.OnDateSetListener() {
-                            @SuppressLint("SetTextI18n")
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                btnDate.setText(dayOfMonth + "/" + month + "/" + year);
-                            }
-                        }, day, month, year);
-                        dpd.show();
+                        break;
 
                 }
 
