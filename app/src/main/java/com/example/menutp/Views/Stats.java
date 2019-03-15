@@ -1,11 +1,13 @@
 package com.example.menutp.Views;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.menutp.Modele.AccesLocal;
@@ -130,5 +132,19 @@ public class Stats extends AppCompatActivity {
         series.setSpacing(10);
 
         graph.addSeries(series);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.toString() == getResources().getString(R.string.Param)) {
+            Intent i = new Intent(Stats.this, Parametres.class);
+            startActivity(i);
+        }
+        else if (item.getTitle() == getResources().getString(R.string.stats))
+        {
+            Intent i = new Intent(Stats.this, Stats.class);
+            startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
