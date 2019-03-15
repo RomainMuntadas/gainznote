@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.menutp.Controles.Controle;
 import com.example.menutp.Modele.AccesLocal;
+import com.example.menutp.Modele.Utilisateur;
 import com.example.menutp.Outils.FileOperation;
 import com.example.menutp.R;
 import com.example.menutp.Modele.Seance;
@@ -60,6 +61,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nouvelle_seance);
         Controleur controleur = new Controleur();
+
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
@@ -281,7 +283,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
                         Seance seance = new Seance(nomSeance, TypeSeance, dateSeance, dureeSeance, notes);
                         //sauvegarde de la seance
                         accesLocal.addSeance(seance);
-
+                        Log.i("date seance", FileOperation.dateToString(seance.getDateSeance()));
                         Intent intent = new Intent(NouvelleSeance.this, ajout_exercice.class);
                         //ATTENTION Le getLastSeance ne marchera que dans le cadre de la création d'une séance
                         intent.putExtra("ID_SEANCE", accesLocal.getLastSeance().getIdSeance());
@@ -302,6 +304,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
                         seance = recupererDonneeSeance();
                         seance.setIdSeance(getIdSeanceModif());
                         accesLocal.mettreAjourSeance(seance);
+
                         intent = new Intent(NouvelleSeance.this, MainActivity.class);
                         startActivity(intent);
 

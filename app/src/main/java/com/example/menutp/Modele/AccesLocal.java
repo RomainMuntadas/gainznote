@@ -10,6 +10,8 @@ import com.example.menutp.Outils.MySQLiteOpenHelper;
 import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class AccesLocal {
@@ -98,6 +100,17 @@ public class AccesLocal {
         }
         curseur.close();
         return seances;
+    }
+
+    public Integer getNbGainz() {
+        bd = accesBd.getReadableDatabase();
+        Calendar now = Calendar.getInstance();
+        Integer month = now.get(Calendar.MONTH)+1;
+        Integer year = now.get(Calendar.YEAR);
+        String req ="SELECT * FROM Seance " +
+                "WHERE dateSeance LIKE '%/"+String.format("%02d", month)+"/"+year+"';'";
+        Cursor mCount= bd.rawQuery(req, null);
+        return mCount.getCount();
     }
 
     /**
@@ -202,6 +215,8 @@ public class AccesLocal {
         String req = "UPDATE UTILISATEUR "
                 + "SET USERNAME = \'" + utilisateur.getUsername() + "\', "
                 + "SEXE = \'" + utilisateur.getSexe() + "\',"
+                + "NB_GAINZ = " + Integer.toString(utilisateur.getNbGainz()) + ","
+                + "NB_FAIBLE = " + Integer.toString(utilisateur.getNbFaible()) + ","
                 + "NB_SEANCE = " + Integer.toString(utilisateur.getNb_Seance()) + ";";
         bd.execSQL(req);
     }
@@ -219,14 +234,18 @@ public class AccesLocal {
         Cursor curseur = bd.rawQuery(req, null);
         if (curseur != null && curseur.moveToFirst()) {
             utilisateur.setUsername(curseur.getString(1));
-            utilisateur.setNb_Seance(curseur.getInt(3));
             utilisateur.setSexe(curseur.getString(2));
+            utilisateur.setNbGainz(curseur.getInt(3));
+            utilisateur.setNbFaible(curseur.getInt(4));
+            utilisateur.setNb_Seance(curseur.getInt(5));
 
         } else {
             this.utilisateur = Utilisateur.getInstance(context);
-            req = "INSERT INTO UTILISATEUR (USERNAME, SEXE, NB_SEANCE) VALUES("
+            req = "INSERT INTO UTILISATEUR (USERNAME, SEXE, NB_GAINZ, NB_FAIBLE, NB_SEANCE) VALUES("
                     + "\"" + utilisateur.getUsername() + "\","
                     + "\"" + utilisateur.getSexe() + "\","
+                    + utilisateur.getNbGainz() + ","
+                    + utilisateur.getNbFaible() + ","
                     + utilisateur.getNb_Seance() + ")";
             bd = accesBd.getWritableDatabase();
             bd.execSQL(req);

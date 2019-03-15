@@ -20,6 +20,8 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
                     + "ID_UTILISATEUR INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "USERNAME TEXT NOT NULL,"
                     + "SEXE TEXT NOT NULL,"
+                    + "NB_GAINZ INTEGER NOT NULL,"
+                    + "NB_FAIBLE INTEGER NOT NULL,"
                     + "NB_SEANCE INTEGER NOT NULL);";
 
 

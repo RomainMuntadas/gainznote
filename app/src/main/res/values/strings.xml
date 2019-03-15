@@ -5,7 +5,7 @@
     <string name="nb_gainz">21</string>
     <string name="nb_faible">3</string>
     <string name="btn_newSeance">Nouvelle Seance</string>
-    <string name="teamFaible">Team Salope</string>
+    <string name="teamFaible">Team Gros Lard</string>
     <string name="Historique">Mes seances</string>
     <string name="titreNewSeance">Nouvelle Seance</string>
     <string name="date">Date Seance</string>
@@ -24,6 +24,7 @@
     <string name="stats">Stats</string>
     <string name="title_stat">Statistiques</string>
     <string name="titleModifSeance">Modification de séance</string>
+    <string name="teamGainz">Team Gainz</string>
 
     <string-array id= "test" name="seances">
         <item>Autre</item>

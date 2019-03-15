@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.menutp.Controles.Controle;
 import com.example.menutp.Modele.AccesLocal;
 import com.example.menutp.Modele.Utilisateur;
+import com.example.menutp.Outils.FileOperation;
 import com.example.menutp.R;
 
 import java.lang.reflect.Field;
@@ -58,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
         TextView edition = (TextView) findViewById(R.id.edition);
         TextView gainz = (TextView) findViewById(R.id.gainz);
         TextView score_gainz = (TextView) findViewById(R.id.nb_gainz);
+        score_gainz.setText(accesLocal.getNbGainz().toString());
         TextView score_faible = (TextView) findViewById(R.id.nb_faible);
+        score_faible.setText(user.getNbFaible().toString());
         TextView faible = (TextView) findViewById(R.id.faible);
         //endregion
 
