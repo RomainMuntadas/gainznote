@@ -1,4 +1,4 @@
-﻿package com.example.menutp.Modele;
+package com.example.menutp.Modele;
 
 import android.content.Context;
 import android.database.Cursor;
