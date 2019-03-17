@@ -1,4 +1,4 @@
-package com.example.menutp.Modele;
+﻿package com.example.menutp.Modele;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -58,7 +58,7 @@ public class AccesLocal {
     /**
      * Recuperation de la derniere seance de la base de donnee.
      *
-     * @return
+     *
      */
     public Seance getLastSeance() {
         bd = accesBd.getReadableDatabase();
