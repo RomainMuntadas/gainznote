@@ -7,10 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.menutp.Outils.FileOperation;
 import com.example.menutp.Outils.MySQLiteOpenHelper;
 
-import java.io.File;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -82,11 +81,13 @@ public class AccesLocal {
     /**
      * Cree une liste de toutes les séances
      *
-     * @return une liste des séances
+     * @return une liste des séances triée de la plus récente a la plus ancienne
      */
     public List<Seance> getAllSeance() {
         bd = accesBd.getReadableDatabase();
+
         List<Seance> seances = new ArrayList<Seance>();
+        List<Seance> seanceListDescendant = new ArrayList<>();
         String req = "Select * from Seance";
         Cursor curseur = bd.rawQuery(req, null);
         curseur.moveToFirst();
@@ -98,19 +99,47 @@ public class AccesLocal {
 
             }
         }
+        Collections.sort(seances, new Comparateur());
+        for (int i = seances.size() - 1; i > 0; i--) {
+            seanceListDescendant.add(seances.get(i));
+        }
         curseur.close();
-        return seances;
+        return seanceListDescendant;
     }
 
-    public Integer getNbGainz() {
+    /**
+     * Trie et range dans une liste les dates de seance d'un type
+     * @param type type de seance donné
+     * @return une liste dans l'ordre descendant des dates de seances
+     */
+    public List<Date> getDatesSeanceFromType(String type) {
         bd = accesBd.getReadableDatabase();
-        Calendar now = Calendar.getInstance();
-        Integer month = now.get(Calendar.MONTH)+1;
-        Integer year = now.get(Calendar.YEAR);
-        String req ="SELECT * FROM Seance " +
-                "WHERE dateSeance LIKE '%/"+String.format("%02d", month)+"/"+year+"';'";
-        Cursor mCount= bd.rawQuery(req, null);
-        return mCount.getCount();
+
+        List<Date> seances = new ArrayList<>();
+        List<Date> seanceListDescendant = new ArrayList<>();
+        String req = "Select distinct dateSeance from Seance s, Type_Exercice t, Exercice e WHERE s.IdSeance = e.id_Seance AND e.id_Type = t.id_Type AND t.Nom =\"" + type + "\";";
+        Cursor curseur = bd.rawQuery(req, null);
+        curseur.moveToFirst();
+        if (!curseur.isAfterLast()) {
+            seances.add(FileOperation.stringToDate(curseur.getString(0)));
+            while (!curseur.isLast()) {
+                curseur.moveToNext();
+                seances.add(FileOperation.stringToDate(curseur.getString(0)));
+
+            }
+        }
+        Collections.sort(seances, new Comparator<Date>() {
+            @Override
+            public int compare(Date o1, Date o2) {
+                return o1.compareTo(o2);
+            }
+        });
+        for (int i = seances.size() - 1; i > 0; i--) {
+            seanceListDescendant.add(seances.get(i));
+        }
+        curseur.close();
+        return seances;
+
     }
 
     /**
@@ -215,8 +244,6 @@ public class AccesLocal {
         String req = "UPDATE UTILISATEUR "
                 + "SET USERNAME = \'" + utilisateur.getUsername() + "\', "
                 + "SEXE = \'" + utilisateur.getSexe() + "\',"
-                + "NB_GAINZ = " + Integer.toString(utilisateur.getNbGainz()) + ","
-                + "NB_FAIBLE = " + Integer.toString(utilisateur.getNbFaible()) + ","
                 + "NB_SEANCE = " + Integer.toString(utilisateur.getNb_Seance()) + ";";
         bd.execSQL(req);
     }
@@ -234,18 +261,14 @@ public class AccesLocal {
         Cursor curseur = bd.rawQuery(req, null);
         if (curseur != null && curseur.moveToFirst()) {
             utilisateur.setUsername(curseur.getString(1));
+            utilisateur.setNb_Seance(curseur.getInt(3));
             utilisateur.setSexe(curseur.getString(2));
-            utilisateur.setNbGainz(curseur.getInt(3));
-            utilisateur.setNbFaible(curseur.getInt(4));
-            utilisateur.setNb_Seance(curseur.getInt(5));
 
         } else {
             this.utilisateur = Utilisateur.getInstance(context);
-            req = "INSERT INTO UTILISATEUR (USERNAME, SEXE, NB_GAINZ, NB_FAIBLE, NB_SEANCE) VALUES("
+            req = "INSERT INTO UTILISATEUR (USERNAME, SEXE, NB_SEANCE) VALUES("
                     + "\"" + utilisateur.getUsername() + "\","
                     + "\"" + utilisateur.getSexe() + "\","
-                    + utilisateur.getNbGainz() + ","
-                    + utilisateur.getNbFaible() + ","
                     + utilisateur.getNb_Seance() + ")";
             bd = accesBd.getWritableDatabase();
             bd.execSQL(req);
@@ -362,7 +385,6 @@ public class AccesLocal {
 
         curseur.close();
         return type;
-
 
 
     }
@@ -513,13 +535,13 @@ public class AccesLocal {
 
     public List<Exercice> getToutLesExerciceDeType(TypeExercice typeExercice) {
         bd = accesBd.getReadableDatabase();
-        String req = "SELECT * FROM EXERCICE WHERE ID_TYPE = " + typeExercice.getIdType() + ";";
+        String req = "SELECT DISTINCT ID_EXERCICE FROM EXERCICE, TYPE_EXERCICE WHERE EXERCICE.ID_TYPE = " + typeExercice.getIdType() +" AND TYPE_EXERCICE.ID_TYPE = "+typeExercice.getIdType() + " AND TYPE_EXERCICE.NOM = \""+typeExercice.getNom()+"\";";
         Cursor curseur = bd.rawQuery(req, null);
         curseur.moveToFirst();
         List<Exercice> listExercice = new ArrayList<>();
         if (!curseur.isAfterLast()) {
             while (!curseur.isLast()) {
-                listExercice.add(cursorToExercice(curseur));
+                listExercice.add(getExercice(curseur.getInt(0)));
                 curseur.moveToNext();
             }
         }
@@ -552,6 +574,8 @@ public class AccesLocal {
 
         return poidmoyen;
     }
+
+
 
     /**
      * Clean la bd
@@ -677,4 +701,11 @@ public class AccesLocal {
     }
 
 
+    class Comparateur implements Comparator<Seance> {
+
+        @Override
+        public int compare(Seance o1, Seance o2) {
+            return o1.getDateSeance().compareTo(o2.getDateSeance());
+        }
+    }
 }

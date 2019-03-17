@@ -63,7 +63,7 @@ public class Parametres extends AppCompatActivity {
         bouton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                accesLocal.viderBdd();
+                Parametres.this.deleteDatabase("bdGainzNote.sqlite");;
             }
         });
 

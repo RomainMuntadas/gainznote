@@ -18,11 +18,13 @@ import android.widget.Toast;
 
 import com.example.menutp.Controles.Controle;
 import com.example.menutp.Modele.AccesLocal;
+import com.example.menutp.Modele.Exercice;
+import com.example.menutp.Modele.TypeExercice;
 import com.example.menutp.Modele.Utilisateur;
-import com.example.menutp.Outils.FileOperation;
 import com.example.menutp.R;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     Controle controle;
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         controle = Controle.getInstance(this);
 
         //VIDAGE DE LA BDD POUR TESTS
-        //this.deleteDatabase("bdGainzNote.sqlite");
+
 
         AccesLocal accesLocal = new AccesLocal(this);
         user = Utilisateur.getInstance(getApplicationContext());
@@ -47,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
             i.putExtra("firstUse", true);
             startActivity(i);
         }
-
+        TypeExercice typeExercice = accesLocal.getTypeFromString("Développé couché barre");
+        List<Exercice> listExercice = accesLocal.getToutLesExerciceDeType(typeExercice);
+        Toast.makeText(this, listExercice.size()+"", Toast.LENGTH_LONG).show();
 
         //Mise en place de la toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
@@ -59,9 +63,7 @@ public class MainActivity extends AppCompatActivity {
         TextView edition = (TextView) findViewById(R.id.edition);
         TextView gainz = (TextView) findViewById(R.id.gainz);
         TextView score_gainz = (TextView) findViewById(R.id.nb_gainz);
-        score_gainz.setText(accesLocal.getNbGainz().toString());
         TextView score_faible = (TextView) findViewById(R.id.nb_faible);
-        score_faible.setText(user.getNbFaible().toString());
         TextView faible = (TextView) findViewById(R.id.faible);
         //endregion
 

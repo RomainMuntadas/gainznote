@@ -96,7 +96,7 @@
                     tools:layout_editor_absoluteY="154dp" />
 
                 <com.jjoe64.graphview.GraphView
-                    android:id="@+id/graphExercice"
+                    android:id="@+id/graphExerciceLand"
                     android:layout_width="265dp"
                     android:layout_height="166dp"
                     android:layout_marginEnd="20dp"
