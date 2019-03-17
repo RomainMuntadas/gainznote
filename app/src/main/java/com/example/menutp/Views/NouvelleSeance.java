@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 import com.example.menutp.Controles.Controle;
 import com.example.menutp.Modele.AccesLocal;
-import com.example.menutp.Modele.Utilisateur;
 import com.example.menutp.Outils.FileOperation;
 import com.example.menutp.R;
 import com.example.menutp.Modele.Seance;
@@ -35,8 +34,10 @@ import com.example.menutp.Modele.Seance;
 import org.w3c.dom.Text;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 
 public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -63,7 +64,6 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
         Controleur controleur = new Controleur();
 
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(R.string.titreNewSeance));
@@ -88,7 +88,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
         // setFont(libelleSeance, "RyukExtra copy.ttf");
         setFont(btnDate, "death_font_ver1_0.ttf");
         setFont(Txt_Duree, "death_font_ver1_0.ttf");
-       // setFont(btn_valider, "death_font_ver1_0.ttf");
+        // setFont(btn_valider, "death_font_ver1_0.ttf");
         setFont(Txt_Notes, "RyukExtra copy.ttf");
         //setFont(, "death_font_ver1_0.ttf");
 
@@ -114,6 +114,10 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
             Txt_Notes.setText(seance.getNotes());
             btnDate.setText(FileOperation.dateToString(seance.getDateSeance()));
             libelleSeance.setText(seance.getNomSeance());
+            List<String> types = Arrays.asList(getResources().getStringArray(R.array.seances));
+            spinner_Type.setSelection(adapter.getPosition(seance.getTypeSeance()));
+
+
 
             btn_editerExo.setOnClickListener(controleur);
         }
@@ -172,13 +176,15 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
         EditText NomSeance = findViewById(R.id.Edit_NomSeance);
         Spinner spinner_Type = (Spinner) findViewById(R.id.spinner_Seance);
         TextView textDate = (TextView) findViewById(R.id.datePicker);
+        idSeanceModif = getIntent().getIntExtra("ID_SEANCE", -1);
+
         if (!spinner_Type.getSelectedItem().toString().equals("Autre")) {
+
             NomSeance.setText("Seance " + spinner_Type.getSelectedItem().toString() + " du " + textDate.getText());
         } else {
             NomSeance.setText("Seance du " + textDate.getText());
 
         }
-
 
     }
 
@@ -210,9 +216,10 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
 
     /**
      * Recupere les données dans les textView
+     *
      * @return un objet Seance contenant les données récupérées
      */
-    public Seance recupererDonneeSeance(){
+    public Seance recupererDonneeSeance() {
         AccesLocal accesLocal = new AccesLocal(NouvelleSeance.this);
         Spinner spinner_Type = (Spinner) findViewById(R.id.spinner_Seance);
         TextView libelleSeance = (TextView) findViewById(R.id.Edit_NomSeance);
@@ -239,6 +246,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
         return seance;
 
     }
+
     class Controleur implements View.OnClickListener {
         private AccesLocal accesLocal;
 
@@ -283,7 +291,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
                         Seance seance = new Seance(nomSeance, TypeSeance, dateSeance, dureeSeance, notes);
                         //sauvegarde de la seance
                         accesLocal.addSeance(seance);
-                        Log.i("date seance", FileOperation.dateToString(seance.getDateSeance()));
+
                         Intent intent = new Intent(NouvelleSeance.this, ajout_exercice.class);
                         //ATTENTION Le getLastSeance ne marchera que dans le cadre de la création d'une séance
                         intent.putExtra("ID_SEANCE", accesLocal.getLastSeance().getIdSeance());
@@ -304,7 +312,6 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
                         seance = recupererDonneeSeance();
                         seance.setIdSeance(getIdSeanceModif());
                         accesLocal.mettreAjourSeance(seance);
-
                         intent = new Intent(NouvelleSeance.this, MainActivity.class);
                         startActivity(intent);
 
@@ -313,9 +320,6 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
                         break;
 
                 }
-
-
-
 
 
             }

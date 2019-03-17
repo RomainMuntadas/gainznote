@@ -75,7 +75,7 @@
         android:layout_marginStart="48dp"
         android:layout_marginLeft="48dp"
         android:layout_marginTop="40dp"
-        android:text="@string/teamGainz"
+        android:text="Team Gainz"
         android:textColor="@color/colorText"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"

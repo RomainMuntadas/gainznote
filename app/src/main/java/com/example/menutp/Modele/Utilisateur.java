@@ -14,22 +14,18 @@ public final class Utilisateur {
     private String username;
     private Integer nb_Seance;
     private String sexe;
-    private Integer nbGainz;
-    private Integer nbFaible;
     private static Utilisateur instance = null;
 
-    private Utilisateur(String username, String sexe, Integer nbGainz, Integer nbFaible, Integer nb_Seance) {
+    private Utilisateur(String username, String sexe, Integer nb_Seance) {
         super();
         this.username = username;
         this.nb_Seance = nb_Seance;
         this.sexe = sexe;
-        this.nbGainz = nbGainz;
-        this.nbFaible = nbFaible;
     }
 
     public static synchronized Utilisateur getInstance(Context contexte) {
         if (Utilisateur.instance == null) {
-            Utilisateur.instance = new Utilisateur("Utilisateur", "M", 0, 0,-1);
+            Utilisateur.instance = new Utilisateur("Utilisateur", "M",-1);
         }
         return Utilisateur.instance;
     }
@@ -37,10 +33,6 @@ public final class Utilisateur {
     public void setUsername(String username) {
         this.username = username;
     }
-
-    public void setNbGainz(Integer nbGainz) {this.nbGainz = nbGainz;}
-
-    public void setNbFaible(Integer nbFaible) {this.nbFaible = nbFaible;}
 
     public void setSexe(String sexe)
     {
@@ -65,10 +57,6 @@ public final class Utilisateur {
     public Integer getNb_Seance() { return nb_Seance; }
 
     public String getSexe() {return this.sexe;}
-
-    public Integer getNbGainz(){return this.nbGainz;}
-
-    public Integer getNbFaible(){return this.nbFaible;}
 
     public static Utilisateur getInstance() {
         return instance;

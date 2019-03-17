@@ -6,4 +6,4 @@
     android:maxLines="1"
     android:textAlignment="center"
     android:textColor="@color/colorBackGround"
-    android:textSize="30sp" />
+    android:textSize="18sp" />

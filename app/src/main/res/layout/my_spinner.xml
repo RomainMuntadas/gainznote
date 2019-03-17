@@ -3,9 +3,8 @@
     android:id="@+id/text1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/border"
     android:maxLines="1"
     android:textAlignment="center"
     android:textColor="@color/colorText"
-    android:textSize="36sp"
+    android:textSize="24sp"
     />

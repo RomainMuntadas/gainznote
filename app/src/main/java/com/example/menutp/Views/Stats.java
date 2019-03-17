@@ -1,7 +1,6 @@
 package com.example.menutp.Views;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +10,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Surface;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.menutp.Modele.AccesLocal;
@@ -27,11 +30,11 @@ import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class Stats extends AppCompatActivity {
+public class Stats extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,20 +46,46 @@ public class Stats extends AppCompatActivity {
         getSupportActionBar().setTitle(getResources().getString(R.string.title_stat));
 
 
+
+
     }
 
     @Override
     protected void onStart() {
+        super.onStart();
+        AccesLocal accesLocal = new AccesLocal(this);
         afficherTypeSeance();
-        afficherPoidExercice("Développé couché barre");
+
+
+
+        Spinner spinnerExercice = findViewById(R.id.Spinner_Exercice);
+        ArrayAdapter<CharSequence> adapter =ArrayAdapter.createFromResource(this, R.array.exercicesStat, R.layout.my_spinner);
+        adapter.setDropDownViewResource(R.layout.my_spinner_drop_down);
+        spinnerExercice.setAdapter(adapter);
+        spinnerExercice.setOnItemSelectedListener(this);
+        afficherPoidExercice(spinnerExercice.getSelectedItem().toString());
+
+
+
+        //Traitement du passage en mode paysage
         Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
         int orientation = display.getRotation();
 
         if (orientation == Surface.ROTATION_90 || orientation == Surface.ROTATION_270) {
             setContentView(R.layout.activity_stat_landscape);
+            afficherPoidExercice(spinnerExercice.getSelectedItem().toString());
+            afficherTypeSeance();
+            Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle(getResources().getString(R.string.title_stat));
+
         }
-        ;
-        super.onStart();
+
+
+
+
+
+
     }
 
     @Override
@@ -66,8 +95,9 @@ public class Stats extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
     public void afficherPoidExercice(String nomType) {
-        GraphView graph = (GraphView) findViewById(R.id.graphExercice);
+
         AccesLocal accesLocal = new AccesLocal(Stats.this);
         List<Double> list = new ArrayList<>();
 
@@ -76,31 +106,42 @@ public class Stats extends AppCompatActivity {
         List<Exercice> listExercice = accesLocal.getToutLesExerciceDeType(typeExercice);
 
         List<Double> poidsMoyen = new ArrayList<>();
-        String[] dates = new String[listExercice.size()];
-
-        int i = 0;
-        for (Exercice e : listExercice) {
-            Seance s = accesLocal.getSeanceFromId(e.getIdSeance());
-            poidsMoyen.add(accesLocal.getPoidMoyenExercice(e));
-            dates[i] = FileOperation.dateToString(s.getDateSeance());
-            i++;
-        }
 
 
-        Toast.makeText(this, listExercice.size() + "", Toast.LENGTH_LONG).show();
-        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
-        if (dates.length >= 2) {
-            staticLabelsFormatter.setHorizontalLabels(dates);
-            graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+        List<Date> listSeance = accesLocal.getDatesSeanceFromType(nomType);
+        if (listSeance.size() > 2) {
+            String[] dates = new String[listSeance.size() + 1];
+            int i = 0;
 
-            LineGraphSeries<DataPoint> exercices = new LineGraphSeries<>(new DataPoint[]{});
-            for (i = 0; i < poidsMoyen.size(); i++) {
-                DataPoint dataPoint = new DataPoint(i, poidsMoyen.get(i));
-                exercices.appendData(dataPoint, true, poidsMoyen.size());
+            for (Exercice e : listExercice) {
+                poidsMoyen.add(accesLocal.getPoidMoyenExercice(e));
+                dates[i] = FileOperation.dateToString(listSeance.get(i));
+                i++;
             }
 
-            graph.getViewport().setScrollable(true);
-            graph.addSeries(exercices);
+
+
+
+            if (dates.length >= 2) {
+                GraphView graph = (GraphView) findViewById(R.id.graphExercice);
+                LineGraphSeries<DataPoint> exercices = new LineGraphSeries<>(new DataPoint[]{});
+                for (i = 0; i < poidsMoyen.size(); i++) {
+                    DataPoint dataPoint = new DataPoint(i, poidsMoyen.get(i));
+                    exercices.appendData(dataPoint, true, poidsMoyen.size());
+                }
+
+                StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
+                staticLabelsFormatter.setHorizontalLabels(dates);
+                graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+
+
+
+                graph.getViewport().setScrollable(true);
+                graph.addSeries(exercices);
+            }
+        }
+        else{
+            Toast.makeText(this, "Tu n'as pas encore assez fait cet exercice", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -158,4 +199,14 @@ public class Stats extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Spinner spinner_Exercice = (Spinner) findViewById(R.id.Spinner_Exercice);
+        afficherPoidExercice(spinner_Exercice.getSelectedItem().toString());
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }

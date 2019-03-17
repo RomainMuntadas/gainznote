@@ -1,9 +1,12 @@
 package com.example.menutp.Views;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Vibrator;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +27,8 @@ import com.example.menutp.Modele.Seance;
 import com.example.menutp.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class historique extends AppCompatActivity {
@@ -34,6 +39,8 @@ public class historique extends AppCompatActivity {
     private AccesLocal accesLocal;
 
     private int idSeanceASuppr;
+    @TargetApi(Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +58,10 @@ public class historique extends AppCompatActivity {
 
 
 
+
     }
+
+
 
 
     public void rafraichirSeries(Context context){
@@ -59,7 +69,8 @@ public class historique extends AppCompatActivity {
         final List<Seance> seanceList = controle.getToutesSeances(this);
         List<String> seancesStr = new ArrayList<String>();
 
-        //On convertit le tout en chaîne de caractère pour pouvoir l'afficher
+
+                //On convertit le tout en chaîne de caractère pour pouvoir l'afficher
         for (Seance s : seanceList) {
             seancesStr.add(s.toString());
         }
@@ -67,18 +78,28 @@ public class historique extends AppCompatActivity {
         ListView listView = findViewById(R.id.lv_Seance);
         ArrayAdapter<String> adapterString = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, seancesStr);
         listView.setAdapter(adapterString);
+        Button btn_Suppr = findViewById(R.id.btn_SupprimerSeance);
 
+
+        //Un click simple
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AccesLocal accesLocal = new AccesLocal(historique.this);
+                Button btn_Suppr = findViewById(R.id.btn_SupprimerSeance);
+                if(btn_Suppr.getVisibility() == View.VISIBLE){
+                    btn_Suppr.setVisibility(View.INVISIBLE);
+                }
                 List<Seance> seanceList = controle.getToutesSeances(historique.this);
                 int idSeance =seanceList.get(position).getIdSeance();
                 Intent intent = new Intent(historique.this, NouvelleSeance.class);
                 intent.putExtra("ID_SEANCE", idSeance);
                 startActivity(intent);
+
             }
         });
+
+        //un click long
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -114,7 +135,7 @@ public class historique extends AppCompatActivity {
     }
     class Controleur implements View.OnClickListener{
 
-        @Override
+
         public void onClick(View v) {
             if(v instanceof Button){
                 Button button = (Button) v;
@@ -125,4 +146,5 @@ public class historique extends AppCompatActivity {
             }
         }
     }
+
 }
