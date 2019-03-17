@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
         TextView score_gainz = (TextView) findViewById(R.id.nb_gainz);
         TextView score_faible = (TextView) findViewById(R.id.nb_faible);
         TextView faible = (TextView) findViewById(R.id.faible);
+
+        score_gainz.setText(accesLocal.getNbSeancesDuMois().toString());
         //endregion
 
         //region Récupération des boutons
