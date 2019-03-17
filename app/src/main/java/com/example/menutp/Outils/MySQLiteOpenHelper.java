@@ -75,14 +75,57 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         db.execSQL(seance);
         db.execSQL(exercice);
         db.execSQL(serie);
-        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY) VALUES(\"Développé couché barre\",\"Pectoraux\",1);");
-        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Développé couché haltères\",\"Pectoraux\",1);");
-        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Squat\",\"Jambes\",1);");
-        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Développé militaire\",\"Deltoïdes\",1);");
+
+
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Développé militaire\",\"Epaules\",1);");
         db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Curl haltères\",\"Bras\",0);");
         db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Leg extension\",\"Jambes\",0);");
         db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES (\"Leg curl\",\"Jambes\",0);");
+
+
+        //region Exercice Pectoraux
         db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Butterfly\",\"Pectoraux\",0);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Dips\",\"Pectoraux\",1);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Développé décliné\",\"Pectoraux\",1);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Développé incliné\",\"Pectoraux\",1);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Ecarté avec haltères\",\"Pectoraux\",0);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Ecarté au poulies\",\"Pectoraux\",0);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY) VALUES(\"Développé couché barre\",\"Pectoraux\",1);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Développé couché haltères\",\"Pectoraux\",1);");
+        //endregion
+
+        //region Exercices Dos
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Traction Prognation\",\"Dos\",1);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Rowing\",\"Dos\",1);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Tirage Vertical\",\"Dos\",1);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Tirage Horizontal\",\"Dos\",1);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Extension lombaire\",\"Dos\",1);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Pullover\",\"Dos\",1);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Shrug incliné\",\"Dos\",0);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Rowing unilateral\",\"Dos\",0);");
+
+
+        //endregion
+
+        //region Exercices Jambes
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Squat\",\"Jambes\",1);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Soulevé de terre\",\"Jambes\",1);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Presse\",\"Jambes\",1);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Leg Extension\",\"Jambes\",0);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Leg Curl\",\"Jambes\",0);");
+        db.execSQL("INSERT INTO TYPE_EXERCICE(NOM,GROUPE_MUSCULAIRE,EST_POLY)VALUES(\"Mollets debouts\",\"Jambes\",0);");
+
+
+
+        //endregion
+
+        //region Exercices Bras
+
+        //endregion
+
+
+
+
 
 
 

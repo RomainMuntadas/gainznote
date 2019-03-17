@@ -112,11 +112,14 @@ public class Stats extends AppCompatActivity implements AdapterView.OnItemSelect
         if (listSeance.size() > 2) {
             String[] dates = new String[listSeance.size() + 1];
             int i = 0;
+            int j=0;
 
             for (Exercice e : listExercice) {
-                poidsMoyen.add(accesLocal.getPoidMoyenExercice(e));
-                dates[i] = FileOperation.dateToString(listSeance.get(i));
-                i++;
+                if(i<5 && j<listSeance.size() + 1){
+                    poidsMoyen.add(accesLocal.getPoidMoyenExercice(e));
+                    dates[i] = FileOperation.dateToString(listSeance.get(i));
+                    i++;
+                }
             }
 
 
@@ -137,6 +140,8 @@ public class Stats extends AppCompatActivity implements AdapterView.OnItemSelect
 
 
                 graph.getViewport().setScrollable(true);
+                graph.getViewport().setScalable(true);
+
                 graph.addSeries(exercices);
             }
         }

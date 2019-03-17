@@ -71,9 +71,11 @@ public class historique extends AppCompatActivity {
 
 
                 //On convertit le tout en chaîne de caractère pour pouvoir l'afficher
+
         for (Seance s : seanceList) {
             seancesStr.add(s.toString());
         }
+        Toast.makeText(this, ""+ seancesStr.size(),Toast.LENGTH_LONG).show();
         //On place les chaines de chaque séance dans le listview.
         ListView listView = findViewById(R.id.lv_Seance);
         ArrayAdapter<String> adapterString = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, seancesStr);

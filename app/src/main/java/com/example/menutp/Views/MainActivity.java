@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         controle = Controle.getInstance(this);
 
         //VIDAGE DE LA BDD POUR TESTS
+        deleteDatabase("bdGainzNote.sqlite");
 
 
         AccesLocal accesLocal = new AccesLocal(this);
