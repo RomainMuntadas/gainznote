@@ -58,6 +58,7 @@ public class Stats extends AppCompatActivity implements AdapterView.OnItemSelect
 
 
 
+
         Spinner spinnerExercice = findViewById(R.id.Spinner_Exercice);
         ArrayAdapter<CharSequence> adapter =ArrayAdapter.createFromResource(this, R.array.exercicesStat, R.layout.my_spinner);
         adapter.setDropDownViewResource(R.layout.my_spinner_drop_down);
@@ -66,18 +67,26 @@ public class Stats extends AppCompatActivity implements AdapterView.OnItemSelect
         afficherPoidExercice(spinnerExercice.getSelectedItem().toString());
 
 
-
         //Traitement du passage en mode paysage
         Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
         int orientation = display.getRotation();
 
         if (orientation == Surface.ROTATION_90 || orientation == Surface.ROTATION_270) {
             setContentView(R.layout.activity_stat_landscape);
+
+            spinnerExercice = findViewById(R.id.Spinner_Exercice2);
+            ArrayAdapter<CharSequence> adapter2 =ArrayAdapter.createFromResource(this, R.array.exercicesStat, R.layout.my_spinner);
+            adapter.setDropDownViewResource(R.layout.my_spinner_drop_down);
+            spinnerExercice.setAdapter(adapter2);
+            adapter.setDropDownViewResource(R.layout.my_spinner_drop_down);
+
             afficherPoidExercice(spinnerExercice.getSelectedItem().toString());
             afficherTypeSeance();
             Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
             setSupportActionBar(toolbar);
             getSupportActionBar().setTitle(getResources().getString(R.string.title_stat));
+
+
 
         }
 
@@ -141,7 +150,7 @@ public class Stats extends AppCompatActivity implements AdapterView.OnItemSelect
 
                 graph.getViewport().setScrollable(true);
                 graph.getViewport().setScalable(true);
-
+                graph.getGridLabelRenderer().setLabelsSpace(30);
                 graph.addSeries(exercices);
             }
         }

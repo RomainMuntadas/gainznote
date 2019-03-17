@@ -3,13 +3,11 @@ package com.example.menutp.Modele;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.example.menutp.Outils.FileOperation;
 import com.example.menutp.Outils.MySQLiteOpenHelper;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -72,30 +70,6 @@ public class AccesLocal {
         curseur.close();
         return seance;
     }
-
-    /**
-     *
-     * @return nombre de séances effectuées dans le mois
-     */
-    public Integer getNbSeancesDuMois() {
-        Calendar now = Calendar.getInstance();
-        Integer month = now.get(Calendar.MONTH)+1;
-        Integer year = now.get(Calendar.YEAR);
-        bd = accesBd.getReadableDatabase();
-        String req = "Select * from Seance" +
-                " WHERE dateSeance LIKE '%/"+String.format("%02d", month)+"/"+year+"';";
-        Log.i("requete", req);
-        Cursor curseur = bd.rawQuery(req, null);
-        return curseur.getCount();
-    }
-
-    /*
-    public Integer calculNbFaible()
-    {
-        Integer nbSeancesDuMois = this.getNbSeancesDuMois();
-
-    }
-    */
 
     /**
      * A IMPLEMENTER, OU MODIFIER addSeance EN CONSEQUENCE
