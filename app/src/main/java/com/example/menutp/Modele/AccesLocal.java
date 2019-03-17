@@ -89,13 +89,12 @@ public class AccesLocal {
         return curseur.getCount();
     }
 
-    /*
     public Integer calculNbFaible()
     {
-        Integer nbSeancesDuMois = this.getNbSeancesDuMois();
-
+        Integer nbSeancesMois = getNbSeancesDuMois();
+        Integer nbSeances = utilisateur.getNb_Seance();
+        return nbSeancesMois - (nbSeances*4);
     }
-    */
 
     /**
      * A IMPLEMENTER, OU MODIFIER addSeance EN CONSEQUENCE

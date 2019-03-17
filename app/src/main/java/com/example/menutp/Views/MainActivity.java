@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         controle = Controle.getInstance(this);
 
         //VIDAGE DE LA BDD POUR TESTS
-        deleteDatabase("bdGainzNote.sqlite");
+        //deleteDatabase("bdGainzNote.sqlite");
 
 
         AccesLocal accesLocal = new AccesLocal(this);
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         TextView faible = (TextView) findViewById(R.id.faible);
 
         score_gainz.setText(accesLocal.getNbSeancesDuMois().toString());
+        score_faible.setText(accesLocal.calculNbFaible().toString());
         //endregion
 
         //region Récupération des boutons

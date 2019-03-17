@@ -63,7 +63,9 @@ public class Parametres extends AppCompatActivity {
         bouton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Parametres.this.deleteDatabase("bdGainzNote.sqlite");;
+                Parametres.this.deleteDatabase("bdGainzNote.sqlite");
+                Intent i = new Intent(Parametres.this, MainActivity.class);
+                startActivity(i);
             }
         });
 
