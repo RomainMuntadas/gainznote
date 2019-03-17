@@ -8,110 +8,6 @@
     tools:context=".Views.creer_modifier_Exercice">
 
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="127dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="67dp"
-        android:text="Répétitions"
-        android:textColor="@color/colorText"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ET_Notes"
-        app:layout_constraintEnd_toStartOf="@+id/ET_NbRepet"
-        app:layout_constraintTop_toBottomOf="@+id/ET_Poid"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/ET_NbRepet"
-        android:layout_width="51dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="23dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="23dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:text="12"
-        android:textColor="@color/colorText"
-        android:textColorHint="@color/colorText"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/ET_Notes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/unit2"
-        tools:hint="0" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="79dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginBottom="71dp"
-        android:text="Séries:"
-        android:textColor="@color/colorText"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ET_Notes"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.333" />
-
-    <EditText
-        android:id="@+id/ET_NbSeries"
-        android:layout_width="51dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:text="4"
-        android:textColor="@color/colorText"
-        android:textColorHint="@color/colorText"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/ET_Poid"
-        tools:hint="0" />
-
-    <TextView
-        android:id="@+id/unit2"
-        android:layout_width="76dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="23dp"
-        android:layout_marginLeft="23dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="23dp"
-        android:text="kg"
-        android:textColor="@color/colorText"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/ET_NbSeries"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.324"
-        app:layout_constraintStart_toEndOf="@+id/ET_Poid"
-        app:layout_constraintTop_toBottomOf="@+id/unit" />
-
-    <TextView
-        android:id="@+id/Poid"
-        android:layout_width="76dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Poids"
-        android:textColor="@color/colorText"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
     <include
         android:id="@+id/app_bar"
         layout="@layout/action_bar" />
@@ -119,10 +15,10 @@
     <Spinner
         android:id="@+id/Spinner_TypeExo"
         android:layout_width="395dp"
-        android:layout_height="61dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -149,48 +45,20 @@
 
     <TextView
         android:id="@+id/TypeChoisi"
-        android:layout_width="0dp"
+        android:layout_width="385dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="212dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="12dp"
         android:text="@string/TextTypeDefaut"
         android:textAlignment="center"
         android:textColor="@color/colorText"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Spinner_TypeExo" />
-
-    <EditText
-        android:id="@+id/ET_TempsRepos"
-        android:layout_width="52dp"
-        android:layout_height="44dp"
-        android:layout_marginEnd="144dp"
-        android:layout_marginRight="144dp"
-        android:ems="10"
-        android:hint="00:00"
-        android:inputType="time"
-        android:textColor="@color/colorText"
-        android:textColorHint="@color/colorText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TypeChoisi" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="182dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="2dp"
-        android:text="Temps de repos"
-        android:textColor="@color/colorText"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TypeChoisi" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/Btn_Valider"
@@ -198,7 +66,6 @@
         android:layout_height="44dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="36dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
@@ -206,42 +73,11 @@
         android:text="Valider"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ET_Notes" />
-
-    <EditText
-        android:id="@+id/ET_Poid"
-        android:layout_width="51dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="132dp"
-        android:layout_marginLeft="132dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:text="0"
-        android:textColor="@color/colorText"
-        android:textColorHint="@color/colorText"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/Poid"
-        app:layout_constraintTop_toBottomOf="@+id/ET_TempsRepos"
-        tools:hint="0" />
-
-    <TextView
-        android:id="@+id/unit"
-        android:layout_width="77dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:text="min "
-        android:textColor="@color/colorText"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TypeChoisi" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/ET_Notes"
-        android:layout_width="0dp"
+        android:layout_width="395dp"
         android:layout_height="52dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
@@ -252,11 +88,157 @@
         android:ems="10"
         android:hint="Notes"
         android:inputType="textMultiLine"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/Btn_Valider"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ET_NbSeries"
-        app:layout_constraintVertical_bias="0.144" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="373dp"
+        android:layout_height="204dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/ET_Notes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="182dp"
+                android:layout_height="44dp"
+                android:text="Temps de repos"
+                android:textColor="@color/colorText"
+                android:textSize="18sp"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="379dp" />
+
+            <EditText
+                android:id="@+id/ET_TempsRepos"
+                android:layout_width="52dp"
+                android:layout_height="44dp"
+                android:ems="10"
+                android:hint="00:00"
+                android:inputType="time"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorText"
+                android:textSize="18sp"
+                tools:layout_editor_absoluteX="215dp"
+                tools:layout_editor_absoluteY="378dp" />
+
+            <TextView
+                android:id="@+id/unit"
+                android:layout_width="77dp"
+                android:layout_height="45dp"
+                android:text="min "
+                android:textColor="@color/colorText"
+                android:textSize="18sp"
+                tools:layout_editor_absoluteX="302dp"
+                tools:layout_editor_absoluteY="378dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/Poid"
+                android:layout_width="76dp"
+                android:layout_height="44dp"
+                android:text="Poids"
+                android:textColor="@color/colorText"
+                android:textSize="18sp"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="430dp" />
+
+            <EditText
+                android:id="@+id/ET_Poid"
+                android:layout_width="51dp"
+                android:layout_height="42dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="0"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorText"
+                android:textSize="18sp"
+                tools:hint="0"
+                tools:layout_editor_absoluteX="216dp"
+                tools:layout_editor_absoluteY="430dp" />
+
+            <TextView
+                android:id="@+id/unit2"
+                android:layout_width="76dp"
+                android:layout_height="42dp"
+                android:text="kg"
+                android:textColor="@color/colorText"
+                android:textSize="18sp"
+                tools:layout_editor_absoluteX="302dp"
+                tools:layout_editor_absoluteY="427dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="79dp"
+                android:layout_height="44dp"
+                android:text="Séries:"
+                android:textColor="@color/colorText"
+                android:textSize="18sp"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="492dp" />
+
+            <EditText
+                android:id="@+id/ET_NbSeries"
+                android:layout_width="51dp"
+                android:layout_height="44dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="4"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorText"
+                android:textSize="18sp"
+                tools:hint="0"
+                tools:layout_editor_absoluteX="91dp"
+                tools:layout_editor_absoluteY="492dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="127dp"
+                android:layout_height="44dp"
+                android:text="Répétitions"
+                android:textColor="@color/colorText"
+                android:textSize="18sp"
+                tools:layout_editor_absoluteX="218dp"
+                tools:layout_editor_absoluteY="492dp" />
+
+            <EditText
+                android:id="@+id/ET_NbRepet"
+                android:layout_width="51dp"
+                android:layout_height="42dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="12"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorText"
+                android:textSize="18sp"
+                tools:hint="0"
+                tools:layout_editor_absoluteX="352dp"
+                tools:layout_editor_absoluteY="491dp" />
+        </TableRow>
+    </TableLayout>
 
 </android.support.constraint.ConstraintLayout>
