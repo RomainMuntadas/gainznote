@@ -9,10 +9,8 @@
     <string name="Historique">My sessions</string>
     <string name="titreNewSeance">New Session</string>
     <string name="date">Session date</string>
-    <string name="txtBtnCommencer">Start</string>
     <string name="ficListeSeance">Session list</string>
     <string name="newExercice">Add exercise</string>
-    <string name="finAjoutModif">Done</string>
     <string name="SpinnerGroupeDefault">Select a muscular group</string>
     <string name="Param">Settings</string>
     <string name="infoUser">User</string>
@@ -43,4 +41,9 @@
         <item>Curl haltères</item>
         <item>Butterfly</item>
     </string-array>
+    <string name="titleCreationSeance">Session creation</string>
+    <string name="ErrorGettingId">Error : couldnt get ID</string>
+    <string name="type0">Other</string>
+    <string name="Seance">Session</string>
+    <string name="Du">of</string>
 </resources>

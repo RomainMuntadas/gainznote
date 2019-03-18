@@ -15,9 +15,6 @@
     <string name="finAjoutModif">Terminer</string>
     <string name="SpinnerGroupeDefault">Selectionne un groupe musculaire</string>
     <string name="Param">Paramètres</string>
-    <string name="Langue">Langue</string>
-    <string name="LangueFR">Français</string>
-    <string name="LangueAR">Arabe</string>
     <string name="infoUser">Utilisateur</string>
     <string name="TextTypeDefaut">Selectionne un exercice</string>
     <string name="terminer">terminer</string>
@@ -46,4 +43,9 @@
         <item>Curl haltères</item>
         <item>Butterfly</item>
     </string-array>
+    <string name="titleCreationSeance">Création de la séance</string>
+    <string name="ErrorGettingId">Erreur de récupération de l\'ID</string>
+    <string name="type0">Autre</string>
+    <string name="Seance">Seance</string>
+    <string name="Du">du</string>
 </resources>

@@ -153,10 +153,10 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 EditText NomSeance = findViewById(R.id.Edit_NomSeance);
-                if (!spinner_Type.getSelectedItem().toString().equals("Autre")) {
-                    NomSeance.setText("Seance " + spinner_Type.getSelectedItem().toString() + " du " + textDate.getText());
+                if (!spinner_Type.getSelectedItem().toString().equals(getResources().getString(R.string.type0))) {
+                    NomSeance.setText(getResources().getString(R.string.Seance) + " " + spinner_Type.getSelectedItem().toString() + " " + getResources().getString(R.string.Du) + " " + textDate.getText());
                 } else {
-                    NomSeance.setText("Seance du " + textDate.getText());
+                    NomSeance.setText(getResources().getString(R.string.Seance) + " " + getResources().getString(R.string.Du) + " " + textDate.getText());
 
                 }
             }
@@ -178,14 +178,11 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
         TextView textDate = (TextView) findViewById(R.id.datePicker);
         idSeanceModif = getIntent().getIntExtra("ID_SEANCE", -1);
 
-        if (!spinner_Type.getSelectedItem().toString().equals("Autre")) {
-
-            NomSeance.setText("Seance " + spinner_Type.getSelectedItem().toString() + " du " + textDate.getText());
+        if (!spinner_Type.getSelectedItem().toString().equals(getResources().getString(R.string.type0))) {
+            NomSeance.setText(getResources().getString(R.string.Seance) + " " + spinner_Type.getSelectedItem().toString() + " " + getResources().getString(R.string.Du) + " " + textDate.getText());
         } else {
-            NomSeance.setText("Seance du " + textDate.getText());
-
+            NomSeance.setText(getResources().getString(R.string.Seance) + " " + getResources().getString(R.string.Du) + " " + textDate.getText());
         }
-
     }
 
     @Override
@@ -236,7 +233,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
 
 
         if (nomSeance.equals("")) {
-            nomSeance = "Seance" + TypeSeance;
+            nomSeance = getResources().getString(R.string.Seance) + " " + TypeSeance;
         }
         int dureeSeance = 0;
         if (!duree.getText().toString().equals("")) {
@@ -282,7 +279,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
 
 
                         if (nomSeance.equals("")) {
-                            nomSeance = "Seance" + TypeSeance;
+                            nomSeance = getResources().getString(R.string.Seance)+ " " + TypeSeance;
                         }
                         int dureeSeance = 0;
                         if (!duree.getText().toString().equals("")) {

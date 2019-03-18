@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Vibrator;
 import android.support.annotation.RequiresApi;
@@ -87,6 +88,8 @@ public class historique extends AppCompatActivity {
         SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), seances, android.R.layout.simple_list_item_2, from, to);
         listView.setAdapter(adapter);
         listView.setBackgroundColor(getResources().getColor(R.color.colorBackGround));
+        listView.setDivider(new ColorDrawable(getResources().getColor(R.color.colorText)));
+        listView.setDividerHeight(2);
 
         //Un click simple
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

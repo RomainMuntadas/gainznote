@@ -46,11 +46,11 @@ public class creer_modifier_Exercice extends AppCompatActivity implements Adapte
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Création de la séance");
+        getSupportActionBar().setTitle(getResources().getString(R.string.titleCreationSeance));
         //On récupère l'id de la séance passée en parametre
         this.idSeance = getIntent().getIntExtra("ID_SEANCE", -1);
         if (this.idSeance == -1) {
-            Toast.makeText(this, "Erreur de récupération de l'id", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.ErrorGettingId), Toast.LENGTH_LONG).show();
         }
 
 

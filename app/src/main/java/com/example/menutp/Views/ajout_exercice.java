@@ -38,12 +38,12 @@ public class ajout_exercice extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Création de la séance");
+        getSupportActionBar().setTitle(getResources().getString(R.string.titleCreationSeance));
 
         //On récupère l'id de la séance passée en parametre
         idSeance = getIntent().getIntExtra("ID_SEANCE", -1);
         if (idSeance == -1) {
-            Toast.makeText(this, "Erreur de récupération de l'id", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.ErrorGettingId), Toast.LENGTH_LONG).show();
         }
 
         Button terminer = findViewById(R.id.btn_Terminer);

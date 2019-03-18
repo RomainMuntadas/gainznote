@@ -77,14 +77,13 @@ public class MainActivity extends AppCompatActivity {
         //endregion
 
         //region SetFonts
-        setFont(version, "CloisterBlack copy.ttf");
+
         setFont(score_faible, "death_font_ver1_0.ttf");
         setFont(score_gainz, "death_font_ver1_0.ttf");
         setFont(edition, "RyukExtra copy.ttf");
-        setFont(btn_nouveau, "RyuksHandwriting copy.ttf");
-        setFont(btn_historique, "RyuksHandwriting copy.ttf");
         setFont(gainz, "RyuksHandwriting copy.ttf");
         setFont(faible, "RyuksHandwriting copy.ttf");
+
         //endregion
 
 
