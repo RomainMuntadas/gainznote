@@ -72,11 +72,13 @@ public class Parametres extends AppCompatActivity {
         user = Utilisateur.getInstance(this);
         accesLocal.initialiserUtilisateur(getApplicationContext());
 
-        final TextInputEditText nbSeances = findViewById(R.id.NB_SEANCES);
-        if(!this.firstUse)
-            nbSeances.setText(user.getNb_Seance().toString());
+
+        final TextInputEditText joursSeances = findViewById(R.id.JoursSeances);
+        if(this.firstUse)
+            joursSeances.setText("");
         else
-            nbSeances.setText(new Integer(3).toString());
+            joursSeances.setText(user.getSeances());
+
 
         final TextInputEditText username = findViewById(R.id.username);
         username.setText(user.getUsername());
@@ -93,8 +95,7 @@ public class Parametres extends AppCompatActivity {
         valider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int nbSeancesInt = Integer.parseInt(nbSeances.getText().toString().replaceAll("[^0-9]", ""));
-                user.setNb_Seance(nbSeancesInt);
+                user.setSeances(joursSeances.getText().toString());
                 user.setUsername(username.getText().toString());
                 user.setSexe(sexe);
                 accesLocal.sauvegarderUtilisateur();

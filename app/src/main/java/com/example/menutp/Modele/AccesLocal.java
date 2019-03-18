@@ -8,7 +8,9 @@ import android.util.Log;
 import com.example.menutp.Outils.FileOperation;
 import com.example.menutp.Outils.MySQLiteOpenHelper;
 
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -77,7 +79,7 @@ public class AccesLocal {
      *
      * @return nombre de séances effectuées dans le mois
      */
-    public Integer getNbSeancesDuMois() {
+    public Integer getNbSeancesEffectuees() {
         Calendar now = Calendar.getInstance();
         Integer month = now.get(Calendar.MONTH)+1;
         Integer year = now.get(Calendar.YEAR);
@@ -89,11 +91,24 @@ public class AccesLocal {
         return curseur.getCount();
     }
 
-    public Integer calculNbFaible()
+    public Integer getNbSeancesDefinies()
     {
-        Integer nbSeancesMois = getNbSeancesDuMois();
-        Integer nbSeances = utilisateur.getNb_Seance();
-        return nbSeancesMois - (nbSeances*4);
+        String[] joursDefinis = FileOperation.stringToArray(utilisateur.getSeances());
+        int nbJoursDefinis = 0;
+        Calendar now = Calendar.getInstance();
+        int day = now.get(Calendar.DAY_OF_MONTH);
+        int month = now.get(Calendar.MONTH);
+        int year = now.get(Calendar.YEAR);
+        DateFormatSymbols dfs = new DateFormatSymbols();
+        now.set(year, month, 1);
+        for(int i = 1; i <= day; i++)
+        {
+            String jourActuel = dfs.getWeekdays()[now.get(Calendar.DAY_OF_WEEK)];
+            if(Arrays.asList(joursDefinis).contains(jourActuel))
+                nbJoursDefinis++;
+            now.add(Calendar.DATE, 1);
+        }
+        return nbJoursDefinis;
     }
 
     /**
@@ -269,7 +284,7 @@ public class AccesLocal {
         String req = "UPDATE UTILISATEUR "
                 + "SET USERNAME = \'" + utilisateur.getUsername() + "\', "
                 + "SEXE = \'" + utilisateur.getSexe() + "\',"
-                + "NB_SEANCE = " + Integer.toString(utilisateur.getNb_Seance()) + ";";
+                + "SEANCES = \'" + utilisateur.getSeances() + "\';";
         bd.execSQL(req);
     }
 
@@ -286,15 +301,15 @@ public class AccesLocal {
         Cursor curseur = bd.rawQuery(req, null);
         if (curseur != null && curseur.moveToFirst()) {
             utilisateur.setUsername(curseur.getString(1));
-            utilisateur.setNb_Seance(curseur.getInt(3));
+            utilisateur.setSeances(curseur.getString(3));
             utilisateur.setSexe(curseur.getString(2));
 
         } else {
             this.utilisateur = Utilisateur.getInstance(context);
-            req = "INSERT INTO UTILISATEUR (USERNAME, SEXE, NB_SEANCE) VALUES("
+            req = "INSERT INTO UTILISATEUR (USERNAME, SEXE, SEANCES) VALUES("
                     + "\"" + utilisateur.getUsername() + "\","
                     + "\"" + utilisateur.getSexe() + "\","
-                    + utilisateur.getNb_Seance() + ")";
+                    + "\'" + utilisateur.getSeances() + "\')";
             bd = accesBd.getWritableDatabase();
             bd.execSQL(req);
         }

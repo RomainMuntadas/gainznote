@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/libelleSeance">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/NB_SEANCES"
+            android:id="@+id/JoursSeances"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:textColor="@color/colorText" />
@@ -144,7 +144,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Nombre de séances / semaines"
+        android:text="Jours d'entrainnement"
         android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.128"

@@ -12,20 +12,20 @@ import java.util.Date;
 
 public final class Utilisateur {
     private String username;
-    private Integer nb_Seance;
+    private String seances;
     private String sexe;
     private static Utilisateur instance = null;
 
-    private Utilisateur(String username, String sexe, Integer nb_Seance) {
+    private Utilisateur(String username, String sexe, String seances) {
         super();
         this.username = username;
-        this.nb_Seance = nb_Seance;
+        this.seances = seances;
         this.sexe = sexe;
     }
 
     public static synchronized Utilisateur getInstance(Context contexte) {
         if (Utilisateur.instance == null) {
-            Utilisateur.instance = new Utilisateur("Utilisateur", "M",-1);
+            Utilisateur.instance = new Utilisateur("Utilisateur", "M","");
         }
         return Utilisateur.instance;
     }
@@ -42,8 +42,8 @@ public final class Utilisateur {
             this.sexe = "M";
     }
 
-    public void setNb_Seance(Integer nb_Seance) {
-        this.nb_Seance = nb_Seance;
+    public void setSeances(String seances) {
+        this.seances = seances;
     }
 
     public static void setInstance(Utilisateur instance) {
@@ -54,7 +54,7 @@ public final class Utilisateur {
         return this.username;
     }
 
-    public Integer getNb_Seance() { return nb_Seance; }
+    public String getSeances() { return this.seances; }
 
     public String getSexe() {return this.sexe;}
 

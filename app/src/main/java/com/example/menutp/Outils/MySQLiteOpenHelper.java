@@ -20,7 +20,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
                     + "ID_UTILISATEUR INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "USERNAME TEXT NOT NULL,"
                     + "SEXE TEXT NOT NULL,"
-                    + "NB_SEANCE INTEGER NOT NULL);";
+                    + "SEANCES TEXT NOT NULL);";
 
 
     private String seance =
