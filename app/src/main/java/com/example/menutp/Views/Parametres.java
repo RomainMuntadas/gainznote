@@ -153,13 +153,20 @@ public class Parametres extends AppCompatActivity {
         valider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user.setSeances(joursEntrainement);
-                user.setUsername(username.getText().toString());
-                user.setSexe(sexe);
-                accesLocal.sauvegarderUtilisateur();
-                accesLocal.initialiserUtilisateur(getApplicationContext());
-                Intent i = new Intent(Parametres.this, MainActivity.class);
-                startActivity(i);
+                if(!joursEntrainement.equalsIgnoreCase("")) {
+                    user.setSeances(joursEntrainement);
+                    user.setUsername(username.getText().toString());
+                    user.setSexe(sexe);
+                    accesLocal.sauvegarderUtilisateur();
+                    accesLocal.initialiserUtilisateur(getApplicationContext());
+                    Intent i = new Intent(Parametres.this, MainActivity.class);
+                    startActivity(i);
+                    Log.i("valider", "ok");
+                }
+                else {
+                    Toast.makeText(Parametres.this, "Veuillez selectionner au moins un jour d'entrainement", Toast.LENGTH_LONG).show();
+                    Log.i("Valider", "pas ok");
+                }
             }
         });
     }
