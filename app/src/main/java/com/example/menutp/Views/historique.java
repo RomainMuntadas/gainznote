@@ -2,6 +2,7 @@ package com.example.menutp.Views;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +31,9 @@ import com.example.menutp.R;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class historique extends AppCompatActivity {
 
@@ -53,35 +57,36 @@ public class historique extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Historique des séances");
         rafraichirSeries(this);
-
-
-
-
-
-
     }
 
+    private ArrayList<Map<String, String>> buildData() {
+        ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
+        List<Seance> seanceList = controle.getToutesSeances(this);
+        for(Seance s : seanceList)
+            list.add(putData(s.getNomSeance(), s.getTypeSeance() + " | " + s.getDureeSeance() + " minutes"));
+        return list;
+    }
 
-
+    private HashMap<String, String> putData(String name, String purpose) {
+        HashMap<String, String> item = new HashMap<String, String>();
+        item.put("Text1", name);
+        item.put("Text2", purpose);
+        return item;
+    }
 
     public void rafraichirSeries(Context context){
         //On recupere la liste de toutes les seances
         final List<Seance> seanceList = controle.getToutesSeances(this);
-        List<String> seancesStr = new ArrayList<String>();
 
-
-                //On convertit le tout en chaîne de caractère pour pouvoir l'afficher
-
-        for (Seance s : seanceList) {
-            seancesStr.add(s.toString());
-        }
-        Toast.makeText(this, ""+ seancesStr.size(),Toast.LENGTH_LONG).show();
-        //On place les chaines de chaque séance dans le listview.
         ListView listView = findViewById(R.id.lv_Seance);
-        ArrayAdapter<String> adapterString = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, seancesStr);
-        listView.setAdapter(adapterString);
-        Button btn_Suppr = findViewById(R.id.btn_SupprimerSeance);
 
+        ArrayList<Map<String, String>> seances = buildData();
+        String[] from = { "Text1", "Text2" };
+        int[] to = { android.R.id.text1, android.R.id.text2 };
+
+        SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), seances, android.R.layout.simple_list_item_2, from, to);
+        listView.setAdapter(adapter);
+        listView.setBackgroundColor(getResources().getColor(R.color.colorBackGround));
 
         //Un click simple
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,7 +107,6 @@ public class historique extends AppCompatActivity {
         });
 
         //un click long
-
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -114,7 +118,6 @@ public class historique extends AppCompatActivity {
                 Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 v.vibrate(500);
                 btn_Suppr.setOnClickListener(new Controleur());
-
                 return true;
             }
         });
@@ -135,8 +138,9 @@ public class historique extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    class Controleur implements View.OnClickListener{
 
+
+    class Controleur implements View.OnClickListener{
 
         public void onClick(View v) {
             if(v instanceof Button){
@@ -148,5 +152,4 @@ public class historique extends AppCompatActivity {
             }
         }
     }
-
 }
