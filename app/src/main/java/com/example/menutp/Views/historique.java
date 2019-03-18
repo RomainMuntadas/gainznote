@@ -2,8 +2,10 @@ package com.example.menutp.Views;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -58,6 +60,15 @@ public class historique extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Historique des séances");
         rafraichirSeries(this);
+
+        final Button accueil = findViewById(R.id.retourMenu);
+        accueil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(historique.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     private ArrayList<Map<String, String>> buildData() {
@@ -152,10 +163,27 @@ public class historique extends AppCompatActivity {
         public void onClick(View v) {
             if(v instanceof Button){
                 Button button = (Button) v;
-                AccesLocal accesLocal = new AccesLocal(historique.this);
-                accesLocal.supprimerSeance(idSeanceASuppr);
-                rafraichirSeries(historique.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(historique.this);
+                builder.setTitle("Suppression séance");
+                builder.setMessage("Êtes-vous sûr de vouloir supprimer cette séance ? Cette opération est irreversible");
+                builder.setPositiveButton("OUI", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AccesLocal accesLocal = new AccesLocal(historique.this);
+                        accesLocal.supprimerSeance(idSeanceASuppr);
+                        rafraichirSeries(historique.this);
+                    }
+                });
+
+                builder.setNegativeButton("ANNULER", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
                 button.setVisibility(View.INVISIBLE);
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         }
     }
