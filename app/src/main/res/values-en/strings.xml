@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">Gainz Note</string>
+    <string name="titre"> GaINz NoTe</string>
+    <string name="version">Version 0.1</string>
+    <string name="nb_gainz">21</string>
+    <string name="nb_faible">3</string>
+    <string name="btn_newSeance">New Session</string>
+    <string name="teamFaible">Loser team</string>
+    <string name="Historique">My sessions</string>
+    <string name="titreNewSeance">New Session</string>
+    <string name="date">Session date</string>
+    <string name="txtBtnCommencer">Start</string>
+    <string name="ficListeSeance">Session list</string>
+    <string name="newExercice">Add exercise</string>
+    <string name="finAjoutModif">Done</string>
+    <string name="SpinnerGroupeDefault">Select a muscular group</string>
+    <string name="Param">Settings</string>
+    <string name="infoUser">User</string>
+    <string name="TextTypeDefaut">Select an exercise</string>
+    <string name="terminer">Done</string>
+    <string name="stats">Stats</string>
+    <string name="title_stat">Statistics</string>
+    <string name="titleModifSeance">Edit session</string>
+
+    <string-array id= "test" name="seances">
+        <item>Other</item>
+        <item>Back</item>
+        <item>Legs</item>
+        <item>Pectorals</item>
+        <item>Arms</item>
+    </string-array>
+
+    <string-array name="parametres">
+        <item>User</item>
+        <item>Exercises</item>
+        <item>Help</item>
+    </string-array>
+
+    <string-array name="exercicesStat">
+        <item>Développé couché barre</item>
+        <item>Développé couché haltères</item>
+        <item>Squat</item>
+        <item>Curl haltères</item>
+        <item>Butterfly</item>
+    </string-array>
+</resources>

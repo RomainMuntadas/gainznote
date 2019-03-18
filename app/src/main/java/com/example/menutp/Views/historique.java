@@ -140,8 +140,7 @@ public class historique extends AppCompatActivity {
         {
             Intent i = new Intent(historique.this, Stats.class);
             startActivity(i);
-        }
-        return super.onOptionsItemSelected(item);
+        }        return super.onOptionsItemSelected(item);
     }
 
 
