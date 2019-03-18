@@ -36,12 +36,15 @@ import com.example.menutp.R;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 public class Parametres extends AppCompatActivity {
 
     AccesLocal accesLocal = new AccesLocal(this);
     Utilisateur user;
     String sexe;
     Boolean firstUse = false;
+    String joursEntrainement = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +76,50 @@ public class Parametres extends AppCompatActivity {
         accesLocal.initialiserUtilisateur(getApplicationContext());
 
 
-        final TextInputEditText joursSeances = findViewById(R.id.JoursSeances);
-        if(this.firstUse)
-            joursSeances.setText("");
-        else
-            joursSeances.setText(user.getSeances());
+        final Button joursSeances = findViewById(R.id.buttonJours);
+        final String[] jours = getResources().getStringArray(R.array.jours);
+        final boolean[] joursChecked = new boolean[jours.length];
+        final ArrayList<Integer> selectedJours = new ArrayList<>();
+        final TextView libelleSeance = findViewById(R.id.libelleSeance);
 
+        joursSeances.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Parametres.this);
+                builder.setTitle("Jours d'entrainements");
+                builder.setMultiChoiceItems(jours, joursChecked, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int position, boolean isChecked) {
+                        if(isChecked)
+                        {
+                            if(! selectedJours.contains(position))
+                                selectedJours.add(position);
+                            else
+                                selectedJours.remove(position);
+                        }
+                    }
+                });
+                builder.setCancelable(false);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for(int i = 0; i < selectedJours.size(); i++)
+                        {
+                            joursEntrainement+= " "+jours[selectedJours.get(i)];
+                        }
+                    }
+                });
+
+                builder.setNegativeButton("ANNULER", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
 
         final TextInputEditText username = findViewById(R.id.username);
         username.setText(user.getUsername());
@@ -95,7 +136,7 @@ public class Parametres extends AppCompatActivity {
         valider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user.setSeances(joursSeances.getText().toString());
+                user.setSeances(joursEntrainement);
                 user.setUsername(username.getText().toString());
                 user.setSexe(sexe);
                 accesLocal.sauvegarderUtilisateur();

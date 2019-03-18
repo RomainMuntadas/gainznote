@@ -36,6 +36,16 @@
         <item>Aide</item>
     </string-array>
 
+    <string-array name="jours">
+        <item>lundi</item>
+        <item>mardi</item>
+        <item>mercredi</item>
+        <item>jeudi</item>
+        <item>vendredi</item>
+        <item>samedi</item>
+        <item>dimanche</item>
+    </string-array>
+
     <string-array name="exercicesStat">
         <item>Développé couché barre</item>
         <item>Développé couché haltères</item>
