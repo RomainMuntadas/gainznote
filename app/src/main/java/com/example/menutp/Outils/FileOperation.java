@@ -92,5 +92,4 @@ public abstract class FileOperation {
         return dateFormat;
     }
 
-
 }

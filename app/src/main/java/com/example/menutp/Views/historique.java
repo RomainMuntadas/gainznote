@@ -136,6 +136,11 @@ public class historique extends AppCompatActivity {
             Intent i = new Intent(historique.this, Parametres.class);
             startActivity(i);
         }
+        else if (item.getTitle() == getResources().getString(R.string.stats))
+        {
+            Intent i = new Intent(historique.this, Stats.class);
+            startActivity(i);
+        }
         return super.onOptionsItemSelected(item);
     }
 
