@@ -136,6 +136,11 @@ public class ajout_exercice extends AppCompatActivity {
             Intent i = new Intent(ajout_exercice.this, Parametres.class);
             startActivity(i);
         }
+        else if (item.getTitle() == getResources().getString(R.string.stats))
+        {
+            Intent i = new Intent(ajout_exercice.this, Stats.class);
+            startActivity(i);
+        }
         return super.onOptionsItemSelected(item);
     }
 

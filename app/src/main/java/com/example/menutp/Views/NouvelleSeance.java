@@ -200,8 +200,13 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.toString() == getResources().getString(R.string.Param)) {
+        if(item.toString() == getResources().getString(R.string.Param)) {
             Intent i = new Intent(NouvelleSeance.this, Parametres.class);
+            startActivity(i);
+        }
+        else if (item.getTitle() == getResources().getString(R.string.stats))
+        {
+            Intent i = new Intent(NouvelleSeance.this, Stats.class);
             startActivity(i);
         }
         return super.onOptionsItemSelected(item);

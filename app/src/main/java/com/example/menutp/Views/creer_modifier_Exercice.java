@@ -129,6 +129,11 @@ public class creer_modifier_Exercice extends AppCompatActivity implements Adapte
             Intent i = new Intent(creer_modifier_Exercice.this, Parametres.class);
             startActivity(i);
         }
+        else if (item.getTitle() == getResources().getString(R.string.stats))
+        {
+            Intent i = new Intent(creer_modifier_Exercice.this, Stats.class);
+            startActivity(i);
+        }
         return super.onOptionsItemSelected(item);
     }
 
