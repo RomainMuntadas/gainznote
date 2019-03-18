@@ -66,15 +66,31 @@ public class Parametres extends AppCompatActivity {
         bouton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Parametres.this.deleteDatabase("bdGainzNote.sqlite");
-                Intent i = new Intent(Parametres.this, MainActivity.class);
-                startActivity(i);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Parametres.this);
+                builder.setTitle("Suppression données");
+                builder.setMessage("Êtes-vous sûr de vouloir supprimer les données de l'application ? Cette opération est irreversible");
+                builder.setPositiveButton("OUI", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Parametres.this.deleteDatabase("bdGainzNote.sqlite");
+                        Toast.makeText(Parametres.this, "Données supprimées", Toast.LENGTH_LONG).show();
+                    }
+                });
+                builder.setNegativeButton("ANNULER", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
         user = Utilisateur.getInstance(this);
         accesLocal.initialiserUtilisateur(getApplicationContext());
 
+        joursEntrainement = user.getSeances();
 
         final Button joursSeances = findViewById(R.id.buttonJours);
         final String[] jours = getResources().getStringArray(R.array.jours);
@@ -103,6 +119,7 @@ public class Parametres extends AppCompatActivity {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        joursEntrainement = "";
                         for(int i = 0; i < selectedJours.size(); i++)
                         {
                             joursEntrainement+= " "+jours[selectedJours.get(i)];

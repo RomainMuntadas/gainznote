@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         {
             Intent i = new Intent(MainActivity.this, Parametres.class);
             i.putExtra("firstUse", true);
+            Toast.makeText(MainActivity.this, "Veuillez selectionner au moins 1 jour d'entrainement", Toast.LENGTH_LONG);
             startActivity(i);
         }
         TypeExercice typeExercice = accesLocal.getTypeFromString("Développé couché barre");
