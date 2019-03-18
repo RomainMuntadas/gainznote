@@ -144,6 +144,11 @@ public class ajout_exercice extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(getApplicationContext(), "Vous ne pouvez pas revenir en arrière pendant la création d'une séance", Toast.LENGTH_LONG).show();
+    }
+
     class Controleur implements View.OnClickListener {
 
         @Override
