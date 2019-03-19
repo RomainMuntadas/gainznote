@@ -73,6 +73,7 @@ public class Parametres extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Parametres.this.deleteDatabase("bdGainzNote.sqlite");
+                        joursEntrainement = "";
                         Toast.makeText(Parametres.this, "Données supprimées", Toast.LENGTH_LONG).show();
                     }
                 });
@@ -122,7 +123,7 @@ public class Parametres extends AppCompatActivity {
                         joursEntrainement = "";
                         for(int i = 0; i < selectedJours.size(); i++)
                         {
-                            joursEntrainement+= " "+jours[selectedJours.get(i)];
+                            joursEntrainement+= jours[selectedJours.get(i)]+ " ";
                         }
                     }
                 });

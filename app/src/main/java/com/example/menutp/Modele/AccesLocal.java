@@ -136,12 +136,12 @@ public class AccesLocal {
             while (!curseur.isLast()) {
                 curseur.moveToNext();
                 seances.add(cursorToSeance(curseur));
-
             }
         }
         Collections.sort(seances, new Comparateur());
         for (int i = seances.size()-1 ; i > 0; i--) {
             seanceListDescendant.add(seances.get(i));
+            Log.i("seance "+i, seances.toString());
         }
         curseur.close();
         return seanceListDescendant;
