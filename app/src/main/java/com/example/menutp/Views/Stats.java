@@ -124,25 +124,29 @@ public class Stats extends AppCompatActivity implements AdapterView.OnItemSelect
         for(Exercice e : listExercice){
             poids.add(accesLocal.getPoidsMaxExercice(e));
         }
-        Toast.makeText(this, "nb poids diff :  "+ poids.size(), Toast.LENGTH_LONG).show();
-        BarGraphSeries<DataPoint> exercices = new BarGraphSeries<>(new DataPoint[]{});
-        for (int i = 0; i < poids.size(); i++) {
+        Toast.makeText(this, ""+poids, Toast.LENGTH_LONG).show();
+        LineGraphSeries<DataPoint> exercices = new LineGraphSeries<>(new DataPoint[]{});
+        for (int i = 0; i < poids.size(); i+=1) {
 
             DataPoint dp = new DataPoint(i, poids.get(i));
-            exercices.appendData(dp, true,  poids.size() + 1);
+            exercices.appendData(dp, false,  poids.size() + 2);
         }
-        exercices.setValueDependentColor(new ValueDependentColor<DataPoint>() {
+
+
+
+
+        /*exercices.setValueDependentColor(new ValueDependentColor<DataPoint>() {
             @Override
             public int get(DataPoint data) {
                 return Color.rgb((int) data.getX() * 255 / 4, (int) Math.abs(data.getY() * 255 / 6), 100);
             }
-        });
+        });*/
+        exercices.setDrawDataPoints(true);
+        //exercices.setValuesOnTopColor(Color.RED);
+        //exercices.setDrawValuesOnTop(true);
+        //exercices.setSpacing(10);
 
-        exercices.setValuesOnTopColor(Color.RED);
-        exercices.setDrawValuesOnTop(true);
-        exercices.setSpacing(10);
-
-
+        graph.getViewport().setMinY(0);
         graph.addSeries(exercices);
 
 
