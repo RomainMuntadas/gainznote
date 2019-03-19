@@ -135,7 +135,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        btnDate.setText(dayOfMonth + "/" + month + "/" + year);
+                        btnDate.setText(dayOfMonth + "/" + (month+1) + "/" + year);
                     }
                 }, day, month, year);
                 dpd.show();
@@ -293,6 +293,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
                         Seance seance = new Seance(nomSeance, TypeSeance, dateSeance, dureeSeance, notes);
                         //sauvegarde de la seance
                         accesLocal.addSeance(seance);
+                        Log.i("seance", FileOperation.dateToString(seance.getDateSeance()));
 
                         Intent intent = new Intent(NouvelleSeance.this, ajout_exercice.class);
                         //ATTENTION Le getLastSeance ne marchera que dans le cadre de la création d'une séance
