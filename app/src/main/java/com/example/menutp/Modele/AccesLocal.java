@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.menutp.Outils.FileOperation;
 import com.example.menutp.Outils.MySQLiteOpenHelper;
 
+import java.io.File;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,6 +74,14 @@ public class AccesLocal {
         return seance;
     }
 
+    public Seance getFirstSeance() {
+        List<Seance> seances = getAllSeance();
+        if(!seances.isEmpty())
+            return seances.get(seances.size()-1);
+        else
+            return null;
+    }
+
     /**
      * @return nombre de séances effectuées dans le mois
      */
@@ -83,7 +92,6 @@ public class AccesLocal {
         bd = accesBd.getReadableDatabase();
         String req = "Select * from Seance" +
                 " WHERE dateSeance LIKE '%/" + String.format("%02d", month) + "/" + year + "';";
-        Log.i("requete", req);
         Cursor curseur = bd.rawQuery(req, null);
         return curseur.getCount();
     }
@@ -95,13 +103,18 @@ public class AccesLocal {
         int day = now.get(Calendar.DAY_OF_MONTH);
         int month = now.get(Calendar.MONTH);
         int year = now.get(Calendar.YEAR);
-        DateFormatSymbols dfs = new DateFormatSymbols();
-        now.set(year, month, 1);
-        for (int i = 1; i <= day; i++) {
-            String jourActuel = dfs.getWeekdays()[now.get(Calendar.DAY_OF_WEEK)];
-            if (Arrays.asList(joursDefinis).contains(jourActuel))
-                nbJoursDefinis++;
-            now.add(Calendar.DATE, 1);
+        int firstDay = 1;
+        now.set(year, month, firstDay);
+        if(getNbSeancesEffectuees() > 0) {
+            if (getFirstSeance().getDateSeance().getMonth() == (month))
+                now.setTime(getFirstSeance().getDateSeance());
+            DateFormatSymbols dfs = new DateFormatSymbols();
+            for (int i = now.get(Calendar.DAY_OF_MONTH); i <= day; i++) {
+                String jourActuel = dfs.getWeekdays()[now.get(Calendar.DAY_OF_WEEK)];
+                if (Arrays.asList(joursDefinis).contains(jourActuel))
+                    nbJoursDefinis++;
+                now.add(Calendar.DATE, 1);
+            }
         }
         return nbJoursDefinis;
     }
@@ -136,7 +149,6 @@ public class AccesLocal {
         Collections.sort(seances, new Comparateur());
         for (int i = seances.size() - 1; i >= 0; i--) {
             seanceListDescendant.add(seances.get(i));
-            Log.i("seance "+i, seances.toString());
         }
         curseur.close();
         return seanceListDescendant;

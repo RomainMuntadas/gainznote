@@ -135,7 +135,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        btnDate.setText(dayOfMonth + "/" + (month+1) + "/" + year);
+                        btnDate.setText(String.format("%02d", dayOfMonth) + "/" + String.format("%02d", (month+1)) + "/" + year);
                     }
                 }, day, month, year);
                 dpd.show();
