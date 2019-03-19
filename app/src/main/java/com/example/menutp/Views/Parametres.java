@@ -99,6 +99,7 @@ public class Parametres extends AppCompatActivity {
         final boolean[] joursChecked = new boolean[jours.length];
         final ArrayList<Integer> selectedJours = new ArrayList<>();
         final TextView libelleSeance = findViewById(R.id.libelleSeance);
+        libelleSeance.setText("Jours d'entrainement"+"\n"+FileOperation.affichageJours(user.getSeances()));
 
         joursSeances.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +127,7 @@ public class Parametres extends AppCompatActivity {
                         {
                             joursEntrainement+= jours[selectedJours.get(i)]+ " ";
                         }
+                        libelleSeance.setText("Jours d'entrainement"+"\n"+FileOperation.affichageJours(joursEntrainement));
                     }
                 });
 

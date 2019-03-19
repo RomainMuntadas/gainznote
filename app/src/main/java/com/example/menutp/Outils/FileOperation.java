@@ -96,4 +96,15 @@ public abstract class FileOperation {
         return s.split(" ");
     }
 
+    public static String affichageJours(String s)
+    {
+        String[] jours = stringToArray(s);
+        String retour = "";
+        for(int i = 0; i < jours.length-1; i++)
+        {
+            retour += jours[i]+", ";
+        }
+        return retour+jours[jours.length-1];
+    }
+
 }
