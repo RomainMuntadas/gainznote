@@ -74,6 +74,7 @@ public class Parametres extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Parametres.this.deleteDatabase("bdGainzNote.sqlite");
                         joursEntrainement = "";
+                        accesLocal = new AccesLocal(getApplicationContext());
                         Toast.makeText(Parametres.this, "Données supprimées", Toast.LENGTH_LONG).show();
                     }
                 });
@@ -162,11 +163,9 @@ public class Parametres extends AppCompatActivity {
                     accesLocal.initialiserUtilisateur(getApplicationContext());
                     Intent i = new Intent(Parametres.this, MainActivity.class);
                     startActivity(i);
-                    Log.i("valider", "ok");
                 }
                 else {
                     Toast.makeText(Parametres.this, "Veuillez selectionner au moins un jour d'entrainement", Toast.LENGTH_LONG).show();
-                    Log.i("Valider", "pas ok");
                 }
             }
         });

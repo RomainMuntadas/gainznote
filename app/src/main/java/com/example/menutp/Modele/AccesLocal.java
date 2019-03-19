@@ -279,7 +279,7 @@ public class AccesLocal {
         bd = accesBd.getWritableDatabase();
         String req = "UPDATE UTILISATEUR "
                 + "SET USERNAME = \'" + utilisateur.getUsername() + "\', "
-                + "SEXE = \'" + utilisateur.getSexe() + "\',"
+                + "SEXE = \'" + utilisateur.getSexe() + "\', "
                 + "SEANCES = \'" + utilisateur.getSeances() + "\';";
         bd.execSQL(req);
     }
