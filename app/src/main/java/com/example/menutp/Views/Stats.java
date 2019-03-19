@@ -114,49 +114,38 @@ public class Stats extends AppCompatActivity implements AdapterView.OnItemSelect
 
         List<Exercice> listExercice = accesLocal.getToutLesExerciceDeType(typeExercice);
 
-        List<Double> poidsMoyen = new ArrayList<>();
 
 
-        List<Date> listSeance = accesLocal.getDatesSeanceFromType(nomType);
-        if (listSeance.size() > 2) {
-            String[] dates = new String[listSeance.size() + 1];
-            int i = 0;
-            int j=0;
-
-            for (Exercice e : listExercice) {
-                if(i<5 && j<listSeance.size() + 1){
-                    poidsMoyen.add(accesLocal.getPoidMoyenExercice(e));
-                    dates[i] = FileOperation.dateToString(listSeance.get(i));
-                    i++;
-                }
-            }
+        List<Double> poids = new ArrayList<>();
+        GraphView graph = (GraphView) findViewById(R.id.graphExercice);
 
 
-
-
-            if (dates.length >= 2) {
-                GraphView graph = (GraphView) findViewById(R.id.graphExercice);
-                LineGraphSeries<DataPoint> exercices = new LineGraphSeries<>(new DataPoint[]{});
-                for (i = 0; i < poidsMoyen.size(); i++) {
-                    DataPoint dataPoint = new DataPoint(i, poidsMoyen.get(i));
-                    exercices.appendData(dataPoint, true, poidsMoyen.size());
-                }
-
-                StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
-                staticLabelsFormatter.setHorizontalLabels(dates);
-                graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
-
-
-
-                graph.getViewport().setScrollable(true);
-                graph.getViewport().setScalable(true);
-                graph.getGridLabelRenderer().setLabelsSpace(30);
-                graph.addSeries(exercices);
-            }
+        List<Date> listSeance = accesLocal.getDatesSeanceFromTypeExercice(nomType);
+        for(Exercice e : listExercice){
+            poids.add(accesLocal.getPoidsMaxExercice(e));
         }
-        else{
-            Toast.makeText(this, "Tu n'as pas encore assez fait cet exercice", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "nb poids diff :  "+ poids.size(), Toast.LENGTH_LONG).show();
+        BarGraphSeries<DataPoint> exercices = new BarGraphSeries<>(new DataPoint[]{});
+        for (int i = 0; i < poids.size(); i++) {
+
+            DataPoint dp = new DataPoint(i, poids.get(i));
+            exercices.appendData(dp, true,  poids.size() + 1);
         }
+        exercices.setValueDependentColor(new ValueDependentColor<DataPoint>() {
+            @Override
+            public int get(DataPoint data) {
+                return Color.rgb((int) data.getX() * 255 / 4, (int) Math.abs(data.getY() * 255 / 6), 100);
+            }
+        });
+
+        exercices.setValuesOnTopColor(Color.RED);
+        exercices.setDrawValuesOnTop(true);
+        exercices.setSpacing(10);
+
+
+        graph.addSeries(exercices);
+
+
     }
 
 

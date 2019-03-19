@@ -51,9 +51,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Veuillez selectionner au moins 1 jour d'entrainement", Toast.LENGTH_LONG);
             startActivity(i);
         }
-        TypeExercice typeExercice = accesLocal.getTypeFromString("Développé couché barre");
-        List<Exercice> listExercice = accesLocal.getToutLesExerciceDeType(typeExercice);
-        Toast.makeText(this, listExercice.size()+"", Toast.LENGTH_LONG).show();
+
 
         //Mise en place de la toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);

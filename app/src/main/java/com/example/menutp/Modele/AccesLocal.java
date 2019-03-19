@@ -59,8 +59,6 @@ public class AccesLocal {
 
     /**
      * Recuperation de la derniere seance de la base de donnee.
-     *
-     *
      */
     public Seance getLastSeance() {
         bd = accesBd.getReadableDatabase();
@@ -76,23 +74,21 @@ public class AccesLocal {
     }
 
     /**
-     *
      * @return nombre de séances effectuées dans le mois
      */
     public Integer getNbSeancesEffectuees() {
         Calendar now = Calendar.getInstance();
-        Integer month = now.get(Calendar.MONTH)+1;
+        Integer month = now.get(Calendar.MONTH) + 1;
         Integer year = now.get(Calendar.YEAR);
         bd = accesBd.getReadableDatabase();
         String req = "Select * from Seance" +
-                " WHERE dateSeance LIKE '%/"+String.format("%02d", month)+"/"+year+"';";
+                " WHERE dateSeance LIKE '%/" + String.format("%02d", month) + "/" + year + "';";
         Log.i("requete", req);
         Cursor curseur = bd.rawQuery(req, null);
         return curseur.getCount();
     }
 
-    public Integer getNbSeancesDefinies()
-    {
+    public Integer getNbSeancesDefinies() {
         String[] joursDefinis = FileOperation.stringToArray(utilisateur.getSeances());
         int nbJoursDefinis = 0;
         Calendar now = Calendar.getInstance();
@@ -101,10 +97,9 @@ public class AccesLocal {
         int year = now.get(Calendar.YEAR);
         DateFormatSymbols dfs = new DateFormatSymbols();
         now.set(year, month, 1);
-        for(int i = 1; i <= day; i++)
-        {
+        for (int i = 1; i <= day; i++) {
             String jourActuel = dfs.getWeekdays()[now.get(Calendar.DAY_OF_WEEK)];
-            if(Arrays.asList(joursDefinis).contains(jourActuel))
+            if (Arrays.asList(joursDefinis).contains(jourActuel))
                 nbJoursDefinis++;
             now.add(Calendar.DATE, 1);
         }
@@ -140,7 +135,7 @@ public class AccesLocal {
             }
         }
         Collections.sort(seances, new Comparateur());
-        for (int i = seances.size()-1 ; i > 0; i--) {
+        for (int i = seances.size() - 1; i > 0; i--) {
             seanceListDescendant.add(seances.get(i));
         }
         curseur.close();
@@ -148,11 +143,12 @@ public class AccesLocal {
     }
 
     /**
-     * Trie et range dans une liste les dates de seance d'un type
+     * Trie et range dans une liste les dates de seance contenant un certain type
+     *
      * @param type type de seance donné
      * @return une liste dans l'ordre descendant des dates de seances
      */
-    public List<Date> getDatesSeanceFromType(String type) {
+    public List<Date> getDatesSeanceFromTypeExercice(String type) {
         bd = accesBd.getReadableDatabase();
 
         List<Date> seances = new ArrayList<>();
@@ -575,16 +571,16 @@ public class AccesLocal {
 
     public List<Exercice> getToutLesExerciceDeType(TypeExercice typeExercice) {
         bd = accesBd.getReadableDatabase();
-        String req = "SELECT DISTINCT ID_EXERCICE FROM EXERCICE, TYPE_EXERCICE WHERE EXERCICE.ID_TYPE = " + typeExercice.getIdType() +" AND TYPE_EXERCICE.ID_TYPE = "+typeExercice.getIdType() + " AND TYPE_EXERCICE.NOM = \""+typeExercice.getNom()+"\";";
+        String req = "SELECT DISTINCT EXERCICE.ID_EXERCICE FROM EXERCICE, TYPE_EXERCICE WHERE EXERCICE.ID_TYPE = " + typeExercice.getIdType() + " AND TYPE_EXERCICE.ID_TYPE = " + typeExercice.getIdType() + ";";
         Cursor curseur = bd.rawQuery(req, null);
         curseur.moveToFirst();
         List<Exercice> listExercice = new ArrayList<>();
-        if (!curseur.isAfterLast()) {
-            while (!curseur.isLast()) {
-                listExercice.add(getExercice(curseur.getInt(0)));
-                curseur.moveToNext();
-            }
+
+        while (!curseur.isAfterLast()) {
+            listExercice.add(getExercice(curseur.getInt(0)));
+            curseur.moveToNext();
         }
+
         curseur.close();
         return listExercice;
     }
@@ -595,26 +591,23 @@ public class AccesLocal {
      * @param exercice exercice dont on cherche a trouverl le poid
      * @return le poids moyen de l'exercice
      */
-    public Double getPoidMoyenExercice(Exercice exercice) {
+    public Double getPoidsMaxExercice(Exercice exercice) {
         bd = accesBd.getReadableDatabase();
         String req = "SELECT POIDS FROM SERIE WHERE ID_EXERCICE = " + exercice.getIdExercice() + ";";
         Cursor curseur = bd.rawQuery(req, null);
-        List<Double> poids = new ArrayList<>();
         curseur.moveToFirst();
         double poidmoyen = 0;
         if (!curseur.isAfterLast()) {
             while (!curseur.isLast()) {
-                poids.add(Double.parseDouble(curseur.getString(0)));
-                poidmoyen += Double.parseDouble(curseur.getString(0));
+                if (Double.parseDouble(curseur.getString(0)) >= poidmoyen) ;
+                poidmoyen = Double.parseDouble(curseur.getString(0));
                 curseur.moveToNext();
             }
         }
-        poidmoyen = poidmoyen / poids.size();
         curseur.close();
 
         return poidmoyen;
     }
-
 
 
     /**
