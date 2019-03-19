@@ -134,7 +134,7 @@ public class AccesLocal {
             }
         }
         Collections.sort(seances, new Comparateur());
-        for (int i = seances.size() - 1; i > 0; i--) {
+        for (int i = seances.size() - 1; i >= 0; i--) {
             seanceListDescendant.add(seances.get(i));
             Log.i("seance "+i, seances.toString());
         }
