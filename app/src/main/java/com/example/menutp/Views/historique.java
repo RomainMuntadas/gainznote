@@ -98,9 +98,10 @@ public class historique extends AppCompatActivity {
 
         SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), seances, android.R.layout.simple_list_item_2, from, to);
         listView.setAdapter(adapter);
-        listView.setBackgroundColor(getResources().getColor(R.color.colorBackGround));
-        listView.setDivider(new ColorDrawable(getResources().getColor(R.color.colorText)));
-        listView.setDividerHeight(2);
+
+       // listView.setBackgroundColor(getResources().getColor(R.color.colorBackGround));
+        //listView.setDivider(new ColorDrawable(getResources().getColor(R.color.colorText)));
+        //listView.setDividerHeight(2);
 
         //Un click simple
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
