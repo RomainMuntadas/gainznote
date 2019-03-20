@@ -108,14 +108,18 @@ public class historique extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AccesLocal accesLocal = new AccesLocal(historique.this);
                 Button btn_Suppr = findViewById(R.id.btn_SupprimerSeance);
+
                 if(btn_Suppr.getVisibility() == View.VISIBLE){
                     btn_Suppr.setVisibility(View.INVISIBLE);
                 }
-                List<Seance> seanceList = controle.getToutesSeances(historique.this);
-                int idSeance =seanceList.get(position).getIdSeance();
-                Intent intent = new Intent(historique.this, NouvelleSeance.class);
-                intent.putExtra("ID_SEANCE", idSeance);
-                startActivity(intent);
+                else{
+                    List<Seance> seanceList = controle.getToutesSeances(historique.this);
+                    int idSeance =seanceList.get(position).getIdSeance();
+                    Intent intent = new Intent(historique.this, NouvelleSeance.class);
+                    intent.putExtra("ID_SEANCE", idSeance);
+                    startActivity(intent);
+                }
+
 
             }
         });

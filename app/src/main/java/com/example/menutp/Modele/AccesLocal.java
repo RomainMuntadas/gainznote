@@ -78,8 +78,8 @@ public class AccesLocal {
 
     public Seance getFirstSeance() {
         List<Seance> seances = getAllSeance();
-        if(!seances.isEmpty())
-            return seances.get(seances.size()-1);
+        if (!seances.isEmpty())
+            return seances.get(seances.size() - 1);
         else
             return null;
     }
@@ -107,7 +107,7 @@ public class AccesLocal {
         int year = now.get(Calendar.YEAR);
         int firstDay = 1;
         now.set(year, month, firstDay);
-        if(getNbSeancesEffectuees() > 0) {
+        if (getNbSeancesEffectuees() > 0) {
             if (getFirstSeance().getDateSeance().getMonth() == (month))
                 now.setTime(getFirstSeance().getDateSeance());
             DateFormatSymbols dfs = new DateFormatSymbols();
@@ -593,8 +593,8 @@ public class AccesLocal {
 
 
         while (!curseur.isAfterLast()) {
-            if(!mapExercice.containsKey(FileOperation.stringToDate(curseur.getString(0)))){
-                mapExercice.put(FileOperation.stringToDate(curseur.getString(0)),getExercice(curseur.getInt(1)));
+            if (!mapExercice.containsKey(FileOperation.stringToDate(curseur.getString(0)))) {
+                mapExercice.put(FileOperation.stringToDate(curseur.getString(0)), getExercice(curseur.getInt(1)));
             }
             curseur.moveToNext();
         }
@@ -616,13 +616,12 @@ public class AccesLocal {
         Cursor curseur = bd.rawQuery(req, null);
         curseur.moveToFirst();
         double poidmoyen = 0;
-        if (!curseur.isAfterLast()) {
-            while (!curseur.isLast()) {
-                if (Double.parseDouble(curseur.getString(0)) >= poidmoyen) ;
-                poidmoyen = Double.parseDouble(curseur.getString(0));
-                curseur.moveToNext();
-            }
+        while (!curseur.isAfterLast()) {
+            if (Double.parseDouble(curseur.getString(0)) >= poidmoyen) ;
+            poidmoyen = Double.parseDouble(curseur.getString(0));
+            curseur.moveToNext();
         }
+
         curseur.close();
 
         return poidmoyen;

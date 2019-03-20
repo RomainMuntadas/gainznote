@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -69,6 +70,15 @@ public class Stats extends AppCompatActivity implements AdapterView.OnItemSelect
         spinnerExercice.setOnItemSelectedListener(this);
         afficherPoidExercice(spinnerExercice.getSelectedItem().toString());
 
+        Button btnAccueil = findViewById(R.id.Accueil);
+        btnAccueil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Stats.this, MainActivity.class);
+                startActivity(intent);
+
+            }
+        });
 
         //Traitement du passage en mode paysage
         Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
@@ -77,17 +87,27 @@ public class Stats extends AppCompatActivity implements AdapterView.OnItemSelect
         if (orientation == Surface.ROTATION_90 || orientation == Surface.ROTATION_270) {
             setContentView(R.layout.activity_stat_landscape);
 
-            spinnerExercice = findViewById(R.id.Spinner_Exercice2);
-            ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.exercicesStat, R.layout.my_spinner);
-            adapter.setDropDownViewResource(R.layout.my_spinner_drop_down);
-            spinnerExercice.setAdapter(adapter2);
-            adapter.setDropDownViewResource(R.layout.my_spinner_drop_down);
+            spinnerExercice = findViewById(R.id.Spinner_Exercice);
 
+            ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.exercicesStat, R.layout.my_spinner);
+            spinnerExercice.setAdapter(adapter2);
+            adapter2.setDropDownViewResource(R.layout.my_spinner_drop_down);
+            spinnerExercice.setOnItemSelectedListener(this);
             afficherPoidExercice(spinnerExercice.getSelectedItem().toString());
             afficherTypeSeance();
             Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
             setSupportActionBar(toolbar);
             getSupportActionBar().setTitle(getResources().getString(R.string.title_stat));
+
+            btnAccueil = findViewById(R.id.Accueil);
+            btnAccueil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Stats.this, MainActivity.class);
+                    startActivity(intent);
+
+                }
+            });
 
 
         }
