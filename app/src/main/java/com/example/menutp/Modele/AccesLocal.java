@@ -4,9 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.menutp.Outils.FileOperation;
 import com.example.menutp.Outils.MySQLiteOpenHelper;
+import com.example.menutp.Views.MainActivity;
+import com.example.menutp.Views.Parametres;
 
 import java.io.File;
 import java.text.DateFormatSymbols;
@@ -108,13 +111,15 @@ public class AccesLocal {
         int firstDay = 1;
         now.set(year, month, firstDay);
         if (getNbSeancesEffectuees() > 0) {
-            if (getFirstSeance().getDateSeance().getMonth() == (month))
+            if (getFirstSeance().getDateSeance().getMonth() == (month)) {
                 now.setTime(getFirstSeance().getDateSeance());
+            }
             DateFormatSymbols dfs = new DateFormatSymbols();
             for (int i = now.get(Calendar.DAY_OF_MONTH); i <= day; i++) {
                 String jourActuel = dfs.getWeekdays()[now.get(Calendar.DAY_OF_WEEK)];
-                if (Arrays.asList(joursDefinis).contains(jourActuel))
+                if (Arrays.asList(joursDefinis).contains(jourActuel)) {
                     nbJoursDefinis++;
+                }
                 now.add(Calendar.DATE, 1);
             }
         }
