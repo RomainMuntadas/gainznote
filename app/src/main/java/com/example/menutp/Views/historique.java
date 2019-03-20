@@ -98,9 +98,10 @@ public class historique extends AppCompatActivity {
 
         SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), seances, android.R.layout.simple_list_item_2, from, to);
         listView.setAdapter(adapter);
-        listView.setBackgroundColor(getResources().getColor(R.color.colorBackGround));
-        listView.setDivider(new ColorDrawable(getResources().getColor(R.color.colorText)));
-        listView.setDividerHeight(2);
+
+       // listView.setBackgroundColor(getResources().getColor(R.color.colorBackGround));
+        //listView.setDivider(new ColorDrawable(getResources().getColor(R.color.colorText)));
+        //listView.setDividerHeight(2);
 
         //Un click simple
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -108,14 +109,18 @@ public class historique extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AccesLocal accesLocal = new AccesLocal(historique.this);
                 Button btn_Suppr = findViewById(R.id.btn_SupprimerSeance);
+
                 if(btn_Suppr.getVisibility() == View.VISIBLE){
                     btn_Suppr.setVisibility(View.INVISIBLE);
                 }
-                List<Seance> seanceList = controle.getToutesSeances(historique.this);
-                int idSeance =seanceList.get(position).getIdSeance();
-                Intent intent = new Intent(historique.this, NouvelleSeance.class);
-                intent.putExtra("ID_SEANCE", idSeance);
-                startActivity(intent);
+                else{
+                    List<Seance> seanceList = controle.getToutesSeances(historique.this);
+                    int idSeance =seanceList.get(position).getIdSeance();
+                    Intent intent = new Intent(historique.this, NouvelleSeance.class);
+                    intent.putExtra("ID_SEANCE", idSeance);
+                    startActivity(intent);
+                }
+
 
             }
         });

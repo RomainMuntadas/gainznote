@@ -16,7 +16,9 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AccesLocal {
     //propriétés
@@ -76,8 +78,8 @@ public class AccesLocal {
 
     public Seance getFirstSeance() {
         List<Seance> seances = getAllSeance();
-        if(!seances.isEmpty())
-            return seances.get(seances.size()-1);
+        if (!seances.isEmpty())
+            return seances.get(seances.size() - 1);
         else
             return null;
     }
@@ -105,7 +107,7 @@ public class AccesLocal {
         int year = now.get(Calendar.YEAR);
         int firstDay = 1;
         now.set(year, month, firstDay);
-        if(getNbSeancesEffectuees() > 0) {
+        if (getNbSeancesEffectuees() > 0) {
             if (getFirstSeance().getDateSeance().getMonth() == (month))
                 now.setTime(getFirstSeance().getDateSeance());
             DateFormatSymbols dfs = new DateFormatSymbols();
@@ -581,20 +583,25 @@ public class AccesLocal {
         bd.execSQL(req);
     }
 
-    public List<Exercice> getToutLesExerciceDeType(TypeExercice typeExercice) {
+    public Map<Date, Exercice> getToutLesExerciceDeType(TypeExercice typeExercice) {
         bd = accesBd.getReadableDatabase();
-        String req = "SELECT DISTINCT EXERCICE.ID_EXERCICE FROM EXERCICE, TYPE_EXERCICE WHERE EXERCICE.ID_TYPE = " + typeExercice.getIdType() + " AND TYPE_EXERCICE.ID_TYPE = " + typeExercice.getIdType() + ";";
+        String req = "SELECT DISTINCT SEANCE.dateSeance, EXERCICE.ID_EXERCICE FROM EXERCICE, TYPE_EXERCICE, SEANCE WHERE SEANCE.idSeance = EXERCICE.id_Seance AND EXERCICE.ID_TYPE = " + typeExercice.getIdType() + " AND TYPE_EXERCICE.ID_TYPE = " + typeExercice.getIdType() + ";";
         Cursor curseur = bd.rawQuery(req, null);
         curseur.moveToFirst();
-        List<Exercice> listExercice = new ArrayList<>();
+
+        Map<Date, Exercice> mapExercice = new HashMap<>();
+
 
         while (!curseur.isAfterLast()) {
-            listExercice.add(getExercice(curseur.getInt(0)));
+            if (!mapExercice.containsKey(FileOperation.stringToDate(curseur.getString(0)))) {
+                mapExercice.put(FileOperation.stringToDate(curseur.getString(0)), getExercice(curseur.getInt(1)));
+            }
             curseur.moveToNext();
         }
 
+
         curseur.close();
-        return listExercice;
+        return mapExercice;
     }
 
     /**
@@ -609,13 +616,12 @@ public class AccesLocal {
         Cursor curseur = bd.rawQuery(req, null);
         curseur.moveToFirst();
         double poidmoyen = 0;
-        if (!curseur.isAfterLast()) {
-            while (!curseur.isLast()) {
-                if (Double.parseDouble(curseur.getString(0)) >= poidmoyen) ;
-                poidmoyen = Double.parseDouble(curseur.getString(0));
-                curseur.moveToNext();
-            }
+        while (!curseur.isAfterLast()) {
+            if (Double.parseDouble(curseur.getString(0)) >= poidmoyen) ;
+            poidmoyen = Double.parseDouble(curseur.getString(0));
+            curseur.moveToNext();
         }
+
         curseur.close();
 
         return poidmoyen;

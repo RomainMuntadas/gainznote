@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -25,14 +26,21 @@ import com.example.menutp.Outils.FileOperation;
 import com.example.menutp.R;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.ValueDependentColor;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Stats extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -46,8 +54,6 @@ public class Stats extends AppCompatActivity implements AdapterView.OnItemSelect
         getSupportActionBar().setTitle(getResources().getString(R.string.title_stat));
 
 
-
-
     }
 
     @Override
@@ -57,15 +63,22 @@ public class Stats extends AppCompatActivity implements AdapterView.OnItemSelect
         afficherTypeSeance();
 
 
-
-
         Spinner spinnerExercice = findViewById(R.id.Spinner_Exercice);
-        ArrayAdapter<CharSequence> adapter =ArrayAdapter.createFromResource(this, R.array.exercicesStat, R.layout.my_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.exercicesStat, R.layout.my_spinner);
         adapter.setDropDownViewResource(R.layout.my_spinner_drop_down);
         spinnerExercice.setAdapter(adapter);
         spinnerExercice.setOnItemSelectedListener(this);
         afficherPoidExercice(spinnerExercice.getSelectedItem().toString());
 
+        Button btnAccueil = findViewById(R.id.Accueil);
+        btnAccueil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Stats.this, MainActivity.class);
+                startActivity(intent);
+
+            }
+        });
 
         //Traitement du passage en mode paysage
         Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
@@ -74,25 +87,30 @@ public class Stats extends AppCompatActivity implements AdapterView.OnItemSelect
         if (orientation == Surface.ROTATION_90 || orientation == Surface.ROTATION_270) {
             setContentView(R.layout.activity_stat_landscape);
 
-            spinnerExercice = findViewById(R.id.Spinner_Exercice2);
-            ArrayAdapter<CharSequence> adapter2 =ArrayAdapter.createFromResource(this, R.array.exercicesStat, R.layout.my_spinner);
-            adapter.setDropDownViewResource(R.layout.my_spinner_drop_down);
-            spinnerExercice.setAdapter(adapter2);
-            adapter.setDropDownViewResource(R.layout.my_spinner_drop_down);
+            spinnerExercice = findViewById(R.id.Spinner_Exercice);
 
+            ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.exercicesStat, R.layout.my_spinner);
+            spinnerExercice.setAdapter(adapter2);
+            adapter2.setDropDownViewResource(R.layout.my_spinner_drop_down);
+            spinnerExercice.setOnItemSelectedListener(this);
             afficherPoidExercice(spinnerExercice.getSelectedItem().toString());
             afficherTypeSeance();
             Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
             setSupportActionBar(toolbar);
             getSupportActionBar().setTitle(getResources().getString(R.string.title_stat));
 
+            btnAccueil = findViewById(R.id.Accueil);
+            btnAccueil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Stats.this, MainActivity.class);
+                    startActivity(intent);
+
+                }
+            });
 
 
         }
-
-
-
-
 
 
     }
@@ -108,46 +126,70 @@ public class Stats extends AppCompatActivity implements AdapterView.OnItemSelect
     public void afficherPoidExercice(String nomType) {
 
         AccesLocal accesLocal = new AccesLocal(Stats.this);
-        List<Double> list = new ArrayList<>();
-
+        GraphView graph = (GraphView) findViewById(R.id.graphExercice);
+        graph.removeAllSeries();
         TypeExercice typeExercice = accesLocal.getTypeFromString(nomType);
 
-        List<Exercice> listExercice = accesLocal.getToutLesExerciceDeType(typeExercice);
+        Map<Date, Exercice> mapExercice = accesLocal.getToutLesExerciceDeType(typeExercice);
 
+        List<Date> dates = new ArrayList<>();
 
-
-        List<Double> poids = new ArrayList<>();
-        GraphView graph = (GraphView) findViewById(R.id.graphExercice);
-
-
-        List<Date> listSeance = accesLocal.getDatesSeanceFromTypeExercice(nomType);
-        for(Exercice e : listExercice){
-            poids.add(accesLocal.getPoidsMaxExercice(e));
+        Set keys = mapExercice.keySet();
+        Iterator it = keys.iterator();
+        while (it.hasNext()) {
+            Date key = (Date) it.next();
+            dates.add(key);
         }
-        Toast.makeText(this, ""+poids, Toast.LENGTH_LONG).show();
-        LineGraphSeries<DataPoint> exercices = new LineGraphSeries<>(new DataPoint[]{});
-        for (int i = 0; i < poids.size(); i+=1) {
+        if(dates.size()>=1){
+            Collections.sort(dates, new Comparator<Date>() {
 
-            DataPoint dp = new DataPoint(i, poids.get(i));
-            exercices.appendData(dp, false,  poids.size() + 2);
-        }
+                @Override
+                public int compare(Date o1, Date o2) {
+                    return o1.compareTo(o2);
+                }
+            });
 
 
 
+            Map<Date, Double> mapPoids = new HashMap<>();
 
-        /*exercices.setValueDependentColor(new ValueDependentColor<DataPoint>() {
-            @Override
-            public int get(DataPoint data) {
-                return Color.rgb((int) data.getX() * 255 / 4, (int) Math.abs(data.getY() * 255 / 6), 100);
+            for (Date d : dates) {
+                mapPoids.put(d, accesLocal.getPoidsMaxExercice(mapExercice.get(d)));
             }
-        });*/
-        exercices.setDrawDataPoints(true);
-        //exercices.setValuesOnTopColor(Color.RED);
-        //exercices.setDrawValuesOnTop(true);
-        //exercices.setSpacing(10);
 
-        graph.getViewport().setMinY(0);
-        graph.addSeries(exercices);
+
+            //Toast.makeText(this, "" + mapPoids, Toast.LENGTH_LONG).show();
+            LineGraphSeries<DataPoint> exercices = new LineGraphSeries<>(new DataPoint[]{});
+            int i = 0;
+            for (Date d : dates) {
+                DataPoint dp = new DataPoint(d, mapPoids.get(d));
+                exercices.appendData(dp, true, dates.size() + 1);
+                i++;
+            }
+            graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
+            graph.getGridLabelRenderer().setNumHorizontalLabels(3);
+
+            // set manual x bounds to have nice steps
+            graph.getViewport().setMinX(dates.get(0).getTime());
+            graph.getViewport().setMaxX(dates.get(dates.size()-1).getTime());
+            graph.getViewport().setXAxisBoundsManual(true);
+
+
+
+            graph.getGridLabelRenderer().setHumanRounding(false);
+
+
+
+            exercices.setDrawDataPoints(true);
+
+            graph.getViewport().setMinY(0);
+            graph.addSeries(exercices);
+
+        }
+        else{
+
+            Toast.makeText(this, "Tu n'as pas encore effectué cet exercice", Toast.LENGTH_SHORT).show();
+        }
 
 
     }

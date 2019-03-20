@@ -1,18 +1,16 @@
 <resources>
     <string name="app_name">Gainz Note</string>
     <string name="titre"> GaINz NoTe</string>
-    <string name="version">Version 0.1</string>
+    <string name="version">Version 1.0</string>
     <string name="nb_gainz">21</string>
     <string name="nb_faible">3</string>
     <string name="btn_newSeance">Nouvelle Seance</string>
-    <string name="teamFaible">Team Faible</string>
+    <string name="teamFaible">Team Perdant</string>
     <string name="Historique">Mes seances</string>
     <string name="titreNewSeance">Nouvelle Seance</string>
     <string name="date">Date Seance</string>
-    <string name="txtBtnCommencer">Commencer</string>
     <string name="ficListeSeance">ListeSeance</string>
     <string name="newExercice">Ajouter un exercice</string>
-    <string name="finAjoutModif">Terminer</string>
     <string name="SpinnerGroupeDefault">Selectionne un groupe musculaire</string>
     <string name="Param">Paramètres</string>
     <string name="infoUser">Utilisateur</string>

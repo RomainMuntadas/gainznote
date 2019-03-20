@@ -89,7 +89,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
         setFont(btnDate, "death_font_ver1_0.ttf");
         setFont(Txt_Duree, "death_font_ver1_0.ttf");
         // setFont(btn_valider, "death_font_ver1_0.ttf");
-        setFont(Txt_Notes, "RyukExtra copy.ttf");
+        //setFont(Txt_Notes, "RyukExtra copy.ttf");
         //setFont(, "death_font_ver1_0.ttf");
 
         //Si l'idSeanceModif !=1, c'est qu'on vient de l'historique
@@ -315,7 +315,7 @@ public class NouvelleSeance extends AppCompatActivity implements AdapterView.OnI
                         seance = recupererDonneeSeance();
                         seance.setIdSeance(getIdSeanceModif());
                         accesLocal.mettreAjourSeance(seance);
-                        intent = new Intent(NouvelleSeance.this, MainActivity.class);
+                        intent = new Intent(NouvelleSeance.this, historique.class);
                         startActivity(intent);
 
                     default:
